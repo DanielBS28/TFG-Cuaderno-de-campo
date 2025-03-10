@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta de Agricultores</title>
+    <link rel="stylesheet" href="/CSS/alta_agricultores.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="containerlogo">
+                <div class="img-logo"></div>
+            <p class="logo">Alta de agricultores</p>
+            
+        </div>
+            <nav>
+                <a href="#CUE">
+                    Baja de agricultores
+                </a>
+                <a href="#CUE">
+                    Asignar asesor
+                </a>
+                <a href="#CUE">
+                    Alta de parcelas
+                </a>
+                <a href="#CUE">
+                    Alta de tratamientos
+                </a>
+                <a href="login.html" id="BotónCerrarSesión">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="form-container">
+        <div class="cabecera">
+            <h1>Alta de agricultores</h1>
+            <img src="../Imágenes/Granjero.png" alt="" style="height: 10vh;">
+        </div>     
+        <form>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Introduce el nombre">
+                </div>
+                <div class="form-group">
+                    <label for="apellido1">Primer Apellido</label>
+                    <input type="text" name="apellido1" id="apellido1" placeholder="Introduce el primer apellido">
+                </div>
+                <div class="form-group">
+                    <label for="apellido2">Segundo Apellido</label>
+                    <input type="text" name="apellido2" id="apellido2" placeholder="Introduce el segundo apellido">
+                </div>
+                <div class="form-group">
+                    <label for="dni">DNI</label>
+                    <input type="text" name="dni" id="dni" placeholder="Introduce el DNI">
+                </div>
+                <div class="form-group">
+                    <label for="contraseña">Contraseña</label>
+                    <input type="password" name="contraseña" id="contraseña" placeholder="Introduce la contraseña">
+                </div>
+            </div>
+            <button type="submit">Registrar agricultor</button>
+        </form>
+    </div>
+    <footer>
+        <div class="container">
+            <p>Cuaderno de campo</p>
+        </div>
+    </footer>
+</body>
+</html>

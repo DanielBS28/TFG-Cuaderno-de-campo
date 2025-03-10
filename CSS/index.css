@@ -1,0 +1,191 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+h1{ font-size: 3.5em;}
+h2{ font-size: 2.7em;}
+h3{ font-size: 2em;}
+p{ font-size: 1.25em;}
+
+body{
+    margin: 0;
+    font-family: sans-serif;
+}
+html{
+    scroll-behavior:smooth;
+}
+button{
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 2px 2px 10px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    
+}
+button:hover{
+    background-color:rgb(143, 143, 143);
+}
+
+.container{
+    max-width: 1400px;
+    margin: auto;
+}
+header{
+    background-color: #5C8001;
+    
+}
+header .logo{
+    margin: 0;
+    padding: 25px 15px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+header .img-logo{
+    background-image: url("../Imágenes/Granjero.png");
+    background-size:cover;
+    background-position: center center;
+    height: 50px;
+    width: 50px; 
+}
+.containerlogo{
+    display: flex;
+    align-items: center;
+
+}
+header .container{
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+header nav{
+
+display: flex;
+flex-direction: column;
+align-items: center;
+padding-bottom: 25px;
+
+}
+header a{
+    padding: 5px 12px;
+    text-decoration: none;
+    color: white;
+}
+header a:hover{
+    transform: scale(1.05);
+}
+
+#BotónLogin{
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #FBB02D;
+}
+#portada{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 90vh;
+    text-align: center;
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.5)
+    )
+    ,url("../Imágenes/Fondo_pantalla_inicial.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: white;
+
+}
+
+#CUE .container{
+    text-align: center;
+    padding: 50px 12px;
+}
+#CUE h2{
+    margin-bottom: 50px;
+
+}
+.color{
+    color: #5C8001;
+}
+
+footer{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(230,230,230);
+    
+}
+a{
+
+    color: rgb(100,100,100);
+}
+footer p{
+    margin: 0;
+    padding: 12px;
+    color: rgb(100,100,100);   
+}
+
+footer .container{
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 720px){
+
+    #BotónLogin{
+        margin-left: 10px;
+    }
+    header{
+        position: fixed;
+        width: 100%;
+    }
+    header .container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    header nav{
+        flex-direction: row;
+        padding-bottom: 0;
+        padding-right: 20px;
+    }
+    #CUE  .container{
+        display: flex;
+        justify-content: space-evenly;
+
+    }
+    #CUE  .texto{
+        width: 50%;
+        max-width: 600px;
+        text-align: initial;
+        padding-left: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    #CUE  h2{
+        margin-top:0px;
+    }
+
+    #CUE .img-container{
+        background-image: url("../Imágenes/Granjero.png");
+        background-size:cover;
+        background-position: center center;
+        height: 400px;
+        width: 400px; 
+   
+    }
+    }
+    .col2{
+        margin-top: 3%;
+    }
+    
