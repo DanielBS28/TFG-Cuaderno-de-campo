@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baja de asesores</title>
+    <link rel="stylesheet" href="/CSS/baja_agricultores.css">
+
+</head>
+<body>
+    <div class="contenedor-principal">
+    <header>
+        <div class="container">
+            <div class="containerlogo">
+                <div class="img-logo"></div>
+            <p class="logo">Baja de asesores</p>
+            
+        </div>
+        
+            <nav>
+                <a href="inicio_administrador.html" id="VolverInicio">Volver a inicio</a>
+                <a href="login.html" id="BotónCerrarSesión">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+    <div id="formularios">
+        <div id="formularios-busqueda">
+        <div id="formulario-DNI">
+                <h1>Buscar asesor por DNI</h1>
+                <div class="form-group">
+                    <input type="text" name="DNIBuscado" id="DNIBuscado" placeholder="Introduzca el DNI del asesor"  autocomplete="off">
+                    <button type="submit" id="BotónDNI">Buscar por DNI</button>
+                </div>
+            </div>
+            <div id="formulario-Carnet">
+                <h1>Buscar asesor por Nº Carnet</h1>
+                <div class="form-group">
+                    <input type="text" name="CBuscado" id="CBuscado" placeholder="Introduzca el nº de carnet"  autocomplete="off">
+
+                    <button type="submit" id="BotónCarnet">Buscar por Nº Carnet</button>
+                </div>
+                </div>
+            </div>
+       
+    <div class="form-container">
+        <div class="cabecera">
+            <h1>Baja de asesores</h1>
+            <img src="../Imágenes/baja_asesores.avif" alt="" style="height: 15vh;">
+        </div>     
+        <form>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" id="nombre" autocomplete="off" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="apellido1">Primer Apellido</label>
+                    <input type="text" name="apellido1" id="apellido1"  autocomplete="off" readonly >
+                </div>
+                <div class="form-group">
+                    <label for="apellido2">Segundo Apellido</label>
+                    <input type="text" name="apellido2" id="apellido2"  autocomplete="off"  readonly>
+                </div>
+                <div class="form-group">
+                    <label for="dni">DNI</label>
+                    <input type="text" name="dni" id="dni"  autocomplete="off"  readonly>
+                </div>
+                <div class="form-group">
+                    <label for="carnet">Nº Carnet asesor</label>
+                    <input type="text" name="carnet" id="carnet" readonly>
+                </div>
+            </div>
+            <button type="submit">Dar de baja asesor</button>
+        </form>
+    </div>
+</div>
+    <footer>
+        <div class="container">
+            <p>Cuaderno de campo</p>
+        </div>
+    </footer>
+</div>
+</body>
+</html>

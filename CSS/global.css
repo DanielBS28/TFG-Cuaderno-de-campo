@@ -1,0 +1,124 @@
+html{
+    height: 100%;
+ 
+ }
+ 
+ body{
+     margin: 0;
+     font-family: sans-serif;
+ }
+ *{
+     box-sizing: border-box;
+     margin: 0;
+ }
+ 
+ header{
+    background-color: #5C8001;
+    
+}
+.container{
+    max-width: 1400px;
+    margin: auto;
+}
+header .logo{
+    margin: 0;
+    padding: 25px 15px;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+header .img-logo{
+    background-image: url("../Imágenes/Granjero.png");
+    background-size:cover;
+    background-position: center center;
+    height: 50px;
+    width: 50px; 
+}
+.containerlogo{
+    display: flex;
+    align-items: center;
+
+}
+header .container{
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+header nav{
+
+display: flex;
+flex-direction: column;
+align-items: center;
+padding-bottom: 25px;
+
+}
+
+header a{
+    padding: 5px 12px;
+    text-decoration: none;
+    color: white;
+}
+header a:hover{
+    transform: scale(1.05);
+    
+}
+#BotónCerrarSesión{
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #b01111;
+}
+footer{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(230,230,230);
+    
+}
+#VolverInicio{
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #FBB02D;
+}
+
+footer p{
+    margin: 0;
+    padding: 12px;
+    color: rgb(100,100,100);   
+}
+
+footer .container{
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media (min-width: 720px) {
+
+    button {
+        margin: 30px auto 25px;
+        width: 50%;
+    }
+
+    #BotónCerrarSesión{
+        margin-left: 10px;
+    }
+    header{
+        width: 100%;
+    }
+    header .container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    header nav{
+        flex-direction: row;
+        padding-bottom: 0;
+        padding-right: 20px;
+    }
+    #VolverInicio{
+        margin-bottom: 0;
+        border-radius: 5px;
+        padding: 10px;
+        background-color: #FBB02D;
+    }
+}

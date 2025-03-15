@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú administrador</title>
+    <link rel="stylesheet" href="../CSS/global.css">
+    <link rel="stylesheet" href="../CSS/asignar_desasignar_agricultores.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="containerlogo">
+                <div class="img-logo"></div>
+            <p class="logo">Asignar/desasignar agricultores a asesores</p>         
+        </div>
+            <nav>
+                <a href="inicio_administrador.html" id="VolverInicio">Volver a inicio</a>
+                <a href="login.html" id="BotónCerrarSesión">Cerrar sesión</a>
+            </nav>
+        </div>
+    </header>
+    <h1 style="margin: 50px 0 70px 0">Asignar o desasignar agricultores</h1>
+    <section class="formularios">
+    <div id="formulario-DNI">
+        <h1>Buscar agricultor por DNI</h1>
+        <div class="form-group">
+            <input type="text" name="DNIBuscado" id="DNIBuscado" placeholder="Introduzca el DNI del agricultor"  autocomplete="off">
+            <button type="submit" id="BotónDNI">Buscar agricultor</button>
+        </div>
+    </div>
+    <form>
+        <h1>Datos del agricultor</h1>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" id="nombre" autocomplete="off" readonly>
+            </div>
+            <div class="form-group">
+                <label for="apellido1">Primer Apellido</label>
+                <input type="text" name="apellido1" id="apellido1"  autocomplete="off" readonly >
+            </div>
+            <div class="form-group">
+                <label for="apellido2">Segundo Apellido</label>
+                <input type="text" name="apellido2" id="apellido2"  autocomplete="off"  readonly>
+            </div>
+            <div class="form-group">
+                <label for="dni">DNI</label>
+                <input type="text" name="dni" id="dni"  autocomplete="off"  readonly>
+            </div>
+            <div class="form-group">
+                <label for="carnet">Nº Carnet agricultor</label>
+                <input type="text" name="carnet" id="carnet" readonly>
+            </div>
+        </div>
+    </form>
+    
+</section>
+
+<section class="formularios">
+
+<div id="formulario-Carnet">
+    <h1>Buscar asesor por DNI</h1>
+    <div class="form-group">
+        <input type="text" name="CBuscado" id="CBuscado" placeholder="Introduzca el DNI del asesor"  autocomplete="off">
+
+        <button type="submit" id="BotónCarnet">Buscar asesor</button>
+    </div>
+    </div>
+    <form>
+        <h1>Datos del asesor</h1>
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="nombre-as">Nombre</label>
+                <input type="text" name="nombre-as" id="nombre-as" autocomplete="off" readonly>
+            </div>
+            <div class="form-group">
+                <label for="apellido1">Primer Apellido</label>
+                <input type="text" name="apellido1-as" id="apellido1-as"  autocomplete="off" readonly >
+            </div>
+            <div class="form-group">
+                <label for="apellido2-as">Segundo Apellido</label>
+                <input type="text" name="apellido2-as" id="apellido2-as"  autocomplete="off"  readonly>
+            </div>
+            <div class="form-group">
+                <label for="dni-as">DNI</label>
+                <input type="text" name="dni-as" id="dni-as"  autocomplete="off"  readonly>
+            </div>
+            <div class="form-group">
+                <label for="carnet-as">Nº Carnet del asesor</label>
+                <input type="text" name="carnet-as" id="carnet-as" readonly>
+            </div>
+        </div>
+    </form>
+</section>
+<section id="botones">
+    <button id="desasignar">Desasignar asesor</button>
+    <button id="asignar">Asignar asesor</button>
+</section>
+    <footer>
+        <div class="container">
+            <p>Cuaderno de campo</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de Agricultores</title>
-    <link rel="stylesheet" href="/CSS/alta_agricultores.css">
+    <title>Menú administrador</title>
+    <link rel="stylesheet" href="../CSS/global.css">
+    <link rel="stylesheet" href="../CSS/alta_baja_asesores.css">
 </head>
 <body>
     <header>
         <div class="container">
             <div class="containerlogo">
                 <div class="img-logo"></div>
-            <p class="logo">Alta de agricultores</p>
-            
+            <p class="logo">Alta de asesores</p>         
         </div>
-        
             <nav>
                 <a href="inicio_administrador.html" id="VolverInicio">Volver a inicio</a>
                 <a href="login.html" id="BotónCerrarSesión">Cerrar sesión</a>
             </nav>
         </div>
     </header>
-
     <div class="form-container">
         <div class="cabecera">
-            <h1>Alta de agricultores</h1>
-            <img src="../Imágenes/Granjero.png" alt="" style="height: 10vh;">
+            <h1>Alta de asesores</h1>
+            <img src="../Imágenes/asesoralta.png" alt="" style="height: 10vh;">
         </div>     
         <form>
             <div class="form-grid">
@@ -43,20 +41,17 @@
                 </div>
                 <div class="form-group">
                     <label for="dni">DNI</label>
-                    <input type="text" name="dni" id="dni" placeholder="Introduce el DNI"  autocomplete="off">
+                    <input type="text" name="dni" id="dni"placeholder="Introduce el DNI"  autocomplete="off"  readonly>
                 </div>
                 <div class="form-group">
-                    <label for="contraseña">Contraseña</label>
-                    <input type="password" name="contraseña" id="contraseña" placeholder="Introduce la contraseña"  autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="carnet">Nº Carnet agricultor</label>
+                    <label for="carnet">Nº Carnet asesor</label>
                     <input type="text" name="carnet" id="carnet" placeholder="Introduce el número de carnet"  autocomplete="off">
                 </div>
             </div>
-            <button type="submit">Registrar agricultor</button>
+            <button type="submit">Registrar asesor</button>
         </form>
     </div>
+
     <footer>
         <div class="container">
             <p>Cuaderno de campo</p>
