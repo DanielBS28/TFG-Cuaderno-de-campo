@@ -14,6 +14,16 @@ body{
 
 }
 
+input[type="submit"]:hover{
+    transform: scale(1.02);
+    transition: transform 0.3s;
+}
+
+input[type="submit"]{
+ 
+    transition: transform 0.3s ease;
+}
+
 .contenedor{
     margin: 100px auto;
     max-width: 400px;

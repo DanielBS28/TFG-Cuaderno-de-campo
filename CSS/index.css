@@ -75,9 +75,12 @@ header a{
     padding: 5px 12px;
     text-decoration: none;
     color: white;
+    transition: transform 0.3s ease;
+
 }
 header a:hover{
     transform: scale(1.05);
+    transition: transform 0.3s;
 }
 
 #BotónLogin{

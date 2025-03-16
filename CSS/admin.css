@@ -23,6 +23,7 @@ h1{
     text-decoration: none;
     color: white;
     font-size: 28px;
+    transition: transform 0.3s ease;
 }
 
 .container-cajas a:hover{

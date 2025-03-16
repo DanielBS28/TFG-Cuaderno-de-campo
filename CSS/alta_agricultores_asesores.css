@@ -17,6 +17,7 @@ body{
     
     display: flex;
     flex-wrap: wrap;
+    margin: 0 auto;
     margin-top: 70px;
     margin-bottom: 80px;
     background-color: #fff;
@@ -32,7 +33,7 @@ body{
 h1 {
     text-align: center;
     color: #5C8001;
-    margin-bottom: 25px;
+    margin-bottom: 50px;
 }
 
 form {
@@ -54,25 +55,6 @@ form {
 }
 
 
-label {
-    font-size: 15px;
-    color: #555;
-    margin-bottom: 8px;
-}
-input::placeholder{
-    font-size: 13px;
-}
-
-input[type="text"],
-input[type="password"] {
-    padding: 13px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.3s;
-}
-
 .container{
     max-width: 1400px;
     margin: auto;
@@ -83,7 +65,7 @@ input[type="password"]:focus {
 }
 
 button {
-    background-color: #b01111;
+    background-color: #5C8001;
     color: white;
     padding: 10px;
     border: none;
@@ -92,18 +74,9 @@ button {
     cursor: pointer;
     margin: 35px 0 35px 0;
 }
-#formularios{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    align-items: center;
-}
-button:hover {
-    background-color:#8d0b0b;
-}
+
 
 header{
-    margin-bottom: 50px;
     background-color: #5C8001;
     
 }
@@ -113,22 +86,6 @@ header .logo{
     font-weight: bold;
     color: rgb(255, 255, 255);
     font-size: 20px;
-}
-#BotónDNI{
-    margin-bottom: 10px;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #5C8001;
-    text-align: center;
-    width: auto;
-}
-#BotónCarnet{
-    margin-bottom: 10px;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #5C8001;
-    text-align: center;
-    width: auto;
 }
 header .img-logo{
     background-image: url("../Imágenes/Granjero.png");
@@ -153,34 +110,6 @@ flex-direction: column;
 align-items: center;
 padding-bottom: 25px;
 
-}
-
-#formularios-busqueda{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-
-}
-
-#formulario-DNI{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
-    margin-bottom: 50px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-#formulario-Carnet{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .form-container .cabecera{
@@ -254,7 +183,6 @@ footer .container{
         margin-left: 10px;
     }
     header{
-        margin-bottom: 0px;
         width: 100%;
     }
     header .container{
@@ -293,12 +221,4 @@ footer .container{
     button{
         margin: 50px 0 50px 0;
     }
-
-    #formularios{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
-        align-items: center;
-    }
-   
 }
