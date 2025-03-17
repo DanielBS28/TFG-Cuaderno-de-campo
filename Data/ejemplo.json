@@ -1,0 +1,100 @@
+{
+    "DATOSPRODUCTO": {
+				"IdProducto": 89771,
+				"Num_Registro": "16417",
+				"Nombre": "MAVRIK",
+				"Titular": "ADAMA Agriculture España S.A.",
+				"Fabricante": "ADAMA Agriculture España S.A.",
+				"Fabrica": "Adama Agriculture España S.A. (Humanes)",
+				"Formulado": "TAU-FLUVALINATO 24% [EW] P/V",
+				"Fecha_Registro": "1984-05-03T00:00:00",
+				"Estado": "Vigente",
+				"Fecha_Caducidad": "2025/05/31",
+				"Fecha_Cancelacion": "",
+				"Fecha_LimiteVenta": "",
+				"Condicionamiento": "Insecticida para cultivos al aire libre. Aplicación mediante pulverización con tractor en uso profesional, y mediante mochila de 5 l en uso no profesional.\r\rEn la etiqueta se darán las instrucciones necesarias para la correcta aplicación del producto. \rEs conveniente alternar los tratamientos con otros insecticidas de distinta naturaleza, con el fin evitar la aparición de resistencias.\r\rUso autorizado para agricultores y aplicadores profesionales (cultivos agrícolas y plantaciones agrícolas), y no profesionales (ámbitos distintos de la producción primaria agraria profesional: jardinería exterior doméstica/huertos familiares). (Real Decreto 1311/2012, de 14 de septiembre, por el que se establece el marco de actuación para conseguir un uso sostenible de los productos fitosanitarios).\r"
+			},
+
+			"OTRASDENOMINACIONES": [
+				{
+					"Nombre_Origen": " SWAN"
+				},
+				{
+					"Nombre_Origen": "COMPO INSECTICIDA XTREM CONCENTRADO"
+				},
+				{
+					"Nombre_Origen": "DOBLE-MAX EW"
+				},
+				{
+					"Nombre_Origen": "EVURE"
+				},
+				{
+					"Nombre_Origen": "EVURE EW"
+				},
+				{
+					"Nombre_Origen": "INSECTICIDA XTREM CONCENTRADO"
+				},
+				{
+					"Nombre_Origen": "KAMIKAZE"
+				},
+				{
+					"Nombre_Origen": "KAY 24 EW"
+				},
+				{
+					"Nombre_Origen": "SUMITAU JED"
+				},
+				{
+					"Nombre_Origen": "SWAN"
+				},
+				{
+					"Nombre_Origen": "SWAN JED"
+				},
+				{
+					"Nombre_Origen": "TALITA EW"
+				}
+			],
+			"IMPORTACIONESPARALELAS": [
+				{
+					"CodInternoFabricante": "ASM 8 - Tau-Fluvalinato 24%",
+					"Fecha": "20/01/2025",
+					"País": "Rumania"
+				}
+			],
+			"OTROSNOMBRES": [
+				{
+					"Nombre": "MAVRIK-10"
+				}
+			],
+			"COMPOSICION": [
+				{
+					"Nombre Sustancia": "Tau-Fluvalinato",
+					"NombreUE": "tau-Fluvalinate",
+					"Concentracion": 24.0,
+					"DescripcionNota": "%"
+				}
+			],
+			"USOS": [
+				{
+					"CodigoCultivo": "0101020100000000",
+					"Cultivo": "Cítricos",
+					"CodigoAgente": "6.2.3",
+					"Agente": "Trips",
+					"Dosis_Min": 0.01,
+					"Dosis_Max": 0.0,
+					"Unidad Medida dosis": "%",
+					"Plazo Seguridad": "30",
+					"Volumen Caldo": "Uso profesional: 1.500 l/ha\rUso no profesional: 150 ml/m2",
+					"Aplicaciones": "1",
+					"IntervaloAplicaciones": "-",
+					"Bbch": "",
+					"CondicionamientoEspecifico": "Aplicar en cualquier momento del desarrollo.\rDosis uso no profesional: 0,015 ml/m2",
+					"TipoUsuario": "",
+					"Ambito": "",
+					"SistemaCultivo": "",
+					"MetodoAplicacion": "",
+					"Volumen_Min": 0.0,
+					"VolumenMax": 0.0,
+					"Unidades Volumen": ""
+				}
+			]
+		}
