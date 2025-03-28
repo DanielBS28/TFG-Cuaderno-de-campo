@@ -24,23 +24,24 @@
             </nav>
         </div>
     </header>
+    <h1 class="titulo-h1">Alta de explotaciones</h1>
     <div id="formularios">
         <div id="formularios-busqueda">
-        <div id="formulario-DNI">
+        <form id="formulario-DNI">
                 <h1>Buscar agricultor por DNI</h1>
                 <div class="form-group">
                     <input type="text" name="DNIBuscado" id="DNIBuscado" placeholder="Introduzca el DNI del agricultor"  autocomplete="off">
                     <button type="submit" id="BotónDNI">Buscar por DNI</button>
                 </div>
-            </div>
-            <div id="formulario-Carnet">
+            </form>
+            <form id="formulario-Carnet">
                 <h1>Buscar agricultor por Nº Carnet</h1>
                 <div class="form-group">
                     <input type="text" name="CBuscado" id="CBuscado" placeholder="Introduzca el nº de carnet"  autocomplete="off">
 
                     <button type="submit" id="BotónCarnet">Buscar por Nº Carnet</button>
                 </div>
-                </div>
+            </form>
             </div>
        
     <div class="form-container">
@@ -73,8 +74,8 @@
             </div>
             <h1 id="titulo-explotación">Datos de la explotación</h1>
                 <div class="form-group">
-                    <label for="apellido2">Nombre de la explotación</label>
-                    <input type="text" name="apellido2" id="apellido2">
+                    <label for="nombre_explotacion">Nombre de la explotación</label>
+                    <input type="text" name="nombre_explotacion" id="nombre_explotacion">
                 </div>
             <button type="submit" id="dar_alta_explotación">Dar de alta explotación</button>
         </form>

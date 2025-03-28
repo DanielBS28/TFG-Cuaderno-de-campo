@@ -1,23 +1,18 @@
 section div{
    display: flex;
     height: 240px;
-    width: 380px;
-    background-color: green;
+    width: 370px;
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
     align-items: center;
     justify-content: center;
     margin: 50px 25px 30px 25px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
 
 }
 
-
-h1{
-    text-align: center;
-    margin-top: 60px;
-    margin-bottom: 35px;
-    font-size: 50px;
-    color: #5C8001;
-}
 
 .container-cajas a{
     text-decoration: none;
@@ -46,9 +41,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/agricultoragregar.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+
 }
 #asignación_asesores{
     background-image: linear-gradient(
@@ -57,10 +50,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/asignarasesores.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center; 
-    background-color: white;
+
 }
 #baja_agricultores{
     background-image: linear-gradient(
@@ -69,9 +59,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/eliminado.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+
 }
 #baja_asesores{
     background-image: linear-gradient(
@@ -80,9 +68,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/eliminar_asesor.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+   
 }
 
 #gestión_parcelas{
@@ -92,9 +78,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/huerto.avif");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+  
 }
 
 #alta_explotaciones{
@@ -104,9 +88,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/explotacion.avif");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+
 }
 
 #baja_explotaciones{
@@ -116,9 +98,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/Baja_explotación.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+
 }
 
 #alta_parcelas{
@@ -128,9 +108,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/huerto.avif");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+
 }
 #baja_parcelas{
     background-image: linear-gradient(
@@ -139,9 +117,6 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/Baja-parcelas.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
 }
 #gestión_tratamientos{
     background-image: linear-gradient(
@@ -150,9 +125,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/tratamientos.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+  
 }
 
 #gestión_asesores{
@@ -162,9 +135,7 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/asesores.avif");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+
 }
 
 #actualizar_productos{
@@ -174,7 +145,45 @@ h1{
         rgba(0,0,0,0.5)
     )
     ,url("/Imágenes/productos.avif");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
+
 }
+
+#editar_agricultores{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.5)
+    )
+    ,url("/Imágenes/editardatos.jpg");
+   
+}
+
+#editar_asesores{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.5)
+    )
+    ,url("/Imágenes/editardatos2.jpg");
+   
+}
+
+#desasignar_asesores{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.5)
+    )
+    ,url("/Imágenes/desasignar.png");
+}
+
+#editar_explotaciones{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.5),
+        rgba(0,0,0,0.5)
+    )
+    ,url("/Imágenes/editardatos4.png");
+   
+}
+

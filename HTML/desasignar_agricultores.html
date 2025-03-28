@@ -12,7 +12,7 @@
         <div class="container">
             <div class="containerlogo">
                 <div class="img-logo"></div>
-            <p class="logo">Asignar/desasignar agricultores a asesores</p>         
+            <p class="logo">Desasignar asesores a agricultores</p>         
         </div>
             <nav>
                 <a href="inicio_administrador.html" id="VolverInicio">Volver a inicio</a>
@@ -20,15 +20,15 @@
             </nav>
         </div>
     </header>
-    <h1 style="margin: 50px 0 70px 0">Asignar o desasignar agricultores</h1>
+    <h1 class="titulo-h1">Desasignar asesores a agricultores</h1>
     <section class="formularios">
-    <div id="formulario-DNI">
-        <h1>Buscar agricultor por DNI</h1>
+    <form id="formulario-DNI">
+        <h1>Buscar agricultor por su DNI</h1>
         <div class="form-group">
             <input type="text" name="DNIBuscado" id="DNIBuscado" placeholder="Introduzca el DNI del agricultor"  autocomplete="off">
             <button type="submit" id="BotónDNI">Buscar agricultor</button>
         </div>
-    </div>
+    </form>
     <form>
         <h1>Datos del agricultor</h1>
         <div class="form-grid">
@@ -59,14 +59,15 @@
 
 <section class="formularios">
 
-<div id="formulario-Carnet">
-    <h1>Buscar asesor por DNI</h1>
+<form id="formulario-Carnet">
+    <h1>Selección del asesor</h1>
     <div class="form-group">
-        <input type="text" name="CBuscado" id="CBuscado" placeholder="Introduzca el DNI del asesor"  autocomplete="off">
-
-        <button type="submit" id="BotónCarnet">Buscar asesor</button>
+        <label for="seleccion">Seleccione el asesor del agricultor en el desplegable</label>
+        <select name="seleccion" id="seleccion" style="width: auto;">
+            <option value="Prueba">Seleccionar asesor</option>
+        </select>
     </div>
-    </div>
+</form>
     <form>
         <h1>Datos del asesor</h1>
         <div class="form-grid">
@@ -94,8 +95,7 @@
     </form>
 </section>
 <section id="botones">
-    <button id="desasignar">Desasignar asesor</button>
-    <button id="asignar">Asignar asesor</button>
+    <button id="desasignar">Desasignar asesor al agricultor</button>
 </section>
     <footer>
         <div class="container">

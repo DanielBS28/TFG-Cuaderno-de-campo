@@ -1,0 +1,54 @@
+.form-container {
+    
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    margin-top: 70px;
+    margin-bottom: 80px;
+    background-color: #fff;
+    max-width: 1300px;
+   justify-content: center;
+}
+
+#general{
+
+    padding: 40px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#búsqueda-DNI{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+h2{
+    margin: 20px 0px 30px 0px;
+    color: #5C8001;
+}
+.datos-agricultor{
+    align-items: center;
+    
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: safe;
+}
+
+#buscar-agricultor{
+
+    width: auto;
+    padding: 0;
+    
+
+}
+
+
+#buscar-agricultor-botón{
+
+    width: auto;
+    padding: 5px;
+    
+}
