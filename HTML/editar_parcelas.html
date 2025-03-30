@@ -12,7 +12,7 @@
       <div class="container">
         <div class="containerlogo">
           <div class="img-logo"></div>
-          <p class="logo">Baja de parcelas</p>
+          <p class="logo">Editar datos de parcelas</p>
         </div>
         <nav>
           <a href="inicio_administrador.html" id="VolverInicio"
@@ -22,7 +22,7 @@
         </nav>
       </div>
     </header>
-    <h1 class="titulo-h1">Baja de parcelas</h1>
+    <h1 class="titulo-h1">Editar datos de parcelas</h1>
     <section class="form-container">
       <form id="general">
         <h2>Datos del agricultor</h2>
@@ -108,7 +108,7 @@
           </div>
           <div class="form-group">
             <label for="seleccion-exp">Seleccione la explotación del agricultor</label>
-            <select name="seleccion-exp" id="seleccion-exp" disabled>
+            <select name="seleccion-exp" id="seleccion-exp"disabled>
                 <option value="Prueba" selected disabled>Seleccione una explotación</option>
             </select>
         </div>
@@ -145,16 +145,17 @@
                 name="nombre-parcela-busqueda"
                 id="nombre-parcela-busqueda"
                 placeholder="Buscar parcela"
-                autocomplete="off" disabled
+                autocomplete="off"disabled
               />
             </div>
             <div class="form-group">
               <label for="seleccion-parcela">Seleccione la parcela del agricultor</label>
-              <select name="seleccion-parcela" id="seleccion-parcela" disabled>
+              <select name="seleccion-parcela" id="seleccion-parcela"disabled>
                   <option value="Prueba" selected disabled>Seleccione una parcela</option>
               </select>
           </div>
         </div>
+       
         <div class="datos">
           <div class="form-group">
             <label for="n_identificacion">Número de identificación</label>
@@ -162,7 +163,8 @@
               type="text"
               name="n_identificacion"
               id="n_identificacion"
-              autocomplete="off" readonly/>
+              placeholder="Número de identificación parcela"disabled
+              autocomplete="off"/>
           </div>
           <div class="form-group">
             <label for="nombre-parcela">Nombre de la parcela identificativo</label>
@@ -170,7 +172,8 @@
               type="text"
               name="nombre-parcela"
               id="nombre-parcela"
-              autocomplete="off" readonly/>
+              placeholder="Nombre de la parcela"
+              autocomplete="off"disabled/>
           </div>
           <div class="form-group">
             <label for="nombre">Código de provincia</label>
@@ -178,7 +181,8 @@
               type="text"
               name="codigo_provincia"
               id="codigo_provincia"
-              autocomplete="off" readonly
+              placeholder="Código de la provincia parcela"
+              autocomplete="off"disabled
             />
             </div>
             <div class="form-group">
@@ -187,7 +191,8 @@
                 type="text"
                 name="codigo_municipio"
                 id="codigo_municipio"
-                autocomplete="off" readonly
+                placeholder="Código del municipio parcela"
+                autocomplete="off"disabled
               />
           </div>
           <div class="form-group">
@@ -197,7 +202,7 @@
               name="poligono"
               id="poligono"
               autocomplete="off"
-             readonly
+              placeholder="Número de polígono"disabled
             />
           </div>
           <div class="form-group">
@@ -207,7 +212,7 @@
               name="parcela"
               id="parcela"
               autocomplete="off"
-             readonly
+              placeholder="Número de parcela"disabled
             />
           </div>
           <div class="form-group">
@@ -217,32 +222,36 @@
               name="sup_sigpac"
               id="sup_sigpac"
               autocomplete="off"
-             readonly
+              placeholder="Superficie declara SIGPAC"disabled
             />
           </div>
           <div class="form-group">
             <label for="tipo_regadio">Tipo de regadío</label>
-            <input
-              type="text"
-              name="tipo_regadio"
-              id="tipo_regadio"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="tipo_regadio">Tipo de cultivo</label>
-            <input
-              type="text"
-              name="tipo_regadio"
-              id="tipo_regadio"
-              autocomplete="off"
-              readonly
-            />
-          </div>
+            <select name="tipo_regadio" id="tipo_regadio" disabled>
+              <option value="secano" selected disabled>Tipo de regadío</option>
+                <option value="secano">Secano</option>
+                <option value="regadio">Regadío</option>
+            </select>
+        </div>
+        <div class="form-group">
+          <label for="nombre-cultivo">Buscar tipo de cultivo por nombre</label>
+          <input
+            type="text"
+            name="nombre-cultivo"
+            id="nombre-cultivo"
+            placeholder="Buscar tipo de cultivo"
+            autocomplete="off" disabled
+          />
+        </div>
+        <div class="form-group">
+          <label for="seleccion-cultivo">Tipo de cultivo</label>
+          <select name="seleccion-cultivo" id="seleccion" disabled>
+              <option value="primera_opcion" disabled selected>Seleccione el tipo de cultivo</option>
+          </select>
+      </div>
         </div>
         <div class="boton_subir">
-        <button id="eliminar-parcela" class="subir-formulario">Eliminar parcela</button>
+        <button id="editar-parcela" class="subir-formulario">Actualizar datos parcela</button>
       </div>
       </form>
     </section>
