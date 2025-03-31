@@ -82,7 +82,7 @@ header{
     
 }
 
-#BotónDNI{
+#BotonDNI{
     margin-bottom: 10px;
     border-radius: 5px;
     padding: 10px;
@@ -90,7 +90,7 @@ header{
     text-align: center;
     width: auto;
 }
-#BotónCarnet{
+#BotonCarnet{
     margin-bottom: 10px;
     border-radius: 5px;
     padding: 10px;

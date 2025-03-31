@@ -18,7 +18,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.búsqueda{
+.busqueda{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -55,7 +55,7 @@ button{
 
 }
 
-#buscar-agricultor-botón{
+#buscar-agricultor-boton{
     position: relative;
     top: 13px;
 }
@@ -93,7 +93,7 @@ h2{
 
 @media (max-width: 750px) {
 
-    .búsqueda{
+    .busqueda{
         display: flex;
         flex-direction: column;
         justify-content: center;

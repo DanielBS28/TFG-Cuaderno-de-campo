@@ -47,7 +47,7 @@ header .logo{
     font-size: 20px;
 }
 header .img-logo{
-    background-image: url("../Imágenes/Granjero.png");
+    background-image: url("../Fotos//Granjero.png");
     background-size:cover;
     background-position: center center;
     height: 50px;
@@ -83,7 +83,7 @@ header a:hover{
     transition: transform 0.3s;
 }
 
-#BotónLogin{
+#BotonLogin{
     border-radius: 5px;
     padding: 10px;
     background-color: #FBB02D;
@@ -100,7 +100,7 @@ header a:hover{
         rgba(0,0,0,0.5),
         rgba(0,0,0,0.5)
     )
-    ,url("../Imágenes/Fondo_pantalla_inicial.jpg");
+    ,url("../Fotos//Fondo_pantalla_inicial.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -178,7 +178,7 @@ footer .container{
     }
 
     #CUE .img-container{
-        background-image: url("../Imágenes/Granjero.png");
+        background-image: url("../Fotos//Granjero.png");
         background-size:cover;
         background-position: center center;
         height: 400px;

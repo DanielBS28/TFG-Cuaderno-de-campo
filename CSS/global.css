@@ -36,7 +36,7 @@ header .logo{
     font-size: 20px;
 }
 header .img-logo{
-    background-image: url("../Imágenes/Granjero.png");
+    background-image: url("../Fotos//Granjero.png");
     background-size:cover;
     background-position: center center;
     height: 50px;
@@ -86,7 +86,7 @@ header a:hover{
     transition: transform 0.3s;
     
 }
-#BotónCerrarSesión{
+#BotonCerrarSesion{
     border-radius: 5px;
     padding: 10px;
     background-color: #b01111;
@@ -166,7 +166,7 @@ h1 {
         width: 50%;
     }
 
-    #BotónCerrarSesión{
+    #BotonCerrarSesion{
         margin-left: 10px;
     }
     header{
