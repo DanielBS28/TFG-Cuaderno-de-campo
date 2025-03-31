@@ -1,0 +1,116 @@
+#eliminar-tratamiento{
+
+    background-color: #b01111;
+}
+
+
+.izquierda{
+
+    display: flex;
+    align-items: center;
+}
+
+.correo{
+
+    position: relative;
+    top: 10px;
+    margin-right: 25px;
+}
+
+#imagen_correo{
+
+    position: relative;
+    top: 25px;
+    margin-right: 20px;
+    width: 50px;
+}
+
+.formulario-informes{
+    position: relative;
+    top: 16px;
+    margin: 0;
+    padding: 20px;
+    background-color: #FBB02D;
+}
+
+.generarador-informes{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.derecha{
+    margin-top: 20px;
+}
+
+#pdf{
+    position: relative;
+    top: 35px;
+    margin-right: 20px;
+    width: 40px;
+}
+
+@media (max-width: 750px) {
+
+    .izquierda{
+
+        border-radius: 5px;
+        background-color: rgb(247, 247, 247);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #imagen_correo{
+        position: relative;
+        top: 0;
+        margin: 10px 0;
+    }
+
+    .formulario-informes{
+        top: 0;
+        margin: 0;
+        
+    }
+
+    #generar-informe-correo{
+        top: 0;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .correo{
+        position: relative;
+        top: 0;
+        margin: 0;
+    }
+
+    .derecha{
+        border-radius: 5px;
+        background-color: rgb(247, 247, 247);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #pdf{
+        position: relative;
+        top: 0;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 40px;
+    }
+
+    #generar-informe-pdf{
+        top: 0;
+        margin-bottom: 20px;
+    }
+
+    }
+
+    
+    
+

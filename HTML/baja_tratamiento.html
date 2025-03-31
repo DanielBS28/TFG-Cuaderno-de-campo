@@ -6,6 +6,7 @@
     <title>Menú administrador</title>
     <link rel="stylesheet" href="../CSS/global.css" />
     <link rel="stylesheet" href="../CSS/alta_baja_parcelas.css" />
+    <link rel="stylesheet" href="../CSS/tratamientos.css">
   </head>
   <body>
     <header>
@@ -242,7 +243,24 @@
           </div>
         </div>
         
-      <h2>Realizar tratamiento</h2>
+      <h2>Datos del tratamiento</h2>
+      <div class="búsqueda">
+        <img src="../Imágenes/lupa.webp" alt="" class="lupa">
+        <div class="form-group">
+          <label for="fecha_inicio">Fecha de inicio</label>
+          <input type="date" disabled/>
+        </div>
+        <div class="form-group">
+          <label for="fecha_ultima_inspeccion">Fecha final</label>
+          <input type="date" disabled/>
+        </div>
+        <div class="form-group">
+          <label for="seleccion-equipo">Seleccione el tratamiento a eliminar</label>
+          <select name="seleccion-equipo" id="seleccion-equipo" disabled>
+              <option value="Prueba" selected disabled>Seleccione el tratamiento</option>
+          </select>
+      </div>
+    </div>
       <div class="datos">
         <div class="form-group">
           <label for="n_identificacion_parcela">Número de identificación parcela</label>
@@ -267,27 +285,25 @@
             <input type="date" readonly/>
           </div>
           <div class="form-group">
-            <label for="seleccion-plaga">Plaga a controlar</label>
-            <select name="seleccion-plaga" id="seleccion-plaga" disabled>
-                <option value="primera_opcion" disabled selected>Seleccione el tipo de plaga</option>
-            </select>
-            </div>
-            <div class="form-group">
-                <label for="nombre-producto">Buscar producto por nombre</label>
-                <input
-                  type="text"
-                  name="nombre-producto"
-                  id="nombre-producto"
-                  placeholder="Buscar producto"
-                  autocomplete="off"disabled
-                />
-              </div>
-              <div class="form-group">
-                <label for="productos">Productos para la plaga</label>
-                <select name="productos" id="productos" disabled>
-                    <option value="primera_opcion" disabled selected>Seleccione el producto</option>
-                </select>
-            </div>
+            <label for="plaga-controlada">Plaga controlada</label>
+            <input
+              type="text"
+              name="plaga-controlada"
+              id="plaga-controlada"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="producto-aplicado">Producto fitosanitario aplicado</label>
+            <input
+              type="text"
+              name="producto-aplicado"
+              id="producto-aplicado"
+              autocomplete="off"
+              readonly
+            />
+          </div>
             <div class="form-group">
                 <label for="n_registro_producto">Número de registro del producto</label>
                 <input
@@ -302,8 +318,7 @@
                   type="text"
                   name="cantidad_producto"
                   id="cantidad_producto"
-                  placeholder="Cantidad aplicada de producto"
-                  autocomplete="off"disabled
+                  autocomplete="off"readonly
                 />
               </div>
               <div class="form-group">
@@ -312,47 +327,20 @@
                   type="text"
                   name="superficie_tratada"
                   id="superficie_tratada"
-                  placeholder="Superficie tratada de la parcela"
-                  autocomplete="off"disabled
+                  autocomplete="off"readonly
                 />
               </div>
               <div class="form-group">
-                <label for="identificacion-carnet">Buscar carnet del asesor o agricultor aplicador por número</label>
+                <label for="numero_carnet_aplicador">Número de carnet del aplicador</label>
                 <input
                   type="text"
-                  name="identificacion-carnet"
-                  id="identificacion-carnet"
-                  placeholder="Nº de identificación del aplicador o asesor"
-                  autocomplete="off"disabled
+                  name="numero_carnet_aplicador"
+                  id="numero_carnet_aplicador"
+                  autocomplete="off"readonly
                 />
               </div>
-              <div class="form-group">
-                <label for="productos">Carnets disponibles</label>
-                <select name="productos" id="productos" disabled>
-                    <option value="primera_opcion" disabled selected>Seleccione el carnet del aplicador</option>
-                </select>
-            </div>
         </div>
         <h2>Datos del equipo de tratamiento</h2>
-        <div class="búsqueda">
-            <img src="../Imágenes/lupa.webp" alt="" class="lupa">
-            <div class="form-group">
-              <label for="nombre-equipo-busqueda">Buscar equipo de tratamiento por nombre</label>
-              <input
-                type="text"
-                name="nombre-equipo-busqueda"
-                id="nombre-equipo-busqueda"
-                placeholder="Buscar equipo de tratamiento"
-                autocomplete="off" disabled
-              />
-            </div>
-            <div class="form-group">
-              <label for="seleccion-equipo">Seleccione el equipo de tratamiento</label>
-              <select name="seleccion-equipo" id="seleccion-equipo" disabled>
-                  <option value="Prueba" selected disabled>Seleccione el equipo</option>
-              </select>
-          </div>
-        </div>
           <div class="datos">
             <div class="form-group">
                 <label for="numero_roma">Número de ROMA del equipo</label>
@@ -360,9 +348,17 @@
                   type="text"
                   name="numero_roma"
                   id="numero_roma"
-                  placeholder="Introduzca el número de ROMA"
                   autocomplete="off"
-                  disabled
+                readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="numero_roma">Nombre del equipo de tratamiento</label>
+                <input
+                  type="text"
+                  name="numero_roma"
+                  id="numero_roma"
+                  autocomplete="off" readonly
                 />
               </div>
             <div class="form-group">
@@ -376,7 +372,7 @@
         </div>
       </div>
       <div class="boton_subir">
-        <button id="crear-tratamiento" class="subir-formulario">Realizar tratamiento</button>
+        <button id="eliminar-tratamiento" class="subir-formulario">Eliminar tratamiemto</button>
       </div>
       </form>
     </section>

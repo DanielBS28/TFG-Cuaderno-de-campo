@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menú administrador</title>
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <link rel="stylesheet" href="../CSS/alta_baja_parcelas.css" />
+    <link rel="stylesheet" href="../CSS/tratamientos.css">
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="containerlogo">
+          <div class="img-logo"></div>
+          <p class="logo">Generar informes</p>
+        </div>
+        <nav>
+          <a href="inicio_administrador.html" id="VolverInicio"
+            >Volver a inicio</a
+          >
+          <a href="login.html" id="BotónCerrarSesión">Cerrar sesión</a>
+        </nav>
+      </div>
+    </header>
+    <h1 class="titulo-h1">Generar informes</h1>
+    <section class="form-container">
+      <form id="general">
+        <h2>Datos del agricultor</h2>
+        <div class="búsqueda">
+          <img src="../Imágenes/lupa.webp" alt="" class="lupa">
+          <div class="form-group">
+            <label for="búsqueda-dni">Búsqueda del agricultor por DNI</label>
+            <input
+              type="text"
+              name="búsqueda-dni"
+              id="búsqueda-dni"
+              placeholder="Buscar agricultor por DNI"
+              autocomplete="off"
+            />
+          </div>
+            <button id="buscar-agricultor-botón">Buscar agricultor</button>
+        </div>
+        
+        <div class="datos">
+          <div class="form-group">
+            <label for="dni">DNI</label>
+            <input
+              type="text"
+              name="dni"
+              id="dni"
+              placeholder=""
+              autocomplete="off"
+            readonly />
+          </div>
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input
+              type="text"
+              name="nombre"
+              id="nombre"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="apellido1">Primer Apellido</label>
+            <input
+              type="text"
+              name="apellido1"
+              id="apellido1"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="apellido2">Segundo Apellido</label>
+            <input
+              type="text"
+              name="apellido2"
+              id="apellido2"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="carnet">Nº Carnet agricultor</label>
+            <input
+              type="text"
+              name="carnet"
+              id="carnet"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+        </div>
+        <h2>Datos de la explotación</h2>
+        <div class="búsqueda">
+          <img src="../Imágenes/lupa.webp" alt="" class="lupa">
+          <div class="form-group">
+            <label for="nombre-exp">Buscar explotación por nombre</label>
+            <input
+              type="text"
+              name="nombre-exp"
+              id="nombre-exp"
+              placeholder="Buscar explotación"
+              autocomplete="off"disabled
+            />
+          </div>
+          <div class="form-group">
+            <label for="seleccion-exp">Seleccione la explotación del agricultor</label>
+            <select name="seleccion-exp" id="seleccion-exp" disabled>
+                <option value="Prueba" selected disabled>Seleccione una explotación</option>
+            </select>
+        </div>
+      </div>
+      <div class="datos">
+          <div class="form-group">
+            <label for="nombre-buscado-explotacion">Nombre</label>
+            <input
+              type="text"
+              name="nombre-buscado-explotacion"
+              id="nombre-buscado-explotacion"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="superficie">Superficie total</label>
+            <input
+              type="text"
+              name="superficie"
+              id="superficie"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+        </div>
+        <h2>Datos de la parcela</h2>
+        <div class="búsqueda">
+            <img src="../Imágenes/lupa.webp" alt="" class="lupa">
+            <div class="form-group">
+              <label for="nombre-parcela-busqueda">Buscar parcela por nombre</label>
+              <input
+                type="text"
+                name="nombre-parcela-busqueda"
+                id="nombre-parcela-busqueda"
+                placeholder="Buscar parcela"
+                autocomplete="off" disabled
+              />
+            </div>
+            <div class="form-group">
+              <label for="seleccion-parcela">Seleccione la parcela del agricultor</label>
+              <select name="seleccion-parcela" id="seleccion-parcela" disabled>
+                  <option value="Prueba" selected disabled>Seleccione una parcela</option>
+              </select>
+          </div>
+        </div>
+        <div class="datos">
+          <div class="form-group">
+            <label for="n_identificacion">Número de identificación</label>
+            <input
+              type="text"
+              name="n_identificacion"
+              id="n_identificacion"
+              autocomplete="off" readonly/>
+          </div>
+          <div class="form-group">
+            <label for="nombre-parcela">Nombre de la parcela identificativo</label>
+            <input
+              type="text"
+              name="nombre-parcela"
+              id="nombre-parcela"
+              autocomplete="off" readonly/>
+          </div>
+          <div class="form-group">
+            <label for="nombre">Código de provincia</label>
+            <input
+              type="text"
+              name="codigo_provincia"
+              id="codigo_provincia"
+              autocomplete="off" readonly
+            />
+            </div>
+            <div class="form-group">
+              <label for="nombre">Código de municipio</label>
+              <input
+                type="text"
+                name="codigo_municipio"
+                id="codigo_municipio"
+                autocomplete="off" readonly
+              />
+          </div>
+          <div class="form-group">
+            <label for="poligono">Polígono</label>
+            <input
+              type="text"
+              name="poligono"
+              id="poligono"
+              autocomplete="off"
+             readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="parcela">Parcela</label>
+            <input
+              type="text"
+              name="parcela"
+              id="parcela"
+              autocomplete="off"
+             readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="sup_sigpac">Superficie SIGPAC</label>
+            <input
+              type="text"
+              name="sup_sigpac"
+              id="sup_sigpac"
+              autocomplete="off"
+             readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="tipo_regadio">Tipo de regadío</label>
+            <input
+              type="text"
+              name="tipo_regadio"
+              id="tipo_regadio"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="tipo_regadio">Tipo de cultivo</label>
+            <input
+              type="text"
+              name="tipo_regadio"
+              id="tipo_regadio"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+        </div>
+        
+      <h2>Datos del tratamiento</h2>
+      <div class="búsqueda">
+        <img src="../Imágenes/lupa.webp" alt="" class="lupa">
+        <div class="form-group">
+          <label for="fecha_inicio">Fecha de inicio</label>
+          <input type="date" disabled/>
+        </div>
+        <div class="form-group">
+          <label for="fecha_ultima_inspeccion">Fecha final</label>
+          <input type="date" disabled/>
+        </div>
+        <div class="form-group">
+          <label for="seleccion-equipo">Seleccione el tratamiento a eliminar</label>
+          <select name="seleccion-equipo" id="seleccion-equipo" disabled>
+              <option value="Prueba" selected disabled>Seleccione el tratamiento</option>
+          </select>
+      </div>
+    </div>
+      <div class="datos">
+        <div class="form-group">
+          <label for="n_identificacion_parcela">Número de identificación parcela</label>
+          <input
+            type="text"
+            name="n_identificacion_parcela"
+            id="n_identificacion_parcela"
+            autocomplete="off" readonly/>
+        </div>
+        <div class="form-group">
+            <label for="tipo_cultivo_tratamiento">Tipo de cultivo de la parcela</label>
+            <input
+              type="text"
+              name="tipo_cultivo_tratamiento"
+              id="tipo_cultivo_tratamiento"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="fecha_tratamiento">Fecha del tratamiento</label>
+            <input type="date" readonly/>
+          </div>
+          <div class="form-group">
+            <label for="plaga-controlada">Plaga controlada</label>
+            <input
+              type="text"
+              name="plaga-controlada"
+              id="plaga-controlada"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="producto-aplicado">Producto fitosanitario aplicado</label>
+            <input
+              type="text"
+              name="producto-aplicado"
+              id="producto-aplicado"
+              autocomplete="off"
+              readonly
+            />
+          </div>
+            <div class="form-group">
+                <label for="n_registro_producto">Número de registro del producto</label>
+                <input
+                  type="text"
+                  name="n_registro_producto"
+                  id="n_registro_producto"
+                  autocomplete="off" readonly/>
+              </div>
+              <div class="form-group">
+                <label for="cantidad_producto">Kg o L de producto por Ha</label>
+                <input
+                  type="text"
+                  name="cantidad_producto"
+                  id="cantidad_producto"
+                  autocomplete="off"readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="superficie_tratada">Superficie tratada expresada en Ha</label>
+                <input
+                  type="text"
+                  name="superficie_tratada"
+                  id="superficie_tratada"
+                  autocomplete="off"readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="numero_carnet_aplicador">Número de carnet del aplicador</label>
+                <input
+                  type="text"
+                  name="numero_carnet_aplicador"
+                  id="numero_carnet_aplicador"
+                  autocomplete="off"readonly
+                />
+              </div>
+        </div>
+        <h2>Datos del equipo de tratamiento</h2>
+          <div class="datos">
+            <div class="form-group">
+                <label for="numero_roma">Número de ROMA del equipo</label>
+                <input
+                  type="text"
+                  name="numero_roma"
+                  id="numero_roma"
+                  autocomplete="off"
+                readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="numero_roma">Nombre del equipo de tratamiento</label>
+                <input
+                  type="text"
+                  name="numero_roma"
+                  id="numero_roma"
+                  autocomplete="off" readonly
+                />
+              </div>
+            <div class="form-group">
+                <label for="fecha_adquisicion">Fecha de adquisición</label>
+                <input type="date"  readonly/>
+              </div>
+              <div class="form-group">
+                <label for="fecha_ultima_inspeccion">Fecha de última inspección</label>
+                <input type="date" readonly/>
+              </div>
+        </div>
+      </div>
+      <h2>Enviar informes</h2>
+      <div class="boton_subir generarador-informes">
+        <div class="izquierda">
+            <img src="../Imágenes/correo.png" alt="" id="imagen_correo">
+            <div class="form-group correo">
+                <label for="numero_roma">Enviar informe por correo electrónico</label>
+                <input
+                  type="email"
+                  name="correo"
+                  id="correo"
+                  autocomplete="off" readonly
+                />
+              </div>
+            <button id="generar-informe-correo" class="formulario-informes">Enviar informe correo</button>
+        </div>
+        <div class="derecha">
+          <img src="../Imágenes/PDF_file_icon.svg.png" alt="" id="pdf">
+        <button id="generar-informe-pdf" class="formulario-informes">Generar informe PDF</button>
+    </div>
+      </div>
+      </form>
+    </section>
+    <footer>
+      <div class="container">
+        <p>Cuaderno de campo</p>
+      </div>
+    </footer>
+  </body>
+</html>
