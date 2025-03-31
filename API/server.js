@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "80mb" }));
 const db = mysql.createPool({
     host: "localhost",
     user: "root",
-    password: "root", // Cambia esto si tienes otra contraseña
+    password: "cfgs", // Cambia esto si tienes otra contraseña
     database: "cuaderno_de_campo",
     waitForConnections: true,
     connectionLimit: 10,
@@ -52,7 +52,7 @@ app.post("/subir-json", async (req, res) => {
 
             // Insertar producto
             await conn.query(
-                `INSERT INTO Producto (idProducto, Nombre, Formulado, Fecha_registro, Num_registro, Fecha_límite_venta, Fecha_caducidad, Fecha_cancelación, Fabricante, Estado, Titular)
+                `INSERT INTO Producto (idProducto, Nombre, Formulado, Fecha_registro, Num_registro, Fecha_limite_venta, Fecha_caducidad, Fecha_cancelacion, Fabricante, Estado, Titular)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                  ON DUPLICATE KEY UPDATE Nombre=VALUES(Nombre)`,
                 [IdProducto, Nombre, Formulado, Fecha_Registro || null, Num_Registro, Fecha_LimiteVenta || null, Fecha_Caducidad || null, Fecha_Cancelacion || null, Fabricante, Estado, Titular]
@@ -69,7 +69,7 @@ app.post("/subir-json", async (req, res) => {
 
                 // Insertar usos
                 await conn.query(
-                    `INSERT INTO Usos (Producto_idProducto, Cultivo, CódigoCultivo, CodigoAgente, Agente, Dosis_min, Dosis_max, Unidad_medida_dosis, Plazo_Seguridad, Volumen_caldo, Aplicaciones, Intervalo_aplicaciones, Condicionamiento_específico, Método_aplicación, Volumen_min, Volumen_max, Unidades_volumen)
+                    `INSERT INTO Usos (Producto_idProducto, Cultivo, CodigoCultivo, CodigoAgente, Agente, Dosis_min, Dosis_max, Unidad_medida_dosis, Plazo_Seguridad, Volumen_caldo, Aplicaciones, Intervalo_aplicaciones, Condicionamiento_especifico, Metodo_aplicacion, Volumen_min, Volumen_max, Unidades_volumen)
                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                     [IdProducto, Cultivo, CodigoCultivo, CodigoAgente, Agente, Dosis_Min, Dosis_Max, UnidadMedidaDosis, PlazoSeguridad, VolumenCaldo, Aplicaciones, IntervaloAplicaciones, CondicionamientoEspecifico, MetodoAplicacion, Volumen_Min, VolumenMax, UnidadesVolumen]
                 );                

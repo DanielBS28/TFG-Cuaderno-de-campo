@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Usuario` (
   `Apellido1` VARCHAR(30) NULL,
   `Apellido2` VARCHAR(30) NULL,
   `Rol` ENUM('Admin', 'Agricultor') NULL,
-  `Contraseña` VARCHAR(20) NULL,
+  `Password` VARCHAR(20) NULL,
   PRIMARY KEY (`DNI`))
 ENGINE = InnoDB;
 
@@ -80,16 +80,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `Cuaderno_de_campo`.`Explotación`
+-- Table `Cuaderno_de_campo`.`Explotacion`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Explotación` (
-  `idExplotación` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Explotacion` (
+  `idExplotacion` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Superficie_total` DOUBLE(10,2) NULL,
   `Nombre` VARCHAR(50) NULL,
   `Agricultor_Usuario_DNI` VARCHAR(9) NOT NULL,
-  PRIMARY KEY (`idExplotación`, `Agricultor_Usuario_DNI`),
-  INDEX `fk_Explotación_Agricultor1_idx` (`Agricultor_Usuario_DNI` ASC) VISIBLE,
-  CONSTRAINT `fk_Explotación_Agricultor1`
+  PRIMARY KEY (`idExplotacion`, `Agricultor_Usuario_DNI`),
+  INDEX `fk_Explotacion_Agricultor1_idx` (`Agricultor_Usuario_DNI` ASC) VISIBLE,
+  CONSTRAINT `fk_Explotacion_Agricultor1`
     FOREIGN KEY (`Agricultor_Usuario_DNI`)
     REFERENCES `Cuaderno_de_campo`.`Agricultor` (`Usuario_DNI`)
     ON DELETE NO ACTION
@@ -101,17 +101,17 @@ ENGINE = InnoDB;
 -- Table `Cuaderno_de_campo`.`Parcela`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Parcela` (
-  `Número_identificación` INT NOT NULL,
+  `Numero_identificacion` INT NOT NULL,
   `Provincia` VARCHAR(2) NULL,
   `Municipio` VARCHAR(10) NULL,
-  `Código_municipio` VARCHAR(5) NULL,
-  `Polígono` VARCHAR(10) NULL,
+  `Codigo_municipio` VARCHAR(5) NULL,
+  `Poligono` VARCHAR(10) NULL,
   `Parcela` VARCHAR(10) NULL,
   `Tipo_R_S` ENUM('Regadío', 'Secano') NULL,
   `Tipo_cultivo` VARCHAR(100) NULL,
   `Superficie_ha` DOUBLE(10,5) NULL,
   `Nombre_parcela` VARCHAR(45) NULL,
-  PRIMARY KEY (`Número_identificación`))
+  PRIMARY KEY (`Numero_identificacion`))
 ENGINE = InnoDB;
 
 
@@ -124,9 +124,9 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Producto` (
   `Formulado` VARCHAR(300) NULL,
   `Fecha_registro` DATE NULL,
   `Num_registro` VARCHAR(20) NULL,
-  `Fecha_límite_venta` DATE NULL,
+  `Fecha_limite_venta` DATE NULL,
   `Fecha_caducidad` DATE NULL,
-  `Fecha_cancelación` DATE NULL,
+  `Fecha_cancelacion` DATE NULL,
   `Fabricante` VARCHAR(64) NULL,
   `Estado` VARCHAR(20) NULL,
   `Titular` VARCHAR(80) NULL,
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Usos` (
   `id_uso` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Producto_idProducto` INT(7) NOT NULL,
   `Cultivo` VARCHAR(100) NULL,
-  `CódigoCultivo` VARCHAR(35) NULL,
+  `CodigoCultivo` VARCHAR(35) NULL,
   `CodigoAgente` VARCHAR(25) NULL,
   `Agente` VARCHAR(120) NULL,
   `Dosis_min` FLOAT(10,4) NULL,
@@ -151,8 +151,8 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Usos` (
   `Volumen_caldo` VARCHAR(300) NULL,
   `Aplicaciones` VARCHAR(35) NULL,
   `Intervalo_aplicaciones` VARCHAR(35) NULL,
-  `Condicionamiento_específico` VARCHAR(2000) NULL,
-  `Método_aplicación` VARCHAR(55) NULL,
+  `Condicionamiento_especifico` VARCHAR(2000) NULL,
+  `Metodo_aplicacion` VARCHAR(55) NULL,
   `Volumen_min` FLOAT(10,4) NULL,
   `Volumen_max` FLOAT(14,4) NULL,
   `Unidades_volumen` VARCHAR(40) NULL,
@@ -170,11 +170,11 @@ ENGINE = InnoDB;
 -- Table `Cuaderno_de_campo`.`Equipo`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Equipo` (
-  `Número_ROMA` VARCHAR(30) NOT NULL,
+  `Numero_ROMA` VARCHAR(30) NOT NULL,
   `Nombre` VARCHAR(45) NULL,
-  `Fecha_adquisición` DATE NULL,
-  `Fecha_última_revisión` DATE NULL,
-  PRIMARY KEY (`Número_ROMA`))
+  `Fecha_adquisicion` DATE NULL,
+  `Fecha_ultima_revision` DATE NULL,
+  PRIMARY KEY (`Numero_ROMA`))
 ENGINE = InnoDB;
 
 
@@ -185,64 +185,19 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Tratamiento` (
   `idTratamiento` INT NOT NULL AUTO_INCREMENT,
   `Plaga_controlar` VARCHAR(45) NULL,
   `Fecha_tratamiento` DATE NULL,
-  `Equipo_Número_ROMA` VARCHAR(30) NOT NULL,
-  `Producto_idProducto` VARCHAR(40) NOT NULL,
-  PRIMARY KEY (`idTratamiento`, `Equipo_Número_ROMA`, `Producto_idProducto`),
-  INDEX `fk_Tratamiento_Equipo1_idx` (`Equipo_Número_ROMA` ASC) VISIBLE,
+  `Equipo_Numero_ROMA` VARCHAR(30) NOT NULL,
+  `Producto_idProducto` INT(5) NOT NULL,
+  PRIMARY KEY (`idTratamiento`, `Equipo_Numero_ROMA`, `Producto_idProducto`),
+  INDEX `fk_Tratamiento_Equipo1_idx` (`Equipo_Numero_ROMA` ASC) VISIBLE,
   INDEX `fk_Tratamiento_Producto1_idx` (`Producto_idProducto` ASC) VISIBLE,
   CONSTRAINT `fk_Tratamiento_Equipo1`
-    FOREIGN KEY (`Equipo_Número_ROMA`)
-    REFERENCES `Cuaderno_de_campo`.`Equipo` (`Número_ROMA`)
+    FOREIGN KEY (`Equipo_Numero_ROMA`)
+    REFERENCES `Cuaderno_de_campo`.`Equipo` (`Numero_ROMA`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Tratamiento_Producto1`
     FOREIGN KEY (`Producto_idProducto`)
     REFERENCES `Cuaderno_de_campo`.`Producto` (`idProducto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Cuaderno_de_campo`.`Tratamiento_parcela`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Tratamiento_parcela` (
-  `Parcela_Número_identificación` INT NOT NULL,
-  `Tratamiento_idTratamiento` INT NOT NULL,
-  PRIMARY KEY (`Parcela_Número_identificación`, `Tratamiento_idTratamiento`),
-  INDEX `fk_Parcela_has_Tratamiento_Tratamiento1_idx` (`Tratamiento_idTratamiento` ASC) VISIBLE,
-  INDEX `fk_Parcela_has_Tratamiento_Parcela1_idx` (`Parcela_Número_identificación` ASC) VISIBLE,
-  CONSTRAINT `fk_Parcela_has_Tratamiento_Parcela1`
-    FOREIGN KEY (`Parcela_Número_identificación`)
-    REFERENCES `Cuaderno_de_campo`.`Parcela` (`Número_identificación`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Parcela_has_Tratamiento_Tratamiento1`
-    FOREIGN KEY (`Tratamiento_idTratamiento`)
-    REFERENCES `Cuaderno_de_campo`.`Tratamiento` (`idTratamiento`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Cuaderno_de_campo`.`Explotación_has_Parcela`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Explotación_has_Parcela` (
-  `Explotación_idExplotación` INT UNSIGNED NOT NULL,
-  `Explotación_Agricultor_Usuario_DNI` VARCHAR(9) NOT NULL,
-  `Parcela_Número_identificación` INT NOT NULL,
-  PRIMARY KEY (`Explotación_idExplotación`, `Explotación_Agricultor_Usuario_DNI`, `Parcela_Número_identificación`),
-  INDEX `fk_Explotación_has_Parcela_Parcela1_idx` (`Parcela_Número_identificación` ASC) VISIBLE,
-  INDEX `fk_Explotación_has_Parcela_Explotación1_idx` (`Explotación_idExplotación` ASC, `Explotación_Agricultor_Usuario_DNI` ASC) VISIBLE,
-  CONSTRAINT `fk_Explotación_has_Parcela_Explotación1`
-    FOREIGN KEY (`Explotación_idExplotación` , `Explotación_Agricultor_Usuario_DNI`)
-    REFERENCES `Cuaderno_de_campo`.`Explotación` (`idExplotación` , `Agricultor_Usuario_DNI`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Explotación_has_Parcela_Parcela1`
-    FOREIGN KEY (`Parcela_Número_identificación`)
-    REFERENCES `Cuaderno_de_campo`.`Parcela` (`Número_identificación`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -265,6 +220,51 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Asesor_has_Agricultor` (
   CONSTRAINT `fk_Asesor_has_Agricultor_Agricultor1`
     FOREIGN KEY (`Agricultor_Usuario_DNI`)
     REFERENCES `Cuaderno_de_campo`.`Agricultor` (`Usuario_DNI`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Cuaderno_de_campo`.`Parcela_has_Tratamiento`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Parcela_has_Tratamiento` (
+  `Parcela_Numero_identificacion` INT NOT NULL,
+  `Tratamiento_idTratamiento` INT NOT NULL,
+  PRIMARY KEY (`Parcela_Numero_identificacion`, `Tratamiento_idTratamiento`),
+  INDEX `fk_Parcela_has_Tratamiento_Tratamiento1_idx` (`Tratamiento_idTratamiento` ASC) VISIBLE,
+  INDEX `fk_Parcela_has_Tratamiento_Parcela1_idx` (`Parcela_Numero_identificacion` ASC) VISIBLE,
+  CONSTRAINT `fk_Parcela_has_Tratamiento_Parcela1`
+    FOREIGN KEY (`Parcela_Numero_identificacion`)
+    REFERENCES `Cuaderno_de_campo`.`Parcela` (`Numero_identificacion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Parcela_has_Tratamiento_Tratamiento1`
+    FOREIGN KEY (`Tratamiento_idTratamiento`)
+    REFERENCES `Cuaderno_de_campo`.`Tratamiento` (`idTratamiento`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Cuaderno_de_campo`.`Parcela_has_Explotacion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Parcela_has_Explotacion` (
+  `Parcela_Numero_identificacion` INT NOT NULL,
+  `Explotacion_idExplotacion` INT UNSIGNED NOT NULL,
+  `Explotacion_Agricultor_Usuario_DNI` VARCHAR(9) NOT NULL,
+  PRIMARY KEY (`Parcela_Numero_identificacion`, `Explotacion_idExplotacion`, `Explotacion_Agricultor_Usuario_DNI`),
+  INDEX `fk_Parcela_has_Explotacion_Explotacion1_idx` (`Explotacion_idExplotacion` ASC, `Explotacion_Agricultor_Usuario_DNI` ASC) VISIBLE,
+  INDEX `fk_Parcela_has_Explotacion_Parcela1_idx` (`Parcela_Numero_identificacion` ASC) VISIBLE,
+  CONSTRAINT `fk_Parcela_has_Explotacion_Parcela1`
+    FOREIGN KEY (`Parcela_Numero_identificacion`)
+    REFERENCES `Cuaderno_de_campo`.`Parcela` (`Numero_identificacion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Parcela_has_Explotacion_Explotacion1`
+    FOREIGN KEY (`Explotacion_idExplotacion`)
+    REFERENCES `Cuaderno_de_campo`.`Explotacion` (`idExplotacion`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
