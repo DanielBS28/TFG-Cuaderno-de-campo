@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/subir-json", {
+            const response = await fetch("http://localhost:3000/data/subir-json", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(jsonLimpio)

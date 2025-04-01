@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Usuario` (
   `Apellido1` VARCHAR(30) NULL,
   `Apellido2` VARCHAR(30) NULL,
   `Rol` ENUM('Admin', 'Agricultor') NULL,
-  `Password` VARCHAR(20) NULL,
+  `Password` VARCHAR(60) NULL,
   PRIMARY KEY (`DNI`))
 ENGINE = InnoDB;
 
