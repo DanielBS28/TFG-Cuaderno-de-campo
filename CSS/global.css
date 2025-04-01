@@ -142,12 +142,27 @@ footer p{
     color: rgb(100,100,100);   
 }
 
+.campo_password{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.campo_password label{
+    margin: 0 0 0 5px !important;
+}
+
 footer .container{
     height: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+
+
 
 h1 {
     text-align: center;
@@ -189,5 +204,16 @@ h1 {
         background-color: #FBB02D;
         margin-right: 15px;
     
+    }
+
+    .campo_password{
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+    
+    .campo_password label{
+        margin: 0 0 0 5px !important;
     }
 }

@@ -130,6 +130,8 @@ header a:hover{
     
 }
 
+
+
 #BotónCerrarSesión{
     border-radius: 5px;
     padding: 10px;
@@ -221,4 +223,5 @@ footer .container{
     button{
         margin: 50px 0 50px 0;
     }
+
 }
