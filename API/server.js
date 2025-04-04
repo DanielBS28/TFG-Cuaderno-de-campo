@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const subirJsonRouter = require("./routes/subir_json");
 const agricultoresRouter = require("./routes/agricultores");
+const asesoresRouter = require("./routes/asesores");
 
 const app = express();
 app.disable("x-powered-by"); // deshabilitar el header X-Powered-By: Express
@@ -17,8 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "80mb" }));
 // Ruta para subir JSON de productos y usos
 app.use("/data", subirJsonRouter);
 
-// Ruta para la alta de agricultores
+// Ruta para funcionalidades agricultores
 app.use("/agricultores", agricultoresRouter);
+
+// Ruta para funcionalidades asesores
+app.use("/asesores", asesoresRouter);
 
 // Ruta principal
 app.get("/", (req, res) => {
