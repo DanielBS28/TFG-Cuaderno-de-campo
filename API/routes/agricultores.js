@@ -112,4 +112,56 @@ router.delete("/eliminar/:dni", (req, res) => {
     });
 });
 
+// Asignar asesor a agricultor
+router.post("/asignar", async (req, res) => {
+    const { dniAgricultor, dniAsesor } = req.body;
+
+    if (!dniAgricultor || !dniAsesor) {
+        return res.status(400).json({ error: "Faltan DNI del agricultor o del asesor." });
+    }
+
+    const conn = await db.promise().getConnection();
+    await conn.beginTransaction();
+
+    try {
+        // Verificar que existan
+        const [[agricultor]] = await conn.query(
+            "SELECT * FROM Agricultor WHERE Usuario_DNI = ?", [dniAgricultor]
+        );
+        const [[asesor]] = await conn.query(
+            "SELECT * FROM Asesor WHERE DNI = ?", [dniAsesor]
+        );
+
+        if (!agricultor) {
+            await conn.rollback();
+            return res.status(404).json({ error: "Agricultor no encontrado" });
+        }
+        if (!asesor) {
+            await conn.rollback();
+            return res.status(404).json({ error: "Asesor no encontrado" });
+        }
+
+        // Insertar en la tabla intermedia
+        await conn.query(
+            `INSERT INTO Asesor_has_Agricultor (Asesor_DNI, Agricultor_Usuario_DNI)
+             VALUES (?, ?)`, [dniAsesor, dniAgricultor]
+        );
+
+        await conn.commit();
+        res.status(200).json({ message: "Asignación realizada con éxito" });
+    } catch (err) {
+        await conn.rollback();
+
+        if (err.code === 'ER_DUP_ENTRY') {
+            return res.status(409).json({ error: "Esta asignación ya existe." });
+        }
+
+        console.error("Error al asignar asesor:", err);
+        res.status(500).json({ error: "Error al asignar asesor" });
+    } finally {
+        conn.release();
+    }
+});
+
+
 module.exports = router;

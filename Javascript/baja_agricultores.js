@@ -15,7 +15,7 @@ let dniAgricultor = null;
 // Buscar por DNI
 formDNI.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const dni = document.getElementById("DNIBuscado").value;
+    const dni = document.getElementById("DNIBuscado").value.trim();
 
     const res = await fetch(`http://localhost:3000/agricultores/buscar/dni/${dni}`);
     const data = await res.json();
@@ -30,7 +30,7 @@ formDNI.addEventListener("submit", async (e) => {
 // Buscar por Carnet
 formCarnet.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const carnet = document.getElementById("CBuscado").value;
+    const carnet = document.getElementById("CBuscado").value.trim();
 
     const res = await fetch(`http://localhost:3000/agricultores/buscar/carnet/${carnet}`);
     const data = await res.json();
