@@ -138,14 +138,13 @@ ENGINE = InnoDB;
 -- Table `Cuaderno_de_campo`.`Usos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Usos` (
-  `id_uso` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Producto_idProducto` INT(7) NOT NULL,
   `Cultivo` VARCHAR(100) NULL,
-  `CodigoCultivo` VARCHAR(35) NULL,
-  `CodigoAgente` VARCHAR(25) NULL,
+  `CodigoCultivo` VARCHAR(35) NOT NULL,
+  `CodigoAgente` VARCHAR(25) NOT NULL,
   `Agente` VARCHAR(120) NULL,
-  `Dosis_min` FLOAT(10,4) NULL,
-  `Dosis_max` FLOAT(10,4) NULL,
+  `Dosis_min` DOUBLE NULL,
+  `Dosis_max` DOUBLE NULL,
   `Unidad_medida_dosis` VARCHAR(60) NULL,
   `Plazo_Seguridad` VARCHAR(70) NULL,
   `Volumen_caldo` VARCHAR(300) NULL,
@@ -153,10 +152,10 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Usos` (
   `Intervalo_aplicaciones` VARCHAR(35) NULL,
   `Condicionamiento_especifico` VARCHAR(2000) NULL,
   `Metodo_aplicacion` VARCHAR(55) NULL,
-  `Volumen_min` FLOAT(10,4) NULL,
-  `Volumen_max` FLOAT(14,4) NULL,
+  `Volumen_min` DOUBLE NULL,
+  `Volumen_max` DOUBLE NULL,
   `Unidades_volumen` VARCHAR(40) NULL,
-  PRIMARY KEY (`id_uso`, `Producto_idProducto`),
+  PRIMARY KEY (`Producto_idProducto`, `CodigoCultivo`, `CodigoAgente`),
   INDEX `fk_Usos_Producto1_idx` (`Producto_idProducto` ASC) VISIBLE,
   CONSTRAINT `fk_Usos_Producto1`
     FOREIGN KEY (`Producto_idProducto`)
