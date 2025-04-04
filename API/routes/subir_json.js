@@ -25,7 +25,18 @@ router.post("/subir-json", async (req, res) => {
             await conn.query(
                 `INSERT INTO Producto (idProducto, Nombre, Formulado, Fecha_registro, Num_registro, Fecha_limite_venta, Fecha_caducidad, Fecha_cancelacion, Fabricante, Estado, Titular)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                 ON DUPLICATE KEY UPDATE Nombre=VALUES(Nombre)`,
+                 ON DUPLICATE KEY UPDATE
+                    Nombre=VALUES(Nombre),
+                    Formulado=VALUES(Formulado),
+                    Fecha_registro=VALUES(Fecha_registro),
+                    Num_registro=VALUES(Num_registro),
+                    Fecha_limite_venta=VALUES(Fecha_limite_venta),
+                    Fecha_caducidad=VALUES(Fecha_caducidad),
+                    Fecha_cancelacion=VALUES(Fecha_cancelacion),
+                    Fabricante=VALUES(Fabricante),
+                    Estado=VALUES(Estado),
+                    Titular=VALUES(Titular)
+                    `,
                 [IdProducto, Nombre, Formulado, Fecha_Registro || null, Num_Registro, Fecha_limite_venta || null, Fecha_Caducidad || null, Fecha_Cancelacion || null, Fabricante, Estado, Titular]
             );
 
