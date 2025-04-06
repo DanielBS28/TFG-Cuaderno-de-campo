@@ -66,4 +66,24 @@ router.get("/buscar/dni/:dni", (req, res) => {
     });
 });
 
+// Baja de asesor por DNI
+router.delete("/eliminar/:dni", async (req, res) => {
+    const dni = req.params.dni;
+
+    try {
+        const [result] = await db.promise().query(
+            "DELETE FROM Asesor WHERE DNI = ?", [dni]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Asesor no encontrado" });
+        }
+
+        res.status(200).json({ message: "Asesor dado de baja correctamente" });
+    } catch (error) {
+        console.error("Error al eliminar asesor:", error);
+        res.status(500).json({ error: "Error en el servidor" });
+    }
+});
+
 module.exports = router;
