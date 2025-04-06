@@ -33,6 +33,19 @@ h2{
     margin: 20px 0px 20px 0px;
     color: #5C8001;
 }
+h3{
+    font-size: 20px;
+    margin: 20px 0px 20px 0px;
+    color: #FBB02D;
+}
+
+#validar-datos{
+    position: relative;
+    top: 24px;
+    padding: 5px;
+    background-color: #FBB02D;
+    height: 50px;
+}
 .datos{
     display: flex;
     flex-wrap: wrap;
@@ -91,8 +104,16 @@ h2{
     background-color: #FBB02D;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 1020px) {
 
+    #validar-datos{
+        top: 0;
+        width: auto !important;
+    }
+
+    #buscar-agricultor-boton{
+        top: 0;
+    }
     .busqueda{
         display: flex;
         flex-direction: column;
