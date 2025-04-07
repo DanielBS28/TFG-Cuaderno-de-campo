@@ -44,14 +44,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     botonAsignar.addEventListener("click", async function () {
-        const dniAgricultor = document.getElementById("dni").value.trim();
-        const dniAsesor = document.getElementById("dni-as").value.trim();
+        const dniAgricultor = document.getElementById("dni").value;
+        const dniAsesor = document.getElementById("dni-as").value;
 
         if (!dniAgricultor || !dniAsesor) {
             return alert("Debes buscar y seleccionar tanto al agricultor como al asesor.");
         }
 
-        const res = await fetch("/agricultores/asignar", {
+        const res = await fetch("http://localhost:3000/agricultores/asignar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ dniAgricultor, dniAsesor })

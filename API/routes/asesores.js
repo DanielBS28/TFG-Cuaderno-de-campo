@@ -54,7 +54,7 @@ router.get("/buscar/dni/:dni", (req, res) => {
     const dni = req.params.dni;
 
     const query = `
-        SELECT DNI as dni, Nombre, Apellido1, Apellido2, N_carnet_asesor
+        SELECT DNI, Nombre, Apellido1, Apellido2, N_carnet_asesor
         FROM Asesor
         WHERE DNI = ?
     `;
