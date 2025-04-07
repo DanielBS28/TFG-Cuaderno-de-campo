@@ -163,5 +163,68 @@ router.post("/asignar", async (req, res) => {
     }
 });
 
+// Actualizar agricultor
+router.put("/actualizar/:dni", async (req, res) => {
+    const dni = req.params.dni;
+    const { nombre, apellido1, apellido2, carnet, contrasena } = req.body;
+
+    if (!nombre || !apellido1 || !apellido2 || !carnet) {
+        return res.status(400).json({ error: "Faltan campos obligatorios." });
+    }
+
+    const conn = await db.promise().getConnection();
+    await conn.beginTransaction();
+
+    try {
+        // Verificar existencia
+        const [[usuario]] = await conn.query(
+            "SELECT * FROM Usuario WHERE DNI = ?", [dni]
+        );
+        if (!usuario) {
+            await conn.rollback();
+            return res.status(404).json({ error: "Agricultor no encontrado." });
+        }
+
+        // Verificar duplicado de carnet
+        const [repetido] = await conn.query(
+            "SELECT * FROM Agricultor WHERE Numero_carnet = ? AND Usuario_DNI != ?",
+            [carnet, dni]
+        );
+        if (repetido.length > 0) {
+            await conn.rollback();
+            return res.status(409).json({ error: "El número de carnet ya está en uso." });
+        }
+
+        // En caso de cambiar la contraseña
+        if (contrasena && contrasena.trim()) {
+            const hash = await bcrypt.hash(contrasena, 10);
+            await conn.query(
+                `UPDATE Usuario SET Nombre = ?, Apellido1 = ?, Apellido2 = ?, Password = ? WHERE DNI = ?`,
+                [nombre, apellido1, apellido2, hash, dni]
+            );
+        } else {
+            await conn.query(
+                `UPDATE Usuario SET Nombre = ?, Apellido1 = ?, Apellido2 = ? WHERE DNI = ?`,
+                [nombre, apellido1, apellido2, dni]
+            );
+        }
+
+        // Actualizar carnet
+        await conn.query(
+            `UPDATE Agricultor SET Numero_carnet = ? WHERE Usuario_DNI = ?`,
+            [carnet, dni]
+        );
+
+        await conn.commit();
+        res.json({ message: "Datos actualizados correctamente." });
+    } catch (err) {
+        await conn.rollback();
+        console.error("Error al actualizar agricultor:", err);
+        res.status(500).json({ error: "Error del servidor al actualizar." });
+    } finally {
+        conn.release();
+    }
+});
+
 
 module.exports = router;

@@ -51,6 +51,10 @@
         <form>
             <div class="form-grid">
                 <div class="form-group">
+                    <label for="dni">DNI</label>
+                    <input type="text" name="dni" id="dni"  autocomplete="off"  disabled>
+                </div>
+                <div class="form-group">
                     <label for="nombre">Nombre</label>
                     <input type="text" name="nombre" id="nombre" autocomplete="off" readonly>
                 </div>
@@ -63,15 +67,11 @@
                     <input type="text" name="apellido2" id="apellido2"  autocomplete="off"  readonly>
                 </div>
                 <div class="form-group">
-                    <label for="dni">DNI</label>
-                    <input type="text" name="dni" id="dni"  autocomplete="off"  disabled>
-                </div>
-                <div class="form-group">
                     <label for="password">Contraseña</label>
-                    <input type="text" name="password" id="password" readonly>
+                    <input type="password" name="password" id="password" disabled>
                     <div class="campo_password">
                         <input type="checkbox" id="mostrarPassword" disabled>
-                        <label for="mostrarPassword">Mostrar contraseña</label>
+                        <label for="mostrarPassword" id="checkbox_password">Reestablecer contraseña</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -90,5 +90,6 @@
         </div>
     </footer>
 </div>
+<script src="../Javascript/editar_agricultores.js"></script>
 </body>
 </html>
