@@ -226,5 +226,63 @@ router.put("/actualizar/:dni", async (req, res) => {
     }
 });
 
+// Obtener asesores asignados a un agricultor
+router.get("/asesores/:dni", async (req, res) => {
+    const dniAgricultor = req.params.dni;
+
+    try {
+        const [rows] = await db.promise().query(`
+            SELECT DNI,Nombre,Apellido1,Apellido2 from Asesor_has_Agricultor 
+            inner join(select * from Asesor)s  
+            on Asesor_has_Agricultor.Asesor_DNI = s.DNI Where Agricultor_Usuario_DNI = ?;
+        `, [dniAgricultor]);
+
+        res.json(rows);
+    } catch (error) {
+        console.error("Error al obtener asesores asignados:", error);
+        res.status(500).json({ error: "Error al obtener asesores asignados" });
+    }
+});
+
+// Desasignar asesor de un agricultor
+router.delete("/desasignar", async (req, res) => {
+    const { dniAgricultor, dniAsesor } = req.body;
+
+    if (!dniAgricultor || !dniAsesor) {
+        return res.status(400).json({ error: "Faltan DNI del asesor o del agricultor" });
+    }
+
+    try {
+        const [result] = await db.promise().query(
+            `DELETE FROM Asesor_has_Agricultor WHERE Asesor_DNI = ? AND Agricultor_Usuario_DNI = ?`,
+            [dniAsesor, dniAgricultor]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "No se encontró la asignación a eliminar." });
+        }
+
+        res.status(200).json({ message: "Asesor desasignado correctamente." });
+    } catch (error) {
+        console.error("Error al desasignar asesor:", error);
+        res.status(500).json({ error: "Error del servidor al desasignar." });
+    }
+});
+
+// Obtener explotaciones asignadas a un agricultor
+router.get("/explotaciones/:dni", async (req, res) => {
+    const dniAgricultor = req.params.dni;
+
+    try {
+        const [rows] = await db.promise().query(`
+            select Nombre, Superficie_total from Explotacion where Agricultor_Usuario_DNI1 =?;
+        `, [dniAgricultor]);
+
+        res.json(rows);
+    } catch (error) {
+        console.error("Error al obtener asesores asignados:", error);
+        res.status(500).json({ error: "Error al obtener asesores asignados" });
+    }
+});
 
 module.exports = router;
