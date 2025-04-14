@@ -41,42 +41,4 @@ router.post("/alta", async (req, res) => {
     }
 });
 
-// Buscar agricultor por DNI
-router.get("/buscar/dni/:dni", (req, res) => {
-    const dni = req.params.dni;
-
-    const query = `
-        SELECT a.Usuario_DNI as dni, u.Nombre, u.Apellido1, u.Apellido2, a.Numero_carnet as carnet
-        FROM Agricultor a
-        JOIN Usuario u ON a.Usuario_DNI = u.DNI
-        WHERE a.Usuario_DNI = ?;
-    `;
-
-    db.query(query, [dni], (err, results) => {
-        if (err) return res.status(500).json({ error: "Error en la búsqueda por DNI" });
-        if (results.length === 0) return res.status(404).json({ error: "Agricultor no encontrado" });
-        res.json(results[0]);
-    });
-});
-
-// Buscar agricultor por Nº de carnet
-router.get("/buscar/carnet/:carnet", (req, res) => {
-    const carnet = req.params.carnet;
-
-    const query = `
-        SELECT a.Usuario_DNI as dni, u.Nombre, u.Apellido1, u.Apellido2, a.Numero_carnet as carnet
-        FROM Agricultor a
-        JOIN Usuario u ON a.Usuario_DNI = u.DNI
-        WHERE a.Numero_carnet = ?;
-    `;
-
-    db.query(query, [carnet], (err, results) => {
-        if (err) return res.status(500).json({ error: "Error en la búsqueda por carnet" });
-        if (results.length === 0) return res.status(404).json({ error: "Agricultor no encontrado" });
-        res.json(results[0]);
-    });
-});
-
-
-
 module.exports = router;

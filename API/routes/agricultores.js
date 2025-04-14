@@ -275,13 +275,13 @@ router.get("/explotaciones/:dni", async (req, res) => {
 
     try {
         const [rows] = await db.promise().query(`
-            select Nombre, Superficie_total from Explotacion where Agricultor_Usuario_DNI1 =?;
+            select idExplotacion, Nombre, Superficie_total from Explotacion where Agricultor_Usuario_DNI1 =?;
         `, [dniAgricultor]);
 
         res.json(rows);
     } catch (error) {
-        console.error("Error al obtener asesores asignados:", error);
-        res.status(500).json({ error: "Error al obtener asesores asignados" });
+        console.error("Error al obtener explotaciones asignadas:", error);
+        res.status(500).json({ error: "Error al obtener explotaciones asignadas" });
     }
 });
 
