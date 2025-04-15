@@ -56,13 +56,13 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Agricultor` (
   CONSTRAINT `fk_Agricultor_Usuario1`
     FOREIGN KEY (`Usuario_DNI`)
     REFERENCES `Cuaderno_de_campo`.`Usuario` (`DNI`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Agricultor_Ingeniero1`
     FOREIGN KEY (`Ingeniero_Usuario_DNI`)
     REFERENCES `Cuaderno_de_campo`.`Ingeniero` (`Usuario_DNI`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -199,14 +199,14 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Tratamiento` (
   `Cantidad_producto_aplicada` DECIMAL NULL,
   `Unidad_medida_dosis` VARCHAR(60) NULL,
   `Numero_carnet_aplicador` VARCHAR(50) NULL,
-  PRIMARY KEY (`idTratamiento`, `Equipo_Numero_ROMA`, `Producto_idProducto`),
+  PRIMARY KEY (`idTratamiento`),
   INDEX `fk_Tratamiento_Equipo1_idx` (`Equipo_Numero_ROMA` ASC) VISIBLE,
   INDEX `fk_Tratamiento_Producto1_idx` (`Producto_idProducto` ASC) VISIBLE,
   CONSTRAINT `fk_Tratamiento_Equipo1`
     FOREIGN KEY (`Equipo_Numero_ROMA`)
     REFERENCES `Cuaderno_de_campo`.`Equipo` (`Numero_ROMA`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Tratamiento_Producto1`
     FOREIGN KEY (`Producto_idProducto`)
     REFERENCES `Cuaderno_de_campo`.`Producto` (`idProducto`)
@@ -227,13 +227,13 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Asesor_has_Agricultor` (
   CONSTRAINT `fk_Asesor_has_Agricultor_Asesor1`
     FOREIGN KEY (`Asesor_DNI`)
     REFERENCES `Cuaderno_de_campo`.`Asesor` (`DNI`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Asesor_has_Agricultor_Agricultor1`
     FOREIGN KEY (`Agricultor_Usuario_DNI`)
     REFERENCES `Cuaderno_de_campo`.`Agricultor` (`Usuario_DNI`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -249,8 +249,8 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Parcela_has_Tratamiento` (
   CONSTRAINT `fk_Parcela_has_Tratamiento_Parcela1`
     FOREIGN KEY (`Parcela_Numero_identificacion`)
     REFERENCES `Cuaderno_de_campo`.`Parcela` (`Numero_identificacion`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_Parcela_has_Tratamiento_Tratamiento1`
     FOREIGN KEY (`Tratamiento_idTratamiento`)
     REFERENCES `Cuaderno_de_campo`.`Tratamiento` (`idTratamiento`)
