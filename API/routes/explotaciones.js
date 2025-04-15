@@ -82,5 +82,34 @@ router.delete("/baja/:id", async (req, res) => {
     }
 });
 
+// Actualizar nombre explotación
+router.put("/editar/:id", async (req, res) => {
+    const idExplotacion = req.params.id;
+    const {nombre} = req.body;
+
+    if (!nombre) {
+        return res.status(400).json({ error: "Faltan campos obligatorios." });
+    }
+
+    try {
+        const [rows] = await db.promise().query(
+            "SELECT Nombre FROM Explotacion WHERE idExplotacion = ?", [idExplotacion]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: "La explotación no existe." });
+        }
+
+        await db.promise().query(
+            "UPDATE Explotacion SET Nombre = ? WHERE idExplotacion = ?", [nombre, idExplotacion]
+        );
+
+        res.json({ message: "Nombre de la explotación actualizado correctamente." });
+    } catch (error) {
+        console.error("Error al actualizar nombre de la explotación:", error);
+        res.status(500).json({ error: "Error al actualizar nombre de la explotación." });
+    }
+});
+
 
 module.exports = router;
