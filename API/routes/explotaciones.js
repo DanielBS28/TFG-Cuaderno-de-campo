@@ -41,4 +41,46 @@ router.post("/alta", async (req, res) => {
     }
 });
 
+// Obtener número de parcelas de una explotación
+router.get("/parcelas/:idExplotacion", async (req, res) => {
+    const id = req.params.idExplotacion;
+
+    try {
+        const [rows] = await db.promise().query(
+            "SELECT COUNT(*) as total FROM Parcela WHERE Explotacion_idExplotacion = ?",
+            [id]
+        );
+
+        res.json({ total: rows[0].total });
+    } catch (error) {
+        console.error("Error al obtener parcelas:", error);
+        res.status(500).json({ error: "Error al contar parcelas" });
+    }
+});
+
+// Eliminar explotación
+router.delete("/baja/:id", async (req, res) => {
+    const idExplotacion = req.params.id;
+
+    try {
+        const [rows] = await db.promise().query(
+            "SELECT * FROM Explotacion WHERE idExplotacion = ?", [idExplotacion]
+        );
+
+        if (rows.length === 0) {
+            return res.status(404).json({ error: "La explotación no existe." });
+        }
+
+        await db.promise().query(
+            "DELETE FROM Explotacion WHERE idExplotacion = ?", [idExplotacion]
+        );
+
+        res.json({ message: "Explotación eliminada correctamente." });
+    } catch (error) {
+        console.error("Error al eliminar explotación:", error);
+        res.status(500).json({ error: "Error al eliminar la explotación." });
+    }
+});
+
+
 module.exports = router;

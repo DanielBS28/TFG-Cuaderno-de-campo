@@ -17,6 +17,8 @@ formDNI.addEventListener("submit", async (e) => {
   e.preventDefault();
   const dni = document.getElementById("DNIBuscado").value.trim();
 
+  if (!dni) return alert("Introduce un DNI");
+
   const res = await fetch(
     `http://localhost:3000/agricultores/buscar/dni/${dni}`
   );
@@ -34,6 +36,8 @@ formDNI.addEventListener("submit", async (e) => {
 formCarnet.addEventListener("submit", async (e) => {
   e.preventDefault();
   const carnet = document.getElementById("CBuscado").value.trim();
+
+  if (!carnet) return alert("Introduce un número de carnet");
 
   const res = await fetch(
     `http://localhost:3000/agricultores/buscar/carnet/${carnet}`
@@ -75,6 +79,7 @@ const desbloquearSelect = () => {
     .then((explotaciones) => {
       if (explotaciones.length === 0) {
         selectExplotacion.disabled = true;
+        inputExplotacion.disabled = true;
         alert("Este agricultor no tiene ninguna explotación.");
         return;
       }
@@ -109,9 +114,11 @@ const desbloquearSelect = () => {
   });
 };
 
+// Rellenar Inputs de Explotación
 const campoId = document.getElementById("id-explotacion");
 const campoNombre = document.getElementById("nombre-explotacion");
 const campoSuperficie = document.getElementById("superficie-total");
+const campoParcelas = document.getElementById("total-parcelas");
 
 selectExplotacion.addEventListener("change", () => {
   const idSeleccionado = selectExplotacion.value;
@@ -121,6 +128,53 @@ selectExplotacion.addEventListener("change", () => {
     campoId.value = seleccionada.idExplotacion;
     campoNombre.value = seleccionada.Nombre;
     campoSuperficie.value = `${seleccionada.Superficie_total} ha`;
+
+    // Obtener parcelas
+    fetch(`http://localhost:3000/explotaciones/parcelas/${idSeleccionado}`)
+      .then(res => res.json())
+      .then(data => {
+        campoParcelas.value = data.total;
+      })
+      .catch(err => {
+        console.error("Error al obtener parcelas:", err);
+        campoParcelas.value = "—";
+      });
+  }
+});
+
+// Eliminar Explotación
+const formBaja = document.querySelector(".form-container form");
+
+formBaja.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const id = campoId.value;
+
+  if (!id) {
+    alert("Debe seleccionar una explotación válida antes de darla de baja.");
+    return;
+  }
+
+  const confirmacion = confirm("¿Está seguro que desea dar de baja esta explotación?");
+  if (!confirmacion) return;
+
+  try {
+    const res = await fetch(`http://localhost:3000/explotaciones/baja/${id}`, {
+      method: "DELETE"
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("Explotación dada de baja correctamente.");
+
+      location.reload();
+    } else {
+      alert(data.error || "No se pudo eliminar la explotación.");
+    }
+  } catch (err) {
+    console.error("Error al dar de baja:", err);
+    alert("Error del servidor al eliminar.");
   }
 });
 
@@ -128,7 +182,7 @@ function limpiarCamposExplotacion() {
     campoId.value = "";
     campoNombre.value = "";
     campoSuperficie.value = "";
-    // campoParcelas.value = ""; // si más adelante añades "Parcelas totales"
+    campoParcelas.value = "";
     selectExplotacion.selectedIndex = 0; // volver al primer <option>
   }
   
