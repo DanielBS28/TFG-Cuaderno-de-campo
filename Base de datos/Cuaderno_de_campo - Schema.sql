@@ -92,8 +92,8 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Explotacion` (
   CONSTRAINT `fk_Explotacion_Agricultor1`
     FOREIGN KEY (`Agricultor_Usuario_DNI1`)
     REFERENCES `Cuaderno_de_campo`.`Agricultor` (`Usuario_DNI`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
@@ -117,8 +117,8 @@ CREATE TABLE IF NOT EXISTS `Cuaderno_de_campo`.`Parcela` (
   CONSTRAINT `fk_Parcela_Explotacion1`
     FOREIGN KEY (`Explotacion_idExplotacion`)
     REFERENCES `Cuaderno_de_campo`.`Explotacion` (`idExplotacion`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 
