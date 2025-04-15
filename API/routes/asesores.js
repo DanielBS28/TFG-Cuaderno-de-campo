@@ -54,13 +54,26 @@ router.get("/buscar/dni/:dni", (req, res) => {
     const dni = req.params.dni;
 
     const query = `
-        SELECT DNI, Nombre, Apellido1, Apellido2, N_carnet_asesor
-        FROM Asesor
-        WHERE DNI = ?
+        SELECT * FROM Asesor WHERE DNI = ?
     `;
 
     db.query(query, [dni], (err, results) => {
         if (err) return res.status(500).json({ error: "Error en la búsqueda por DNI" });
+        if (results.length === 0) return res.status(404).json({ error: "Asesor no encontrado" });
+        res.json(results[0]);
+    });
+});
+
+// Buscar asesor por Nº de carnet
+router.get("/buscar/carnet/:carnet", (req, res) => {
+    const carnet = req.params.carnet;
+
+    const query = `
+        SELECT * FROM Asesor WHERE N_Carnet_asesor = ?;
+    `;
+
+    db.query(query, [carnet], (err, results) => {
+        if (err) return res.status(500).json({ error: "Error en la búsqueda por carnet" });
         if (results.length === 0) return res.status(404).json({ error: "Asesor no encontrado" });
         res.json(results[0]);
     });

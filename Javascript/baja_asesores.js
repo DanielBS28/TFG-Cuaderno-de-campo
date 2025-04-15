@@ -6,8 +6,8 @@ const campos = {
     nombre: document.getElementById("nombre"),
     apellido1: document.getElementById("apellido1"),
     apellido2: document.getElementById("apellido2"),
-    dni: document.getElementById("dni"),
-    carnet: document.getElementById("carnet")
+    DNI: document.getElementById("dni"),
+    N_Carnet_asesor: document.getElementById("carnet")
 };
 
 let dniAsesor = null;
@@ -16,6 +16,8 @@ let dniAsesor = null;
 formDNI.addEventListener("submit", async (e) => {
     e.preventDefault();
     const dni = document.getElementById("DNIBuscado").value.trim();
+
+    if (!dni) return alert("Introduce un DNI");
 
     const res = await fetch(`http://localhost:3000/asesores/buscar/dni/${dni}`);
     const data = await res.json();
@@ -27,13 +29,30 @@ formDNI.addEventListener("submit", async (e) => {
     }
 });
 
+// Buscar por Carnet
+formCarnet.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const carnet = document.getElementById("CBuscado").value.trim();
+
+    if (!carnet) return alert("Introduce un número de carnet");
+
+    const res = await fetch(`http://localhost:3000/asesores/buscar/carnet/${carnet}`);
+    const data = await res.json();
+
+    if (res.ok) {
+        mostrarDatos(data);
+    } else {
+        alert(data.error || "Asesores no encontrado");
+    }
+});
+
 function mostrarDatos(data) {
     campos.nombre.value = data.Nombre;
     campos.apellido1.value = data.Apellido1;
     campos.apellido2.value = data.Apellido2;
-    campos.dni.value = data.dni;
-    campos.carnet.value = data.N_carnet_asesor;
-    dniAsesor = data.dni;
+    campos.DNI.value = data.DNI;
+    campos.N_Carnet_asesor.value = data.N_Carnet_asesor;
+    dniAsesor = data.DNI;
 }
 
 // Eliminar asesor
