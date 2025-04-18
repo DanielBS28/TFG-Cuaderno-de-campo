@@ -1,0 +1,42 @@
+DELIMITER //
+
+CREATE TRIGGER actualizar_superficie_total_insert
+AFTER INSERT ON Parcela
+FOR EACH ROW
+BEGIN
+  UPDATE Explotacion
+  SET Superficie_total = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Parcela
+    WHERE Explotacion_idExplotacion = NEW.Explotacion_idExplotacion
+  )
+  WHERE idExplotacion = NEW.Explotacion_idExplotacion;
+END//
+
+CREATE TRIGGER actualizar_superficie_total_update
+AFTER UPDATE ON Parcela
+FOR EACH ROW
+BEGIN
+  UPDATE Explotacion
+  SET Superficie_total = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Parcela
+    WHERE Explotacion_idExplotacion = NEW.Explotacion_idExplotacion
+  )
+  WHERE idExplotacion = NEW.Explotacion_idExplotacion;
+END//
+
+CREATE TRIGGER actualizar_superficie_total_delete
+AFTER DELETE ON Parcela
+FOR EACH ROW
+BEGIN
+  UPDATE Explotacion
+  SET Superficie_total = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Parcela
+    WHERE Explotacion_idExplotacion = OLD.Explotacion_idExplotacion
+  )
+  WHERE idExplotacion = OLD.Explotacion_idExplotacion;
+END//
+
+DELIMITER ;

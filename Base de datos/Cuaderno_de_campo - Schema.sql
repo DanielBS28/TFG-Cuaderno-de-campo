@@ -54,9 +54,9 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`agricultor` (
   `Numero_carnet` VARCHAR(45) NOT NULL,
   `Ingeniero_Usuario_DNI` VARCHAR(9) NULL DEFAULT NULL,
   PRIMARY KEY (`Usuario_DNI`),
+  UNIQUE INDEX `Numero_carnet_UNIQUE` (`Numero_carnet` ASC) VISIBLE,
   INDEX `fk_Agricultor_Usuario1_idx` (`Usuario_DNI` ASC) VISIBLE,
   INDEX `fk_Agricultor_Ingeniero1_idx` (`Ingeniero_Usuario_DNI` ASC) VISIBLE,
-  UNIQUE INDEX `Numero_carnet_UNIQUE` (`Numero_carnet` ASC) VISIBLE,
   CONSTRAINT `fk_Agricultor_Ingeniero1`
     FOREIGN KEY (`Ingeniero_Usuario_DNI`)
     REFERENCES `cuaderno_de_campo`.`ingeniero` (`Usuario_DNI`)
@@ -128,7 +128,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`explotacion` (
   `idExplotacion` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Agricultor_Usuario_DNI1` VARCHAR(9) NOT NULL,
-  `Superficie_total` DECIMAL(10,2) NULL DEFAULT NULL,
+  `Superficie_total` DECIMAL(11,4) NULL DEFAULT NULL,
   `Nombre` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`idExplotacion`),
   INDEX `fk_Explotacion_Agricultor1_idx` (`Agricultor_Usuario_DNI1` ASC) VISIBLE,
@@ -148,13 +148,13 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`parcela` (
   `Numero_identificacion` INT NOT NULL,
   `Explotacion_idExplotacion` INT UNSIGNED NOT NULL,
   `Provincia` VARCHAR(2) NULL DEFAULT NULL,
-  `Municipio` VARCHAR(10) NULL DEFAULT NULL,
   `Codigo_municipio` VARCHAR(5) NULL DEFAULT NULL,
+  `Municipio` VARCHAR(60) NULL DEFAULT NULL,
   `Poligono` VARCHAR(10) NULL DEFAULT NULL,
   `Parcela` VARCHAR(10) NULL DEFAULT NULL,
   `Tipo_R_S` ENUM('Regadío', 'Secano') NULL DEFAULT NULL,
   `Tipo_cultivo` VARCHAR(100) NULL DEFAULT NULL,
-  `Superficie_ha` DECIMAL(7,2) NULL DEFAULT NULL,
+  `Superficie_ha` DECIMAL(10,4) NULL DEFAULT NULL,
   `Nombre_parcela` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`Numero_identificacion`),
   INDEX `fk_Parcela_Explotacion1_idx` (`Explotacion_idExplotacion` ASC) VISIBLE,
@@ -209,6 +209,7 @@ END//
 
 DELIMITER ;
 
+
 -- -----------------------------------------------------
 -- Table `cuaderno_de_campo`.`producto`
 -- -----------------------------------------------------
@@ -236,17 +237,19 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`tratamiento` (
   `idTratamiento` INT NOT NULL AUTO_INCREMENT,
   `Equipo_Numero_ROMA` VARCHAR(30) NOT NULL,
   `Producto_idProducto` INT NOT NULL,
+  `parcela_Numero_identificacion` INT NOT NULL,
   `Plaga_controlar` VARCHAR(45) NULL DEFAULT NULL,
   `Fecha_tratamiento` DATE NULL DEFAULT NULL,
   `Tipo_Cultivo` VARCHAR(100) NULL DEFAULT NULL,
   `Num_regsitro_producto` VARCHAR(20) NULL DEFAULT NULL,
-  `Superficie_tratada_ha` DECIMAL(7,2) NULL DEFAULT NULL,
+  `Superficie_tratada_ha` DECIMAL(10,4) NULL DEFAULT NULL,
   `Cantidad_producto_aplicada` DECIMAL(10,0) NULL DEFAULT NULL,
   `Unidad_medida_dosis` VARCHAR(60) NULL DEFAULT NULL,
   `Numero_carnet_aplicador` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`idTratamiento`),
   INDEX `fk_Tratamiento_Equipo1_idx` (`Equipo_Numero_ROMA` ASC) VISIBLE,
   INDEX `fk_Tratamiento_Producto1_idx` (`Producto_idProducto` ASC) VISIBLE,
+  INDEX `fk_tratamiento_parcela1_idx` (`parcela_Numero_identificacion` ASC) VISIBLE,
   CONSTRAINT `fk_Tratamiento_Equipo1`
     FOREIGN KEY (`Equipo_Numero_ROMA`)
     REFERENCES `cuaderno_de_campo`.`equipo` (`Numero_ROMA`)
@@ -254,28 +257,14 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`tratamiento` (
     ON UPDATE CASCADE,
   CONSTRAINT `fk_Tratamiento_Producto1`
     FOREIGN KEY (`Producto_idProducto`)
-    REFERENCES `cuaderno_de_campo`.`producto` (`idProducto`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb3;
-
-
--- -----------------------------------------------------
--- Table `cuaderno_de_campo`.`parcela_has_tratamiento`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`parcela_has_tratamiento` (
-  `Parcela_Numero_identificacion` INT NOT NULL,
-  `Tratamiento_idTratamiento` INT NOT NULL,
-  PRIMARY KEY (`Parcela_Numero_identificacion`, `Tratamiento_idTratamiento`),
-  INDEX `fk_Parcela_has_Tratamiento_Tratamiento1_idx` (`Tratamiento_idTratamiento` ASC) VISIBLE,
-  INDEX `fk_Parcela_has_Tratamiento_Parcela1_idx` (`Parcela_Numero_identificacion` ASC) VISIBLE,
-  CONSTRAINT `fk_Parcela_has_Tratamiento_Parcela1`
-    FOREIGN KEY (`Parcela_Numero_identificacion`)
-    REFERENCES `cuaderno_de_campo`.`parcela` (`Numero_identificacion`)
+    REFERENCES `cuaderno_de_campo`.`producto` (`idProducto`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
-  CONSTRAINT `fk_Parcela_has_Tratamiento_Tratamiento1`
-    FOREIGN KEY (`Tratamiento_idTratamiento`)
-    REFERENCES `cuaderno_de_campo`.`tratamiento` (`idTratamiento`))
+  CONSTRAINT `fk_tratamiento_parcela1`
+    FOREIGN KEY (`parcela_Numero_identificacion`)
+    REFERENCES `cuaderno_de_campo`.`parcela` (`Numero_identificacion`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -305,7 +294,9 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`usos` (
   INDEX `fk_Usos_Producto1_idx` (`Producto_idProducto` ASC) VISIBLE,
   CONSTRAINT `fk_Usos_Producto1`
     FOREIGN KEY (`Producto_idProducto`)
-    REFERENCES `cuaderno_de_campo`.`producto` (`idProducto`))
+    REFERENCES `cuaderno_de_campo`.`producto` (`idProducto`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
