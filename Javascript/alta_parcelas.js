@@ -30,6 +30,7 @@ const camposParcela = {
   nombre: document.getElementById("nombre-parcela"),
   codigoProvincia: document.getElementById("codigo_provincia"),
   codigoMunicipio: document.getElementById("codigo_municipio"),
+  nombreMunicipio: document.getElementById("nombre_municipio"),
   numPoligono: document.getElementById("poligono"),
   numParcela: document.getElementById("parcela"),
   superficieSIGPAC: document.getElementById("sup_sigpac"),
@@ -130,6 +131,7 @@ function desbloquearParcela() {
   camposParcela.nombre.disabled = false;
   camposParcela.codigoProvincia.disabled = false;
   camposParcela.codigoMunicipio.disabled = false;
+  camposParcela.nombreMunicipio.disabled = false;
   camposParcela.numPoligono.disabled = false;
   camposParcela.numParcela.disabled = false;
   camposParcela.superficieSIGPAC.disabled = false;
@@ -143,6 +145,7 @@ function bloquearParcela() {
   camposParcela.nombre.disabled = true;
   camposParcela.codigoProvincia.disabled = true;
   camposParcela.codigoMunicipio.disabled = true;
+  camposParcela.nombreMunicipio.disabled = true;
   camposParcela.numPoligono.disabled = true;
   camposParcela.numParcela.disabled = true;
   camposParcela.superficieSIGPAC.disabled = true;
@@ -156,6 +159,7 @@ function limpiarCamposParcela() {
   camposParcela.nombre.value = "";
   camposParcela.codigoProvincia.value = "";
   camposParcela.codigoMunicipio.value = "";
+  camposParcela.nombreMunicipio.value = "";
   camposParcela.numPoligono.value = "";
   camposParcela.numParcela.value = "";
   camposParcela.superficieSIGPAC.value = "";
@@ -196,6 +200,7 @@ function validarCamposParcela() {
       id,
       nombre,
       codigoProvincia,
+      nombreMunicipio,
       codigoMunicipio,
       numPoligono,
       numParcela,
@@ -217,6 +222,7 @@ function validarCamposParcela() {
     if (selectTipoCultivo.selectedIndex <= 0) errores.push("Selecciona un tipo de cultivo.");
 
     if (!nombre.value.trim()) errores.push("El nombre de la parcela no puede estar vacío.");
+    if (!nombreMunicipio.value.trim()) errores.push("El nombre del municipio no puede estar vacío.");
   
     return errores;
   }
@@ -293,6 +299,7 @@ formCrearParcela.addEventListener("submit", async (e) => {
       nombre: camposParcela.nombre.value.trim(),
       codigoProvincia: camposParcela.codigoProvincia.value,
       codigoMunicipio: camposParcela.codigoMunicipio.value,
+      nombreMunicipio: camposParcela.nombreMunicipio.value,
       numPoligono: camposParcela.numPoligono.value,
       numParcela: camposParcela.numParcela.value,
       superficieSIGPAC: parseFloat(camposParcela.superficieSIGPAC.value),

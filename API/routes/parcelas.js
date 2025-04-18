@@ -22,6 +22,7 @@ router.post("/crear", async (req, res) => {
     nombre,
     codigoProvincia,
     codigoMunicipio,
+    nombreMunicipio,
     numPoligono,
     numParcela,
     superficieSIGPAC,
@@ -33,13 +34,14 @@ router.post("/crear", async (req, res) => {
   try {
     await db.promise().query(
       `INSERT INTO Parcela 
-          (Numero_identificacion, Nombre_parcela, Provincia, Codigo_municipio, Poligono, Parcela, Superficie_ha, Tipo_R_S, Tipo_cultivo, Explotacion_idExplotacion)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          (Numero_identificacion, Nombre_parcela, Provincia, Codigo_municipio, Municipio, Poligono, Parcela, Superficie_ha, Tipo_R_S, Tipo_cultivo, Explotacion_idExplotacion)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)`,
       [
         id,
         nombre,
         codigoProvincia,
         codigoMunicipio,
+        nombreMunicipio,
         numPoligono,
         numParcela,
         superficieSIGPAC,
