@@ -194,6 +194,7 @@ function renderizarCultivos(lista) {
 function validarCamposParcela() {
     const {
       id,
+      nombre,
       codigoProvincia,
       codigoMunicipio,
       numPoligono,
@@ -211,9 +212,11 @@ function validarCamposParcela() {
     if (!esNatural(codigoMunicipio.value)) errores.push("Código de municipio inválido.");
     if (!esNatural(numPoligono.value)) errores.push("Polígono inválido.");
     if (!esNatural(numParcela.value)) errores.push("Parcela inválida.");
-    if (isNaN(superficieSIGPAC.value) || superficieSIGPAC.value <= 0) errores.push("Superficie SIGPAC inválida.");
+    if (isNaN(superficieSIGPAC.value) || superficieSIGPAC.value < 0) errores.push("Superficie SIGPAC inválida.");
     if (selectTipoRegadio.selectedIndex <= 0) errores.push("Selecciona un tipo de regadío.");
     if (selectTipoCultivo.selectedIndex <= 0) errores.push("Selecciona un tipo de cultivo.");
+
+    if (!nombre.value.trim()) errores.push("El nombre de la parcela no puede estar vacío.");
   
     return errores;
   }
@@ -315,7 +318,7 @@ formCrearParcela.addEventListener("submit", async (e) => {
       }
   
       alert("✅ Parcela creada correctamente");
-      limpiarCamposParcela();
+      location.reload();
     } catch (error) {
       console.error("Error en la petición:", error);
       alert("Error inesperado al crear la parcela");
