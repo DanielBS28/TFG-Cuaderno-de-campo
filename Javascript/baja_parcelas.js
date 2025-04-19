@@ -63,6 +63,7 @@ function cargarCamposExplotacion() {
     .then((response) => response.json())
     .then((explotaciones) => {
       limpiarCamposExplotacion();
+      limpiarCamposParcela();
 
       if (!Array.isArray(explotaciones) || explotaciones.length === 0) {
         selectExplotacion.disabled = true;
@@ -143,13 +144,18 @@ function renderizarOpcionesParcelas(lista) {
   lista.forEach((parcela) => {
     const option = document.createElement("option");
     option.value = parcela.idParcela;
-    option.textContent = `${parcela.Nombre} | Polígono ${parcela.Poligono}, Parcela ${parcela.Parcela}`;
+    option.textContent = `${parcela.Nombre} | ${parcela.Superficie_SIGPAC} ha`;
     selectParcela.appendChild(option);
   });
 }
 
 // Limpiar campos de parcela
 function limpiarCamposParcela() {
+  selectParcela.innerHTML =
+    "<option selected disabled>Seleccione una parcela</option>";
+    selectParcela.selectedIndex = 0;
+    selectParcela.disabled = true;
+    inputBuscarParcela.disabled = true;
   for (const key in camposParcela) {
     camposParcela[key].value = "";
   }
@@ -168,8 +174,7 @@ async function eliminarParcela(idParcela) {
 
     if (res.ok) {
       alert("✅ Parcela eliminada correctamente");
-      limpiarCamposParcela();
-      selectParcela.innerHTML = "<option selected disabled>Seleccione una parcela</option>";
+      location.reload();
     } else {
       alert(data.error || "Error al eliminar la parcela");
     }
@@ -266,6 +271,6 @@ inputBuscarParcela.addEventListener("input", () => {
 document.getElementById("eliminar-parcela").addEventListener("click", (e) => {
   e.preventDefault();
   const idParcela = camposParcela.id.value;
-  if (!idParcela) return alert("Selecciona una parcela primero.");
+  if (!idParcela) return alert("No hay ninguna parcela seleccionada.");
   eliminarParcela(idParcela);
 });
