@@ -99,4 +99,53 @@ router.delete("/eliminar/:dni", async (req, res) => {
     }
 });
 
+// Actualizar asesor
+router.put("/actualizar/:dni", async (req, res) => {
+    const dni = req.params.dni;
+    const { nombre, apellido1, apellido2, carnet } = req.body;
+
+    if (!nombre || !apellido1 || !apellido2 || !carnet) {
+        return res.status(400).json({ error: "Faltan campos obligatorios." });
+    }
+
+    const conn = await db.promise().getConnection();
+    await conn.beginTransaction();
+
+    try {
+        // Verificar existencia
+        const [[asesor]] = await conn.query(
+            "SELECT * FROM Asesor WHERE DNI = ?", [dni]
+        );
+        if (!asesor) {
+            await conn.rollback();
+            return res.status(404).json({ error: "Asesor no encontrado." });
+        }
+
+        // Verificar duplicado de carnet
+        const [repetido] = await conn.query(
+            "SELECT * FROM Asesor WHERE N_carnet_asesor = ? AND DNI != ?",
+            [carnet, dni]
+        );
+        if (repetido.length > 0) {
+            await conn.rollback();
+            return res.status(409).json({ error: "El número de carnet ya está en uso." });
+        }
+
+        // Actualizar datos
+        await conn.query(
+            "UPDATE Asesor SET Nombre = ?, Apellido1 = ?, Apellido2 = ?, N_carnet_asesor = ? WHERE DNI = ?",
+            [nombre, apellido1, apellido2, carnet, dni]
+        );
+
+        await conn.commit();
+        res.json({ message: "Datos del asesor actualizados correctamente." });
+    } catch (err) {
+        await conn.rollback();
+        console.error("Error al actualizar asesor:", err);
+        res.status(500).json({ error: "Error del servidor al actualizar." });
+    } finally {
+        conn.release();
+    }
+});
+
 module.exports = router;
