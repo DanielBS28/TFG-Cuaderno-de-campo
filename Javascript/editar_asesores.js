@@ -15,7 +15,7 @@ function rellenarFormulario(data) {
   campos.apellido1.value = data.Apellido1;
   campos.apellido2.value = data.Apellido2;
   campos.dni.value = data.DNI;
-  campos.carnet.value = data.N_carnet_asesor;
+  campos.carnet.value = data.N_Carnet_asesor;
 
   // Habilitar campos
   for (let key of ["nombre", "apellido1", "apellido2", "carnet"]) {

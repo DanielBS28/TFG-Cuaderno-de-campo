@@ -70,7 +70,7 @@ selectAsesor.addEventListener("change", async function () {
       document.getElementById("apellido1-as").value = data.Apellido1;
       document.getElementById("apellido2-as").value = data.Apellido2;
       document.getElementById("dni-as").value = data.DNI;
-      document.getElementById("carnet-as").value = data.N_carnet_asesor;
+      document.getElementById("carnet-as").value = data.N_Carnet_asesor;
     } else {
       alert("Asesor no encontrado");
     }
