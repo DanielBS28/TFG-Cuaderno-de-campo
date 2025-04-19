@@ -110,8 +110,8 @@ function limpiarCamposExplotacion() {
   selectExplotacion.selectedIndex = 0; // volver al primer <option>
 }
 
-//Cargar las explotaciones del agricultor en el select
-const obtenerExplotaciones = async (idSeleccionado) => {
+//Cargar las parcelas totales de la explotación
+const obtenerParcelasTotales = async (idSeleccionado) => {
   fetch(`http://localhost:3000/explotaciones/parcelas/${idSeleccionado}`)
     .then((res) => res.json())
     .then((data) => {
@@ -270,7 +270,7 @@ selectExplotacion.addEventListener("change", () => {
     camposExplotacion.id.value = seleccionada.idExplotacion;
     camposExplotacion.nombre.value = seleccionada.Nombre;
     camposExplotacion.superficie.value = `${seleccionada.Superficie_total} ha`;
-    obtenerExplotaciones(idSeleccionado);
+    obtenerParcelasTotales(idSeleccionado);
   }
 });
 

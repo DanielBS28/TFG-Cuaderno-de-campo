@@ -41,7 +41,7 @@ router.post("/alta", async (req, res) => {
     }
 });
 
-// Obtener número de parcelas de una explotación
+// Obtener número de parcelas totales de una explotación
 router.get("/parcelas/:idExplotacion", async (req, res) => {
     const id = req.params.idExplotacion;
 

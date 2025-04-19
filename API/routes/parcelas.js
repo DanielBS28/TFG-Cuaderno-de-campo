@@ -58,4 +58,47 @@ router.post("/crear", async (req, res) => {
   }
 });
 
+// Eliminar una parcela por su ID
+router.delete("/eliminar/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await db.promise().query(`DELETE FROM Parcela WHERE Numero_identificacion = ?`, [id]);
+    res.json({ message: "Parcela eliminada correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar parcela:", error);
+    res.status(500).json({ error: "No se pudo eliminar la parcela" });
+  }
+});
+
+// Obtener todas las parcelas de una explotación
+router.get("/explotacion/:id", async (req, res) => {
+  const idExplotacion = req.params.id;
+
+  try {
+    const [rows] = await db.promise().query(
+      `SELECT 
+        Numero_identificacion AS idParcela,
+        Nombre_parcela AS Nombre,
+        Provincia AS Codigo_Provincia,
+        Codigo_municipio AS Codigo_Municipio,
+        Municipio AS Nombre_Municipio,
+        Poligono,
+        Parcela,
+        Superficie_ha AS Superficie_SIGPAC,
+        Tipo_R_S AS Tipo_Regadio,
+        Tipo_cultivo AS Tipo_Cultivo
+      FROM Parcela
+      WHERE Explotacion_idExplotacion = ?`,
+      [idExplotacion]
+    );
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error al obtener parcelas de la explotación:", error);
+    res.status(500).json({ error: "Error al obtener parcelas" });
+  }
+});
+
+
 module.exports = router;
