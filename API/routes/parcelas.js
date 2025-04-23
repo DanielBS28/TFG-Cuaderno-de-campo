@@ -63,7 +63,9 @@ router.delete("/eliminar/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    await db.promise().query(`DELETE FROM Parcela WHERE Numero_identificacion = ?`, [id]);
+    await db
+      .promise()
+      .query(`DELETE FROM Parcela WHERE Numero_identificacion = ?`, [id]);
     res.json({ message: "Parcela eliminada correctamente" });
   } catch (error) {
     console.error("Error al eliminar parcela:", error);
@@ -100,5 +102,85 @@ router.get("/explotacion/:id", async (req, res) => {
   }
 });
 
+// Editar campos de una parcela
+router.put("/editar/:id", async (req, res) => {
+  const idOriginal = req.params.id;
+  const {
+    id,
+    nombre,
+    codigoProvincia,
+    codigoMunicipio,
+    nombreMunicipio,
+    numPoligono,
+    numParcela,
+    superficieSIGPAC,
+    tipoRegadio,
+    tipoCultivo,
+  } = req.body;
+
+  // Validaciones 
+  if (
+    !id ||
+    !nombre ||
+    !codigoProvincia ||
+    !codigoMunicipio ||
+    !nombreMunicipio ||
+    !numPoligono ||
+    !numParcela ||
+    !superficieSIGPAC ||
+    !tipoRegadio ||
+    !tipoCultivo
+  ) {
+    return res.status(400).json({ error: "Faltan campos obligatorios" });
+  }
+
+  try {
+    const [existe] = await db
+      .promise()
+      .query("SELECT * FROM Parcela WHERE Numero_identificacion = ?", [
+        idOriginal,
+      ]);
+
+    if (existe.length === 0) {
+      return res.status(404).json({ error: "La parcela no existe" });
+    }
+
+    await db.promise().query(
+      `
+      UPDATE Parcela SET
+      Numero_identificacion = ?,
+        Nombre_parcela = ?,
+        Provincia = ?,
+        Codigo_municipio = ?,
+        Municipio = ?,
+        Poligono = ?,
+        Parcela = ?,
+        Superficie_ha = ?,
+        Tipo_R_S = ?,
+        Tipo_cultivo = ?
+      WHERE Numero_identificacion = ?`,
+      [
+        id,
+        nombre,
+        codigoProvincia,
+        codigoMunicipio,
+        nombreMunicipio,
+        numPoligono,
+        numParcela,
+        superficieSIGPAC,
+        tipoRegadio,
+        tipoCultivo,
+        idOriginal,
+      ]
+    );
+
+    res.json({ message: "Parcela actualizada correctamente" });
+  } catch (error) {
+    console.error("Error al actualizar parcela:", error);
+    res
+      .status(500)
+      .json({ error: "Error del servidor al actualizar la parcela" });
+  }
+});
 
 module.exports = router;
