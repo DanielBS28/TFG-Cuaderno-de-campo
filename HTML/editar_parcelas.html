@@ -171,15 +171,6 @@
        
         <div class="datos">
           <div class="form-group">
-            <label for="n_identificacion">Número de identificación</label>
-            <input
-              type="text"
-              name="n_identificacion"
-              id="n_identificacion"
-              placeholder="Número de identificación parcela"disabled
-              autocomplete="off"/>
-          </div>
-          <div class="form-group">
             <label for="nombre-parcela">Nombre de la parcela identificativo</label>
             <input
               type="text"
@@ -189,93 +180,16 @@
               autocomplete="off"disabled/>
           </div>
           <div class="form-group">
-            <label for="nombre">Código de provincia</label>
+            <label for="sup_sigpac">Superficie declarada en ha</label>
             <input
               type="text"
-              name="codigo_provincia"
-              id="codigo_provincia"
-              placeholder="Código de la provincia parcela"
-              autocomplete="off"disabled
-            />
-            </div>
-            <div class="form-group">
-              <label for="nombre">Código de municipio</label>
-              <input
-                type="text"
-                name="codigo_municipio"
-                id="codigo_municipio"
-                placeholder="Código del municipio parcela"
-                autocomplete="off"disabled
-              />
-          </div>
-          <div class="form-group">
-            <label for="nombre">Nombre del municipio</label>
-            <input
-              type="text"
-              name="nombre_municipio"
-              id="nombre_municipio"
-              placeholder="Nombre del municipio parcela"
-              autocomplete="off"disabled
-            />
-          </div>
-          <div class="form-group">
-            <label for="poligono">Polígono</label>
-            <input
-              type="text"
-              name="poligono"
-              id="poligono"
+              name="sup_declarada"
+              id="sup_declarada"
               autocomplete="off"
-              placeholder="Número de polígono"disabled
+              placeholder="Superficie declarada en ha"disabled
             />
           </div>
-          <div class="form-group">
-            <label for="parcela">Parcela</label>
-            <input
-              type="text"
-              name="parcela"
-              id="parcela"
-              autocomplete="off"
-              placeholder="Número de parcela"disabled
-            />
-          </div>
-          <div class="form-group">
-            <label for="sup_sigpac">Superficie SIGPAC</label>
-            <input
-              type="text"
-              name="sup_sigpac"
-              id="sup_sigpac"
-              autocomplete="off"
-              placeholder="Superficie declarada SIGPAC"disabled
-            />
-          </div>
-          <div class="form-group">
-            <label for="tipo_regadio">Tipo de regadío</label>
-            <select name="tipo_regadio" id="tipo_regadio" disabled>
-              <option value="secano" selected disabled>Tipo de regadío</option>
-                <option value="Secano">Secano</option>
-                <option value="Regadío">Regadío</option>
-            </select>
-        </div>
-      </div>
-        <h3>Tipo de cultivo</h3>
-        <div class="busqueda">
-          <img src="../Fotos/lupa.webp" alt="" class="lupa">
-        <div class="form-group">
-          <label for="nombre-cultivo">Buscar tipo de cultivo por nombre</label>
-          <input
-            type="text"
-            name="nombre-cultivo"
-            id="nombre-cultivo"
-            placeholder="Buscar tipo de cultivo"
-            autocomplete="off"disabled
-          />
-        </div>
-        <div class="form-group">
-          <label for="seleccion-cultivo">Tipo de cultivo</label>
-          <select name="seleccion-cultivo" id="seleccion-cultivo" disabled>
-              <option value="primera_opcion" disabled selected>Seleccione el tipo de cultivo</option>
-          </select>
-      </div>
+      
       </div>
         <div class="boton_subir">
         <button id="editar-parcela" class="subir-formulario">Actualizar datos parcela</button>

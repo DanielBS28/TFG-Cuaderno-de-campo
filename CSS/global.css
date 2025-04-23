@@ -7,6 +7,10 @@ html{
      margin: 0;
      font-family: sans-serif;
  }
+
+ .margen-arriba{
+    margin-top: 15px;
+ }
  *{
      box-sizing: border-box;
      margin: 0;

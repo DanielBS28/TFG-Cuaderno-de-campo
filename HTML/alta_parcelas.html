@@ -149,16 +149,42 @@
         </div>
         </div>
         <h2>Crear parcela nueva</h2>
-        <div class="datos">
+        <div class="busqueda">
+          <img src="../Fotos/lupa.webp" alt="" class="lupa">
           <div class="form-group">
-            <label for="n_identificacion">Número de identificación</label>
+            <label for="nombre-label-provincia">Buscar código de provincia</label>
             <input
               type="text"
-              name="n_identificacion"
-              id="n_identificacion"
-              placeholder="Número de identificación parcela"
-              autocomplete="off"disabled/>
+              name="nombre-label-provincia"
+              id="nombre-label-provincia"
+              placeholder="Nombre de la provincia"
+              autocomplete="off"disabled
+            />
           </div>
+          <div class="form-group">
+            <label for="nombre-select-provincia">Seleccione la provincia</label>
+            <select name="nombre-select-provincia" id="nombre-select-provincia"disabled>
+                <option value="Nombre del municipio" selected disabled>Seleccione provincia</option>
+            </select>
+        </div>
+          <div class="form-group">
+            <label for="nombre-label-municipio">Buscar municipio por nombre</label>
+            <input
+              type="text"
+              name="nombre-label-municipio"
+              id="nombre-label-municipio"
+              placeholder="Buscar explotación"
+              autocomplete="off"disabled
+            />
+          </div>
+          <div class="form-group">
+            <label for="nombre-select-municipio">Seleccione un municipio</label>
+            <select name="nombre-select-municipio" id="nombre-select-municipio"disabled>
+                <option value="Selecciona un municipio" selected disabled>Seleccione municipio</option>
+            </select>
+      </div>
+        </div>
+        <div class="datos">
           <div class="form-group">
             <label for="nombre-parcela">Nombre de la parcela identificativo</label>
             <input
@@ -189,15 +215,25 @@
               />
           </div>
           <div class="form-group">
-            <label for="nombre">Nombre del municipio</label>
+            <label for="nombre">Agregado</label>
             <input
               type="text"
-              name="nombre_municipio"
-              id="nombre_municipio"
-              placeholder="Nombre del municipio parcela"
+              name="agregado"
+              id="agregado"
+              placeholder="Número de agregado"
               autocomplete="off"disabled
             />
         </div>
+        <div class="form-group">
+          <label for="nombre">Zona</label>
+          <input
+            type="text"
+            name="zona"
+            id="zona"
+            placeholder="Número de zona"
+            autocomplete="off"disabled
+          />
+      </div>
           <div class="form-group">
             <label for="poligono">Polígono</label>
             <input
@@ -219,42 +255,25 @@
             />
           </div>
           <div class="form-group">
-            <label for="sup_sigpac">Superficie SIGPAC</label>
+            <label for="recinto">Recinto</label>
             <input
               type="text"
-              name="sup_sigpac"
-              id="sup_sigpac"
+              name="recinto"
+              id="recinto"
               autocomplete="off"
-              placeholder="Superficie declarada SIGPAC"disabled
+              placeholder="Número de recinto"disabled
             />
           </div>
           <div class="form-group">
-            <label for="tipo_regadio">Tipo de regadío</label>
-            <select name="tipo_regadio" id="tipo_regadio" disabled>
-              <option value="secano" selected disabled>Tipo de regadío</option>
-                <option value="secano">Secano</option>
-                <option value="regadio">Regadío</option>
-            </select>
-        </div>
-      </div>
-        <h3>Tipo de cultivo</h3>
-        <div class="busqueda">
-          <img src="../Fotos/lupa.webp" alt="" class="lupa">
-        <div class="form-group">
-          <label for="nombre-cultivo">Buscar tipo de cultivo por nombre</label>
-          <input
-            type="text"
-            name="nombre-cultivo"
-            id="nombre-cultivo"
-            placeholder="Buscar tipo de cultivo"
-            autocomplete="off"disabled
-          />
-        </div>
-        <div class="form-group">
-          <label for="seleccion-cultivo">Tipo de cultivo</label>
-          <select name="seleccion-cultivo" id="seleccion-cultivo" disabled>
-              <option value="primera_opcion" disabled selected>Seleccione el tipo de cultivo</option>
-          </select>
+            <label for="sup_sigpac">Superficie declarada en ha</label>
+            <input
+              type="text"
+              name="sup_declarada"
+              id="sup_declara"
+              autocomplete="off"
+              placeholder="Superficie declarada"disabled
+            />
+          </div>
       </div>
         </div>
         <div class="boton_subir">

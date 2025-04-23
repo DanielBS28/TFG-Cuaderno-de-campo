@@ -138,8 +138,7 @@ header{
 }
 
 
-
-@media (min-width: 720px) {
+@media (min-width: 960px) {
     .form-grid {
         grid-template-columns: 1fr 1fr;
         gap: 24px;

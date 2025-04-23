@@ -104,6 +104,10 @@ h2{
     background-color: #FBB02D;
 }
 
+#desasignar{
+    background-color: #b01111;
+}
+
 @media (max-width: 1020px) {
 
     #validar-datos{
