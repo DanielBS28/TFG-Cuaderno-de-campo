@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const db = require("../src/db");
 const bcrypt = require("bcrypt");
 
 // Alta de agricultor

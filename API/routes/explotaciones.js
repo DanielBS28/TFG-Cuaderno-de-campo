@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const db = require("../src/db");
 
 // Alta de explotación
 router.post("/alta", async (req, res) => {
