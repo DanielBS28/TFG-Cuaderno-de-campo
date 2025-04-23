@@ -27,21 +27,26 @@
     <h1 class="titulo-h1">Editar datos de agricultores</h1>
     <div id="formularios">
         <div id="formularios-busqueda">
-        <form id="formulario-DNI">
-                <h1>Buscar agricultor por DNI</h1>
-                <div class="form-group">
-                    <input type="text" name="DNIBuscado" id="DNIBuscado" placeholder="Introduzca el DNI del agricultor"  autocomplete="off">
-                    <button type="submit" id="BotonDNI">Buscar por DNI</button>
-                </div>
+            <form id="formulario-DNI">
+              <h1>Seleccionar agricultor</h1>
+              <div class="form-group">
+                  <label for="busqueda-agricultor">Búsqueda del agricultor</label>
+                <input
+                  type="text"
+                  name="busqueda-agricultor"
+                  id="busqueda-agricultor"
+                  placeholder="Búsqueda del agricultor"
+                  autocomplete="off"
+                />
+                <label for="seleccion-agricultor">Selección del agricultor</label>
+                <select name="seleccion-agricultor" id="seleccion-agricultor">
+                  <option value="primera_opcion" selected disabled>
+                    Seleccione el agricultor
+                  </option>
+                </select>
+              </div>
             </form>
-            <form id="formulario-Carnet">
-                <h1>Buscar agricultor por Nº Carnet</h1>
-                <div class="form-group">
-                    <input type="text" name="CBuscado" id="CBuscado" placeholder="Introduzca el nº de carnet"  autocomplete="off">
-                    <button type="submit" id="BotonCarnet">Buscar por Nº Carnet</button>
-                </div>
-            </form>
-            </div>
+          </div>
        
     <div class="form-container">
         <div class="cabecera">

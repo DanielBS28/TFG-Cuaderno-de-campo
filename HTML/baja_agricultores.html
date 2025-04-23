@@ -1,87 +1,119 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Baja de Agricultores</title>
-    <link rel="stylesheet" href="../CSS/global.css">
-    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css">
-
-</head>
-<body>
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css" />
+  </head>
+  <body>
     <div class="contenedor-principal">
-    <header>
+      <header>
         <div class="container">
-            <div class="containerlogo">
-                <div class="img-logo"></div>
+          <div class="containerlogo">
+            <div class="img-logo"></div>
             <p class="logo">Baja de agricultores</p>
-            
-        </div>
-        
-            <nav>
-                <a href="inicio_administrador.html" id="VolverInicio">Volver a inicio</a>
-                <a href="login.html" id="BotonCerrarSesion">Cerrar sesión</a>
-            </nav>
-        </div>
-    </header>
-    <h1 class="titulo-h1">Baja de Agricultores</h1>
-    <div id="formularios">
-        <div id="formularios-busqueda">
-            <form id="formulario-DNI">
-                <h1>Buscar agricultor por DNI</h1>
-                <div class="form-group">
-                    <input type="text" name="DNIBuscado" id="DNIBuscado" placeholder="Introduzca el DNI del agricultor"  autocomplete="off">
-                    <button type="submit" id="BotonDNI">Buscar por DNI</button>
-                </div>
-            </form>
-            <form id="formulario-Carnet">
-                <h1>Buscar agricultor por Nº Carnet</h1>
-                <div class="form-group">
-                    <input type="text" name="CBuscado" id="CBuscado" placeholder="Introduzca el nº de carnet"  autocomplete="off">
+          </div>
 
-                    <button type="submit" id="BotonCarnet">Buscar por Nº Carnet</button>
-                </div>
-            </form>
+          <nav>
+            <a href="inicio_administrador.html" id="VolverInicio"
+              >Volver a inicio</a
+            >
+            <a href="login.html" id="BotonCerrarSesion">Cerrar sesión</a>
+          </nav>
         </div>
-       
-    <div class="form-container">
-        <div class="cabecera">
+      </header>
+      <h1 class="titulo-h1">Baja de Agricultores</h1>
+      <div id="formularios">
+        <div id="formularios-busqueda">
+          <form id="formulario-DNI">
+            <h1>Seleccionar agricultor</h1>
+            <div class="form-group">
+                <label for="busqueda-agricultor">Búsqueda del agricultor</label>
+              <input
+                type="text"
+                name="busqueda-agricultor"
+                id="busqueda-agricultor"
+                placeholder="Búsqueda del agricultor"
+                autocomplete="off"
+              />
+              <label for="seleccion-agricultor">Selección del agricultor</label>
+              <select name="seleccion-agricultor" id="seleccion-agricultor">
+                <option value="primera_opcion" selected disabled>
+                  Seleccione el agricultor
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="form-container">
+          <div class="cabecera">
             <h1>Datos del agricultor</h1>
-            <img src="../Fotos/eliminar_agricultor2.png" alt="" style="height: 10vh;">
-        </div>     
-        <form id="formulario-baja">
+            <img
+              src="../Fotos/eliminar_agricultor2.png"
+              alt=""
+              style="height: 10vh"
+            />
+          </div>
+          <form id="formulario-baja">
             <div class="form-grid">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" autocomplete="off" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="apellido1">Primer Apellido</label>
-                    <input type="text" name="apellido1" id="apellido1"  autocomplete="off" readonly >
-                </div>
-                <div class="form-group">
-                    <label for="apellido2">Segundo Apellido</label>
-                    <input type="text" name="apellido2" id="apellido2"  autocomplete="off"  readonly>
-                </div>
-                <div class="form-group">
-                    <label for="dni">DNI</label>
-                    <input type="text" name="dni" id="dni"  autocomplete="off"  readonly>
-                </div>
-                <div class="form-group">
-                    <label for="carnet">Nº Carnet agricultor</label>
-                    <input type="text" name="carnet" id="carnet" readonly>
-                </div>
+              <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  id="nombre"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="apellido1">Primer Apellido</label>
+                <input
+                  type="text"
+                  name="apellido1"
+                  id="apellido1"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="apellido2">Segundo Apellido</label>
+                <input
+                  type="text"
+                  name="apellido2"
+                  id="apellido2"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="dni">DNI</label>
+                <input
+                  type="text"
+                  name="dni"
+                  id="dni"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="carnet">Nº Carnet agricultor</label>
+                <input type="text" name="carnet" id="carnet" readonly />
+              </div>
             </div>
             <button type="submit">Dar de baja agricultor</button>
-        </form>
-    </div>
-</div>
-    <footer>
-        <div class="container">
-            <p>Cuaderno de campo</p>
+          </form>
         </div>
-    </footer>
-</div>
+      </div>
+      <footer>
+        <div class="container">
+          <p>Cuaderno de campo</p>
+        </div>
+      </footer>
+    </div>
     <script src="../Javascript/baja_agricultores.js"></script>
-</body>
+  </body>
 </html>

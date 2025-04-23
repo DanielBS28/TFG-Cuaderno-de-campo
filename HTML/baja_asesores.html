@@ -26,22 +26,26 @@
     <h1 class="titulo-h1">Baja de asesores</h1>
     <div id="formularios">
         <div id="formularios-busqueda">
-        <form id="formulario-DNI">
-                <h1>Buscar asesor por DNI</h1>
-                <div class="form-group">
-                    <input type="text" name="DNIBuscado" id="DNIBuscado" placeholder="Introduzca el DNI del asesor"  autocomplete="off">
-                    <button type="submit" id="BotonDNI">Buscar por DNI</button>
-                </div>
+            <form id="formulario-DNI">
+              <h1>Seleccionar asesor</h1>
+              <div class="form-group">
+                  <label for="busqueda-asesor">Búsqueda del asesor</label>
+                <input
+                  type="text"
+                  name="busqueda-asesor"
+                  id="busqueda-asesor"
+                  placeholder="Búsqueda del asesor"
+                  autocomplete="off"
+                />
+                <label for="seleccion-asesor">Selección del asesor</label>
+                <select name="seleccion-asesor" id="seleccion-asesor">
+                  <option value="primera_opcion" selected disabled>
+                    Seleccione el asesor
+                  </option>
+                </select>
+              </div>
             </form>
-            <form id="formulario-Carnet">
-                <h1>Buscar asesor por Nº Carnet</h1>
-                <div class="form-group">
-                    <input type="text" name="CBuscado" id="CBuscado" placeholder="Introduzca el nº de carnet"  autocomplete="off">
-
-                    <button type="submit" id="BotonCarnet">Buscar por Nº Carnet</button>
-                </div>
-            </form>
-            </div>
+          </div>
        
     <div class="form-container">
         <div class="cabecera">

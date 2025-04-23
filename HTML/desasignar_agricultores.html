@@ -23,10 +23,22 @@
     <h1 class="titulo-h1">Desasignar asesores a agricultores</h1>
     <section class="formularios">
     <form id="formulario-DNI">
-        <h1>Buscar agricultor por su DNI</h1>
+        <h1>Selección del agricultor</h1>
         <div class="form-group">
-            <input type="text" name="DNIBuscado" id="DNIBuscado" placeholder="Introduzca el DNI del agricultor"  autocomplete="off">
-            <button type="submit" id="BotonDNI">Buscar agricultor</button>
+            <label for="busqueda-agricultor">Búsqueda del agricultor</label>
+          <input
+            type="text"
+            name="busqueda-agricultor"
+            id="busqueda-agricultor"
+            placeholder="Búsqueda del agricultor"
+            autocomplete="off"
+          />
+          <label for="seleccion-agricultor">Selección del agricultor</label>
+          <select name="seleccion-agricultor" id="seleccion-agricultor">
+            <option value="primera_opcion" selected disabled>
+              Seleccione el agricultor
+            </option>
+          </select>
         </div>
     </form>
     <form>

@@ -30,17 +30,22 @@
         <div class="busqueda">
           <img src="../Fotos/lupa.webp" alt="" class="lupa">
           <div class="form-group">
-            <label for="búsqueda-dni">Búsqueda del agricultor por DNI</label>
+            <label for="nombre-exp">Buscar agricultor</label>
             <input
               type="text"
-              name="busqueda-dni"
-              id="busqueda-dni"
-              placeholder="Buscar agricultor por DNI"
+              name="busqueda-agricultor"
+              id="busqueda-agricultor"
+              placeholder="Búsqueda del agricultor"
               autocomplete="off"
             />
           </div>
-            <button id="buscar-agricultor-boton">Buscar agricultor</button>
+          <div class="form-group">
+            <label for="seleccion-agricultor">Seleccione un agricultor</label>
+            <select name="seleccion-agricultor" id="seleccion-agricultor">
+                <option value="Seleccione un agricultor" selected disabled>Seleccione un agricultor</option>
+            </select>
         </div>
+      </div>
         
         <div class="datos">
           <div class="form-group">
