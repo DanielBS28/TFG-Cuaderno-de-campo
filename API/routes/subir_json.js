@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../db");
+const db = require("../src/db");
 
 // Ruta para subir productos y usos
 router.post("/subir-json", async (req, res) => {
