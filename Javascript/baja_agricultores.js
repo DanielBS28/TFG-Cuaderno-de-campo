@@ -1,5 +1,7 @@
+const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
+const selectAgricultor = document.getElementById("seleccion-agricultor");
+
 const formDNI = document.getElementById("formulario-DNI");
-const formCarnet = document.getElementById("formulario-Carnet");
 const formBaja = document.getElementById("formulario-baja");
 
 const campos = {
@@ -11,42 +13,10 @@ const campos = {
 };
 
 let dniAgricultor = null;
+let listaAgricultores = [];
 
-// Buscar por DNI
-formDNI.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const dni = document.getElementById("DNIBuscado").value.trim();
-
-    if (!dni) return alert("Introduce un DNI");
-
-    const res = await fetch(`http://localhost:3000/agricultores/buscar/dni/${dni}`);
-    const data = await res.json();
-
-    if (res.ok) {
-        mostrarDatos(data);
-    } else {
-        alert(data.error || "Agricultor no encontrado");
-    }
-});
-
-// Buscar por Carnet
-formCarnet.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const carnet = document.getElementById("CBuscado").value.trim();
-
-    if (!carnet) return alert("Introduce un número de carnet");
-
-    const res = await fetch(`http://localhost:3000/agricultores/buscar/carnet/${carnet}`);
-    const data = await res.json();
-
-    if (res.ok) {
-        mostrarDatos(data);
-    } else {
-        alert(data.error || "Agricultor no encontrado");
-    }
-});
-
-function mostrarDatos(data) {
+// ### FUNCIONES ###
+const mostrarDatos = (data) => {
     campos.nombre.value = data.Nombre;
     campos.apellido1.value = data.Apellido1;
     campos.apellido2.value = data.Apellido2;
@@ -54,6 +24,60 @@ function mostrarDatos(data) {
     campos.carnet.value = data.carnet;
     dniAgricultor = data.dni;
 }
+
+const limpiarCampos = () => {
+    for (const key in campos) {
+        campos[key].value = "";
+    }
+    dniAgricultor = null;
+}
+
+const actualizarOpcionesSelect = (agricultores) => {
+    selectAgricultor.innerHTML = `<option value="primera_opcion" disabled selected>Seleccione el agricultor</option>`;
+    agricultores.forEach(a => {
+        const opcion = document.createElement("option");
+        opcion.value = a.DNI;
+        opcion.textContent = `${a.Nombre} ${a.Apellido1} - ${a.DNI}`;
+        selectAgricultor.appendChild(opcion);
+    });
+};
+
+// ### EVENTOS ###
+// Cargar todos los agricultores al iniciar
+window.addEventListener("DOMContentLoaded", async () => {
+    try {
+        const res = await fetch("http://localhost:3000/agricultores/todos");
+        const data = await res.json();
+        listaAgricultores = data;
+        actualizarOpcionesSelect(data);
+    } catch (error) {
+        console.error("Error al cargar agricultores:", error);
+    }
+});
+
+// Mostrar datos al seleccionar
+selectAgricultor.addEventListener("change", async (e) => {
+    const dniSeleccionado = e.target.value;
+    if (!dniSeleccionado || dniSeleccionado === "primera_opcion") return;
+
+    try {
+        const res = await fetch(`http://localhost:3000/agricultores/buscar/dni/${dniSeleccionado}`);
+        const data = await res.json();
+        mostrarDatos(data);
+    } catch (error) {
+        alert("Error al cargar datos del agricultor.");
+        console.error("Error:", error);
+    }
+});
+
+// Filtro del input
+inputBuscarAgricultor.addEventListener("input", (e) => {
+    const texto = e.target.value.toLowerCase();
+    const filtrados = listaAgricultores.filter(a =>
+        `${a.Nombre} ${a.Apellido1} ${a.Apellido2} ${a.DNI}`.toLowerCase().includes(texto)
+    );
+    actualizarOpcionesSelect(filtrados);
+});
 
 // Eliminar agricultor
 formBaja.addEventListener("submit", async (e) => {
@@ -75,14 +99,8 @@ formBaja.addEventListener("submit", async (e) => {
     if (res.ok) {
         alert("Agricultor eliminado correctamente.");
         limpiarCampos();
+        location.reload();
     } else {
         alert(data.error || "Error al eliminar agricultor.");
     }
 });
-
-function limpiarCampos() {
-    for (const key in campos) {
-        campos[key].value = "";
-    }
-    dniAgricultor = null;
-}

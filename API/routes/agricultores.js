@@ -58,6 +58,23 @@ router.post("/alta", async (req, res) => {
     }
 });
 
+// Obtener todos los agricultores
+router.get("/todos", async (req, res) => {
+    try {
+        const [rows] = await db.promise().query(`
+            SELECT u.DNI, u.Nombre, u.Apellido1, u.Apellido2
+            FROM Usuario u
+            INNER JOIN Agricultor a ON u.DNI = a.Usuario_DNI
+        `);
+
+        res.json(rows);
+    } catch (error) {
+        console.error("Error al obtener todos los agricultores:", error);
+        res.status(500).json({ error: "Error del servidor al obtener agricultores." });
+    }
+});
+
+
 // Buscar agricultor por DNI
 router.get("/buscar/dni/:dni", (req, res) => {
     const dni = req.params.dni;
