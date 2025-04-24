@@ -1,6 +1,7 @@
 // Elementos del DOM
-const formDNI = document.getElementById("formulario-DNI");
-const formCarnet = document.getElementById("formulario-Carnet");
+const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
+const selectAgricultor = document.getElementById("seleccion-agricultor");
+
 const formExplotacion = document.querySelector(".form-container form");
 
 const campos = {
@@ -14,8 +15,9 @@ const campos = {
 
 let dniAgricultor = null;
 
+// ### FUNCIONES ###
 // Función para mostrar los datos del agricultor
-function mostrarDatos(data) {
+const mostrarDatos = (data) => {
     campos.nombre.value = data.Nombre;
     campos.apellido1.value = data.Apellido1;
     campos.apellido2.value = data.Apellido2;
@@ -27,62 +29,65 @@ function mostrarDatos(data) {
     campos.nombreExplotacion.disabled = false;
 }
 
-// Buscar por DNI
-formDNI.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const dni = document.getElementById("DNIBuscado").value.trim();
+const actualizarOpcionesSelect = (agricultores) => {
+    selectAgricultor.innerHTML = `<option value="primera_opcion" disabled selected>Seleccione el agricultor</option>`;
+    agricultores.forEach(a => {
+        const opcion = document.createElement("option");
+        opcion.value = a.DNI;
+        opcion.textContent = `${a.Nombre} ${a.Apellido1} - ${a.DNI}`;
+        selectAgricultor.appendChild(opcion);
+    });
+};
 
-    if (!dni) return alert("Introduce un DNI");
-
+// ### EVENTOS ###
+// Cargar todos los agricultores al iniciar
+window.addEventListener("DOMContentLoaded", async () => {
     try {
-        const res = await fetch(`http://localhost:3000/agricultores/buscar/dni/${dni}`);
+        const res = await fetch("http://localhost:3000/agricultores/todos");
         const data = await res.json();
-
-        if (res.ok) {
-            mostrarDatos(data);
-        } else {
-            alert(data.error || "Agricultor no encontrado");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Error en la búsqueda");
+        listaAgricultores = data;
+        actualizarOpcionesSelect(data);
+    } catch (error) {
+        console.error("Error al cargar agricultores:", error);
     }
 });
 
-// Buscar por Carnet
-formCarnet.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const carnet = document.getElementById("CBuscado").value.trim();
-
-    if (!carnet) return alert("Introduce un número de carnet");
+// Mostrar datos al seleccionar
+selectAgricultor.addEventListener("change", async (e) => {
+    const dniSeleccionado = e.target.value;
+    if (!dniSeleccionado || dniSeleccionado === "primera_opcion") return;
 
     try {
-        const res = await fetch(`http://localhost:3000/agricultores/buscar/carnet/${carnet}`);
+        const res = await fetch(`http://localhost:3000/agricultores/buscar/dni/${dniSeleccionado}`);
         const data = await res.json();
-
-        if (res.ok) {
-            mostrarDatos(data);
-        } else {
-            alert(data.error || "Agricultor no encontrado");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Error en la búsqueda");
+        mostrarDatos(data);
+    } catch (error) {
+        alert("Error al cargar datos del agricultor.");
+        console.error("Error:", error);
     }
+});
+
+// Filtro del select
+inputBuscarAgricultor.addEventListener("input", (e) => {
+    const texto = e.target.value.toLowerCase();
+    const filtrados = listaAgricultores.filter(a =>
+        `${a.Nombre} ${a.Apellido1} ${a.Apellido2} ${a.DNI}`.toLowerCase().includes(texto)
+    );
+    actualizarOpcionesSelect(filtrados);
 });
 
 // Alta de explotación
-formExplotacion.addEventListener("submit", async function (e) {
+formExplotacion.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const nombreExplotacion = campos.nombreExplotacion.value.trim();
+    campos.nombreExplotacion = campos.nombreExplotacion.value.trim();
 
-    if (!dniAgricultor || !nombreExplotacion) {
+    if (!dniAgricultor || !campos.nombreExplotacion) {
         return alert("Completa los datos correctamente antes de dar de alta la explotación.");
     }
 
     const datos = {
-        nombre: nombreExplotacion,
+        nombre: campos.nombreExplotacion,
         dni: dniAgricultor
     };
 
