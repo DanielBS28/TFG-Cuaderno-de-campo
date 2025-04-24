@@ -12,7 +12,7 @@
       <div class="container">
         <div class="containerlogo">
           <div class="img-logo"></div>
-          <p class="logo">Alta de parcelas</p>
+          <p class="logo">Editar datos de equipamientos</p>
         </div>
         <nav>
           <a href="inicio_administrador.html" id="VolverInicio"
@@ -22,12 +22,12 @@
         </nav>
       </div>
     </header>
-    <h1 class="titulo-h1">Alta de parcelas</h1>
+    <h1 class="titulo-h1">Editar datos de equipamientos</h1>
     <section class="form-container">
       <form id="general">
         <h2>Datos del agricultor</h2>
         <div class="busqueda">
-          <img src="../Fotos/lupa.webp" alt="" class="lupa">
+          <img src="../Fotos/lupa.webp" alt="" class="lupa" />
           <div class="form-group">
             <label for="nombre-exp">Buscar agricultor</label>
             <input
@@ -41,11 +41,13 @@
           <div class="form-group">
             <label for="seleccion-agricultor">Seleccione un agricultor</label>
             <select name="seleccion-agricultor" id="seleccion-agricultor">
-                <option value="Seleccione un agricultor" selected disabled>Seleccione un agricultor</option>
+              <option value="Seleccione un agricultor" selected disabled>
+                Seleccione un agricultor
+              </option>
             </select>
+          </div>
         </div>
-      </div>
-        
+
         <div class="datos">
           <div class="form-group">
             <label for="dni">DNI</label>
@@ -55,7 +57,8 @@
               id="dni"
               placeholder=""
               autocomplete="off"
-            readonly />
+              readonly
+            />
           </div>
           <div class="form-group">
             <label for="nombre">Nombre</label>
@@ -100,7 +103,7 @@
         </div>
         <h2>Datos de la explotación</h2>
         <div class="busqueda">
-          <img src="../Fotos/lupa.webp" alt="" class="lupa">
+          <img src="../Fotos/lupa.webp" alt="" class="lupa" />
           <div class="form-group">
             <label for="nombre-exp">Buscar explotación por nombre</label>
             <input
@@ -108,21 +111,32 @@
               name="nombre-exp"
               id="nombre-exp"
               placeholder="Buscar explotación"
-              autocomplete="off"disabled
+              autocomplete="off"
+              disabled
             />
           </div>
           <div class="form-group">
-            <label for="seleccion-exp">Seleccione la explotación del agricultor</label>
-            <select name="seleccion-exp" id="seleccion-exp"disabled>
-                <option value="Selecciona una explotación" selected disabled>Selecciona una explotación</option>
+            <label for="seleccion-exp"
+              >Seleccione la explotación del agricultor</label
+            >
+            <select name="seleccion-exp" id="seleccion-exp" disabled>
+              <option value="Selecciona una explotación" selected disabled>
+                Selecciona una explotación
+              </option>
             </select>
+          </div>
         </div>
-      </div>
-      <div class="datos">
-        <div class="form-group">
-          <label for="id-explotacion">ID explotación</label>
-          <input type="text" name="id-explotacion" id="id-explotacion"  autocomplete="off"  readonly>
-      </div>
+        <div class="datos">
+          <div class="form-group">
+            <label for="id-explotacion">ID explotación</label>
+            <input
+              type="text"
+              name="id-explotacion"
+              id="id-explotacion"
+              autocomplete="off"
+              readonly
+            />
+          </div>
           <div class="form-group">
             <label for="nombre-buscado-explotacion">Nombre</label>
             <input
@@ -143,132 +157,82 @@
               readonly
             />
           </div>
-        <div class="form-group">
+          <div class="form-group">
             <label for="total-parcelas">Parcelas totales</label>
-            <input type="text" name="total-parcelas" id="total-parcelas"  autocomplete="off" readonly>
+            <input
+              type="text"
+              name="total-parcelas"
+              id="total-parcelas"
+              autocomplete="off"
+              readonly
+            />
+          </div>
         </div>
-        </div>
-        <h2>Crear parcela nueva</h2>
+        <h2>Editar equipo de tratamiento</h2>
         <div class="busqueda">
-          <img src="../Fotos/lupa.webp" alt="" class="lupa">
+          <img src="../Fotos/lupa.webp" alt="" class="lupa" />
           <div class="form-group">
-            <label for="nombre-label-provincia">Buscar código de provincia</label>
+            <label for="nombre-exp">Buscar equipo de tratamiento por nombre</label>
             <input
               type="text"
-              name="nombre-label-provincia"
-              id="nombre-label-provincia"
-              placeholder="Nombre de la provincia"
-              autocomplete="off"disabled
+              name="nombre-equipo-buscado"
+              id="nombre-equipo-buscado"
+              placeholder="Buscar equipo de tratamiento"
+              autocomplete="off"
+              disabled
             />
           </div>
           <div class="form-group">
-            <label for="nombre-select-provincia">Seleccione la provincia</label>
-            <select name="nombre-select-provincia" id="nombre-select-provincia"disabled>
-                <option value="Nombre del municipio" selected disabled>Seleccione provincia</option>
+            <label for="seleccion-equipamiento"
+              >Seleccione un equipo de tratamiento</label
+            >
+            <select name="seleccion-equipamiento" id="seleccion-equipamiento" disabled>
+              <option value="Seleccione un equipo de tratamiento" selected disabled>
+                Seleccione el equipo</option>
             </select>
-        </div>
-          <div class="form-group">
-            <label for="nombre-label-municipio">Buscar municipio por nombre</label>
-            <input
-              type="text"
-              name="nombre-label-municipio"
-              id="nombre-label-municipio"
-              placeholder="Buscar explotación"
-              autocomplete="off"disabled
-            />
           </div>
-          <div class="form-group">
-            <label for="nombre-select-municipio">Seleccione un municipio</label>
-            <select name="nombre-select-municipio" id="nombre-select-municipio"disabled>
-                <option value="Selecciona un municipio" selected disabled>Seleccione municipio</option>
-            </select>
-      </div>
         </div>
         <div class="datos">
           <div class="form-group">
-            <label for="nombre-parcela">Nombre de la parcela identificativo</label>
+            <label for="nombre-equipo-tratamiento"
+              >Nombre del equipo de tratamiento</label
+            >
             <input
               type="text"
-              name="nombre-parcela"
-              id="nombre-parcela"
-              placeholder="Nombre de la parcela"
-              autocomplete="off" disabled/>
-          </div>
-          <div class="form-group">
-            <label for="nombre">Código de provincia</label>
-            <input
-              type="text"
-              name="codigo_provincia"
-              id="codigo_provincia"
-              placeholder="Código de la provincia parcela"
-              autocomplete="off"disabled
-            />
-            </div>
-            <div class="form-group">
-              <label for="nombre">Código de municipio</label>
-              <input
-                type="text"
-                name="codigo_municipio"
-                id="codigo_municipio"
-                placeholder="Código del municipio parcela"
-                autocomplete="off"disabled
-              />
-          </div>
-          <div class="form-group">
-            <label for="nombre">Agregado</label>
-            <input
-              type="text"
-              name="agregado"
-              id="agregado"
-              placeholder="Número de agregado"
-              autocomplete="off"disabled
-            />
-        </div>
-        <div class="form-group">
-          <label for="nombre">Zona</label>
-          <input
-            type="text"
-            name="zona"
-            id="zona"
-            placeholder="Número de zona"
-            autocomplete="off"disabled
-          />
-      </div>
-          <div class="form-group">
-            <label for="poligono">Polígono</label>
-            <input
-              type="text"
-              name="poligono"
-              id="poligono"
+              name="nombre-equipo-tratamiento"
+              id="nombre-equipo-tratamiento"
+              placeholder="Introduzca el nombre del equipo"
               autocomplete="off"
-              placeholder="Número de polígono"disabled
+              disabled
             />
           </div>
           <div class="form-group">
-            <label for="parcela">Parcela</label>
+            <label for="numero_roma">Número de ROMA del equipo</label>
             <input
               type="text"
-              name="parcela"
-              id="parcela"
+              name="numero_roma"
+              id="numero_roma"
+              placeholder="Introduzca el número de ROMA"
               autocomplete="off"
-              placeholder="Número de parcela"disabled
+              disabled
             />
           </div>
           <div class="form-group">
-            <label for="sup_sigpac">Superficie declarada en ha</label>
-            <input
-              type="text"
-              name="sup_declarada"
-              id="sup_declara"
-              autocomplete="off"
-              placeholder="Superficie declarada"disabled
-            />
+            <label for="fecha_adquisicion">Fecha de adquisición</label>
+            <input type="date" disabled />
           </div>
-      </div>
+          <div class="form-group">
+            <label for="fecha_ultima_inspeccion"
+              >Fecha de última inspección</label
+            >
+            <input type="date" disabled />
+          </div>
         </div>
         <div class="boton_subir">
-        <button class="subir-formulario" id="crear-parcela">Crear parcela</button>
-      </div>
+          <button class="subir-formulario color-naranja"  id="actualizar-equipamiento">
+            Dar de baja equipamiento
+          </button>
+        </div>
       </form>
     </section>
     <footer>

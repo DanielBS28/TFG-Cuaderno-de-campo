@@ -145,17 +145,19 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- Table `cuaderno_de_campo`.`parcela`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`parcela` (
-  `Numero_identificacion` INT NOT NULL,
+  `Numero_identificacion` VARCHAR(30) NOT NULL,
   `Explotacion_idExplotacion` INT UNSIGNED NOT NULL,
   `Provincia` VARCHAR(2) NULL DEFAULT NULL,
   `Codigo_municipio` VARCHAR(5) NULL DEFAULT NULL,
   `Municipio` VARCHAR(60) NULL DEFAULT NULL,
+  `Agregado` VARCHAR(15) NULL,
+  `Zona` VARCHAR(15) NULL,
   `Poligono` VARCHAR(10) NULL DEFAULT NULL,
   `Parcela` VARCHAR(10) NULL DEFAULT NULL,
-  `Tipo_R_S` ENUM('Regadío', 'Secano') NULL DEFAULT NULL,
-  `Tipo_cultivo` VARCHAR(100) NULL DEFAULT NULL,
   `Superficie_ha` DECIMAL(10,4) NULL DEFAULT NULL,
+  `Superficie_declarada` DECIMAL(10,4) NULL,
   `Nombre_parcela` VARCHAR(45) NULL DEFAULT NULL,
+  `Ref_Catastral` VARCHAR(55) NULL,
   PRIMARY KEY (`Numero_identificacion`),
   INDEX `fk_Parcela_Explotacion1_idx` (`Explotacion_idExplotacion` ASC) VISIBLE,
   CONSTRAINT `fk_Parcela_Explotacion1`
@@ -165,49 +167,6 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`parcela` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
-
-DELIMITER //
-
-CREATE TRIGGER actualizar_superficie_total_insert
-AFTER INSERT ON Parcela
-FOR EACH ROW
-BEGIN
-  UPDATE Explotacion
-  SET Superficie_total = (
-    SELECT IFNULL(SUM(Superficie_ha), 0)
-    FROM Parcela
-    WHERE Explotacion_idExplotacion = NEW.Explotacion_idExplotacion
-  )
-  WHERE idExplotacion = NEW.Explotacion_idExplotacion;
-END//
-
-CREATE TRIGGER actualizar_superficie_total_update
-AFTER UPDATE ON Parcela
-FOR EACH ROW
-BEGIN
-  UPDATE Explotacion
-  SET Superficie_total = (
-    SELECT IFNULL(SUM(Superficie_ha), 0)
-    FROM Parcela
-    WHERE Explotacion_idExplotacion = NEW.Explotacion_idExplotacion
-  )
-  WHERE idExplotacion = NEW.Explotacion_idExplotacion;
-END//
-
-CREATE TRIGGER actualizar_superficie_total_delete
-AFTER DELETE ON Parcela
-FOR EACH ROW
-BEGIN
-  UPDATE Explotacion
-  SET Superficie_total = (
-    SELECT IFNULL(SUM(Superficie_ha), 0)
-    FROM Parcela
-    WHERE Explotacion_idExplotacion = OLD.Explotacion_idExplotacion
-  )
-  WHERE idExplotacion = OLD.Explotacion_idExplotacion;
-END//
-
-DELIMITER ;
 
 
 -- -----------------------------------------------------
@@ -237,13 +196,13 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`tratamiento` (
   `idTratamiento` INT NOT NULL AUTO_INCREMENT,
   `Equipo_Numero_ROMA` VARCHAR(30) NOT NULL,
   `Producto_idProducto` INT NOT NULL,
-  `parcela_Numero_identificacion` INT NOT NULL,
+  `parcela_Numero_identificacion` VARCHAR(30) NOT NULL,
   `Plaga_controlar` VARCHAR(45) NULL DEFAULT NULL,
   `Fecha_tratamiento` DATE NULL DEFAULT NULL,
   `Tipo_Cultivo` VARCHAR(100) NULL DEFAULT NULL,
   `Num_regsitro_producto` VARCHAR(20) NULL DEFAULT NULL,
   `Superficie_tratada_ha` DECIMAL(10,4) NULL DEFAULT NULL,
-  `Cantidad_producto_aplicada` DECIMAL(10,0) NULL DEFAULT NULL,
+  `Cantidad_producto_aplicada` DECIMAL(10,4) NULL DEFAULT NULL,
   `Unidad_medida_dosis` VARCHAR(60) NULL DEFAULT NULL,
   `Numero_carnet_aplicador` VARCHAR(50) NULL DEFAULT NULL,
   PRIMARY KEY (`idTratamiento`),
@@ -300,6 +259,137 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`usos` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
+
+-- -----------------------------------------------------
+-- Table `cuaderno_de_campo`.`explotacion_has_equipo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`explotacion_has_equipo` (
+  `explotacion_idExplotacion` INT UNSIGNED NOT NULL,
+  `equipo_Numero_ROMA` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`explotacion_idExplotacion`, `equipo_Numero_ROMA`),
+  INDEX `fk_explotacion_has_equipo_equipo1_idx` (`equipo_Numero_ROMA` ASC) VISIBLE,
+  INDEX `fk_explotacion_has_equipo_explotacion1_idx` (`explotacion_idExplotacion` ASC) VISIBLE,
+  CONSTRAINT `fk_explotacion_has_equipo_explotacion1`
+    FOREIGN KEY (`explotacion_idExplotacion`)
+    REFERENCES `cuaderno_de_campo`.`explotacion` (`idExplotacion`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_explotacion_has_equipo_equipo1`
+    FOREIGN KEY (`equipo_Numero_ROMA`)
+    REFERENCES `cuaderno_de_campo`.`equipo` (`Numero_ROMA`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `cuaderno_de_campo`.`Recinto`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`Recinto` (
+  `idRecinto` VARCHAR(30) NOT NULL,
+  `parcela_Numero_identificacion` VARCHAR(30) NOT NULL,
+  `Numero` VARCHAR(15) NULL,
+  `Uso_SIGPAC` VARCHAR(7) NULL,
+  `Descripcion_uso` VARCHAR(45) NULL,
+  `Superficie_ha` DECIMAL(10,4) NULL,
+  `Tipo_Cultivo` VARCHAR(100) NULL,
+  `Tipo_regadio` ENUM('Regadío', 'Secano') NULL,
+  INDEX `fk_Recinto_parcela1_idx` (`parcela_Numero_identificacion` ASC) VISIBLE,
+  PRIMARY KEY (`idRecinto`),
+  CONSTRAINT `fk_Recinto_parcela1`
+    FOREIGN KEY (`parcela_Numero_identificacion`)
+    REFERENCES `cuaderno_de_campo`.`parcela` (`Numero_identificacion`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+DELIMITER //
+
+CREATE TRIGGER actualizar_superficie_total_insert
+AFTER INSERT ON Parcela
+FOR EACH ROW
+BEGIN
+  UPDATE Explotacion
+  SET Superficie_total = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Parcela
+    WHERE Explotacion_idExplotacion = NEW.Explotacion_idExplotacion
+  )
+  WHERE idExplotacion = NEW.Explotacion_idExplotacion;
+END//
+
+CREATE TRIGGER actualizar_superficie_total_update
+AFTER UPDATE ON Parcela
+FOR EACH ROW
+BEGIN
+  UPDATE Explotacion
+  SET Superficie_total = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Parcela
+    WHERE Explotacion_idExplotacion = NEW.Explotacion_idExplotacion
+  )
+  WHERE idExplotacion = NEW.Explotacion_idExplotacion;
+END//
+
+CREATE TRIGGER actualizar_superficie_total_delete
+AFTER DELETE ON Parcela
+FOR EACH ROW
+BEGIN
+  UPDATE Explotacion
+  SET Superficie_total = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Parcela
+    WHERE Explotacion_idExplotacion = OLD.Explotacion_idExplotacion
+  )
+  WHERE idExplotacion = OLD.Explotacion_idExplotacion;
+END//
+
+
+CREATE TRIGGER actualizar_superficie_parcela_insert
+AFTER INSERT ON Recinto
+FOR EACH ROW
+BEGIN
+  -- Actualizar superficie de la parcela sumando todas las superficies de sus recintos
+  UPDATE Parcela
+  SET Superficie_ha = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Recinto
+    WHERE parcela_Numero_identificacion = NEW.parcela_Numero_identificacion
+  )
+  WHERE Numero_identificacion = NEW.parcela_Numero_identificacion;
+END//
+
+CREATE TRIGGER actualizar_superficie_parcela_update
+AFTER UPDATE ON Recinto
+FOR EACH ROW
+BEGIN
+  -- Actualiza la superficie de la parcela solo si se cambió la superficie del recinto
+  IF NEW.Superficie_ha <> OLD.Superficie_ha THEN
+    UPDATE Parcela
+    SET Superficie_ha = (
+      SELECT IFNULL(SUM(Superficie_ha), 0)
+      FROM Recinto
+      WHERE parcela_Numero_identificacion = NEW.parcela_Numero_identificacion
+    )
+    WHERE Numero_identificacion = NEW.parcela_Numero_identificacion;
+  END IF;
+END//
+
+CREATE TRIGGER actualizar_superficie_parcela_delete
+AFTER DELETE ON Recinto
+FOR EACH ROW
+BEGIN
+  UPDATE Parcela
+  SET Superficie_ha = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Recinto
+    WHERE parcela_Numero_identificacion = OLD.parcela_Numero_identificacion
+  )
+  WHERE Numero_identificacion = OLD.parcela_Numero_identificacion;
+END//
+
+DELIMITER ;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

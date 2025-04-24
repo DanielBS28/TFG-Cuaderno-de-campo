@@ -39,4 +39,48 @@ BEGIN
   WHERE idExplotacion = OLD.Explotacion_idExplotacion;
 END//
 
+
+CREATE TRIGGER actualizar_superficie_parcela_insert
+AFTER INSERT ON Recinto
+FOR EACH ROW
+BEGIN
+  -- Actualizar superficie de la parcela sumando todas las superficies de sus recintos
+  UPDATE Parcela
+  SET Superficie_ha = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Recinto
+    WHERE parcela_Numero_identificacion = NEW.parcela_Numero_identificacion
+  )
+  WHERE Numero_identificacion = NEW.parcela_Numero_identificacion;
+END//
+
+CREATE TRIGGER actualizar_superficie_parcela_update
+AFTER UPDATE ON Recinto
+FOR EACH ROW
+BEGIN
+  -- Actualiza la superficie de la parcela solo si se cambió la superficie del recinto
+  IF NEW.Superficie_ha <> OLD.Superficie_ha THEN
+    UPDATE Parcela
+    SET Superficie_ha = (
+      SELECT IFNULL(SUM(Superficie_ha), 0)
+      FROM Recinto
+      WHERE parcela_Numero_identificacion = NEW.parcela_Numero_identificacion
+    )
+    WHERE Numero_identificacion = NEW.parcela_Numero_identificacion;
+  END IF;
+END//
+
+CREATE TRIGGER actualizar_superficie_parcela_delete
+AFTER DELETE ON Recinto
+FOR EACH ROW
+BEGIN
+  UPDATE Parcela
+  SET Superficie_ha = (
+    SELECT IFNULL(SUM(Superficie_ha), 0)
+    FROM Recinto
+    WHERE parcela_Numero_identificacion = OLD.parcela_Numero_identificacion
+  )
+  WHERE Numero_identificacion = OLD.parcela_Numero_identificacion;
+END//
+
 DELIMITER ;

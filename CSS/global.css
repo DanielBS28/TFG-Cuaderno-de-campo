@@ -166,7 +166,13 @@ footer .container{
 }
 
 
+.color-rojo{
+    background-color: #b01111;
+}
 
+.color-naranja{
+    background-color: #FBB02D;
+}
 
 h1 {
     text-align: center;
