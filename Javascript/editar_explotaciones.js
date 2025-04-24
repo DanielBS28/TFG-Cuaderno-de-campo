@@ -1,182 +1,143 @@
-const formDNI = document.getElementById("formulario-DNI");
-const formCarnet = document.getElementById("formulario-Carnet");
-const selectExplotacion = document.getElementById("seleccion");
-const inputBuscarExplotacion = document.getElementById("buscar-explotacion");
-const inputNombreExplotacion = document.getElementById("nombre-explotacion");
-let option = document.createElement("option");
+const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
+const selectAgricultor = document.getElementById("seleccion-agricultor");
 
-const campos = {
-  nombre: document.getElementById("nombre"),
-  apellido1: document.getElementById("apellido1"),
-  apellido2: document.getElementById("apellido2"),
-  dni: document.getElementById("dni"),
-  carnet: document.getElementById("carnet"),
+const inputBuscarExplotacion = document.getElementById("buscar-explotacion");
+const selectExplotacion = document.getElementById("seleccion");
+const inputNombreExplotacion = document.getElementById("nombre-explotacion");
+const botonActualizar = document.getElementById("actualizar_datos_explotacion");
+
+let listaAgricultores = [];
+let listaExplotaciones = [];
+
+// ### FUNCIONES ###
+
+// Activar campos de edición
+const activarCampos = () => {
+  inputBuscarExplotacion.disabled = false;
+  selectExplotacion.disabled = false;
+  inputNombreExplotacion.disabled = false;
 };
 
-// Buscar por DNI
-formDNI.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const dni = document.getElementById("DNIBuscado").value.trim();
+// Rellenar datos del agricultor
+const rellenarCamposAgricultor = (data) => {
+  document.getElementById("nombre").value = data.Nombre;
+  document.getElementById("apellido1").value = data.Apellido1;
+  document.getElementById("apellido2").value = data.Apellido2;
+  document.getElementById("dni").value = data.Usuario_DNI;
+  document.getElementById("carnet").value = data.Carnet_agricultor;
+  activarCampos();
+};
 
-  if (!dni) return alert("Introduce un DNI");
-
-  const res = await fetch(
-    `http://localhost:3000/agricultores/buscar/dni/${dni}`
-  );
-  const data = await res.json();
-
-  if (res.ok) {
-    mostrarDatos(data);
-    desbloquearSelect();
-  } else {
-    alert(data.error || "Agricultor no encontrado");
-  }
-});
-
-// Buscar por Carnet
-formCarnet.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const carnet = document.getElementById("CBuscado").value.trim();
-
-  if (!carnet) return alert("Introduce un número de carnet");
-
-  const res = await fetch(
-    `http://localhost:3000/agricultores/buscar/carnet/${carnet}`
-  );
-  const data = await res.json();
-
-  if (res.ok) {
-    mostrarDatos(data);
-    desbloquearSelect();
-  } else {
-    alert(data.error || "Agricultor no encontrado");
-  }
-});
-
-function mostrarDatos(data) {
-  campos.nombre.value = data.Nombre;
-  campos.apellido1.value = data.Apellido1;
-  campos.apellido2.value = data.Apellido2;
-  campos.dni.value = data.dni;
-  campos.carnet.value = data.carnet;
-  dniAgricultor = data.dni;
-}
-
-const desbloquearSelect = () => {
-  selectExplotacion.disabled = false;
-  selectExplotacion.innerHTML =
-    "<option selected disabled>Seleccionar explotación</option>";
-  option.value = "Selecciona una explotación";
-  option.textContent = "Selecciona una explotación";
-
-  inputBuscarExplotacion.disabled = false;
-  inputBuscarExplotacion.value = "";
-
-  // Obtener explotaciones asignadas y llenar el select
-  fetch(`http://localhost:3000/agricultores/explotaciones/${campos.dni.value}`)
-    .then((response) => response.json())
-    .then((explotaciones) => {
-      if (explotaciones.length === 0) {
-        selectExplotacion.disabled = true;
-        inputBuscarExplotacion.disabled = true;
-        alert("Este agricultor no tiene ninguna explotación.");
-        return;
-      }
-
-      explotacionesOriginales = explotaciones; // lista original
-
-      renderizarOpciones(explotacionesOriginales);
-      limpiarCamposExplotacion();
-    })
-    .catch((error) => {
-      console.error("Error cargando explotaciones:", error);
-    });
-
-  function renderizarOpciones(lista) {
-    selectExplotacion.innerHTML =
-      "<option selected disabled>Seleccionar explotación</option>";
-    lista.forEach((explotacion) => {
-      const option = document.createElement("option");
-      option.value = explotacion.idExplotacion;
-      option.textContent = `${explotacion.Nombre} | ${explotacion.Superficie_total} ha`;
-      selectExplotacion.appendChild(option);
-    });
-  }
-
-  // Escuchar cambios en el input para filtrar
-  inputBuscarExplotacion.addEventListener("input", () => {
-    const texto = inputBuscarExplotacion.value.toLowerCase();
-    const filtradas = explotacionesOriginales.filter((exp) =>
-      exp.Nombre.toLowerCase().includes(texto)
-    );
-    renderizarOpciones(filtradas);
+// Actualizar las opciones del select de agricultores
+const actualizarOpcionesSelectAgricultores = (agricultores) => {
+  selectAgricultor.innerHTML = `<option value="primera_opcion" disabled selected>Seleccione el agricultor</option>`;
+  agricultores.forEach((a) => {
+    const opcion = document.createElement("option");
+    opcion.value = a.DNI;
+    opcion.textContent = `${a.Nombre} ${a.Apellido1} ${a.Apellido2} - ${a.DNI}`;
+    selectAgricultor.appendChild(opcion);
   });
 };
 
-selectExplotacion.addEventListener("change", (e) => {
-  const idSeleccionado = selectExplotacion.value;
-  const seleccionada = explotacionesOriginales.find(
-    (exp) => exp.idExplotacion == idSeleccionado
-  );
+// Actualizar el select de explotaciones filtradas
+const actualizarOpcionesSelectExplotaciones = (explotaciones) => {
+  selectExplotacion.innerHTML = `<option value="Prueba" disabled selected>Seleccione explotación</option>`;
+  explotaciones.forEach((exp) => {
+    const opcion = document.createElement("option");
+    opcion.value = exp.idExplotacion;
+    opcion.textContent = exp.Nombre;
+    selectExplotacion.appendChild(opcion);
+  });
+};
 
+// ### EVENTOS ###
+
+// Cargar todos los agricultores al iniciar
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+      const res = await fetch("http://localhost:3000/agricultores/todos");
+      const data = await res.json();
+      listaAgricultores = data;
+      actualizarOpcionesSelectAgricultores(data);
+  } catch (error) {
+      console.error("Error al cargar agricultores:", error);
+  }
+});
+
+// Selección de agricultor
+selectAgricultor.addEventListener("change", async (e) => {
+  const dniSeleccionado = e.target.value;
+  if (!dniSeleccionado || dniSeleccionado === "primera_opcion") return;
+
+  try {
+    const resAgricultor = await fetch(`http://localhost:3000/agricultores/buscar/dni/${dniSeleccionado}`);
+    if (!resAgricultor.ok) {
+      throw new Error("No se pudo obtener el agricultor.");
+    }
+    const dataAgricultor = await resAgricultor.json();
+    rellenarCamposAgricultor(dataAgricultor);
+  
+    const resExplotaciones = await fetch(`http://localhost:3000/explotaciones/dni-agricultor/${dniSeleccionado}`);
+    if (!resExplotaciones.ok) {
+      throw new Error("No se pudieron obtener las explotaciones.");
+    }
+    const dataExplotaciones = await resExplotaciones.json();
+    listaExplotaciones = dataExplotaciones;
+    actualizarOpcionesSelectExplotaciones(dataExplotaciones);
+  } catch (error) {
+    console.error("Error al cargar los datos:", error);
+    alert("Error al cargar datos del agricultor o sus explotaciones.");
+  }
+  
+});
+
+// Filtro de explotaciones
+inputBuscarExplotacion.addEventListener("input", (e) => {
+  const texto = e.target.value.toLowerCase();
+  const filtradas = listaExplotaciones.filter((exp) =>
+    exp.Nombre.toLowerCase().includes(texto)
+  );
+  actualizarOpcionesSelectExplotaciones(filtradas);
+});
+
+// Mostrar nombre al seleccionar una explotación
+selectExplotacion.addEventListener("change", (e) => {
+  const seleccionada = listaExplotaciones.find(
+    (exp) => exp.idExplotacion == e.target.value
+  );
   if (seleccionada) {
-    inputNombreExplotacion.disabled = false;
     inputNombreExplotacion.value = seleccionada.Nombre;
   }
 });
 
-function limpiarCamposExplotacion() {
-  inputNombreExplotacion.disabled = true;
-  inputNombreExplotacion.value = "";
-}
-
-const formEditar = document.querySelector(".form-container form");
-
-formEditar.addEventListener("submit", async (e) => {
+// Actualizar nombre de la explotación
+botonActualizar.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const id = selectExplotacion.value;
-
-  if (!id) {
-    alert("Debe seleccionar una explotación válida antes de darla de baja.");
-    return;
-  }
-
   const nuevoNombre = inputNombreExplotacion.value.trim();
 
-  if (!nuevoNombre) {
-    alert("El nombre de la explotación no puede estar vacío.");
+  if (!id || id === "Prueba" || !nuevoNombre) {
+    alert("Debe seleccionar una explotación válida y rellenar un nombre nuevo.");
     return;
   }
 
-  const confirmacion = confirm(
-    "¿Está seguro que desea editar el nombre de esta explotación?"
-  );
-  if (!confirmacion) return;
-
   try {
-    const res = await fetch(
-      `http://localhost:3000/explotaciones/editar/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ nombre: nuevoNombre }),
-      }
-    );
+    const res = await fetch(`http://localhost:3000/explotaciones/editar/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ nombre: nuevoNombre }),
+    });
 
     const data = await res.json();
 
-    if (res.ok) {
-      alert("Nombre de la explotación actualizado correctamente.");
+    if (!res.ok) throw new Error(data.error || "Error al actualizar nombre.");
 
-      location.reload();
-    } else {
-      alert(data.error || "No se pudo actualizar el nombre de la explotación.");
-    }
-  } catch (err) {
-    console.error("Error al actualizar.:", err);
-    alert("Error del servidor al actualizar.");
+    alert("Nombre de la explotación actualizado correctamente.");
+    location.reload();
+  } catch (error) {
+    alert(`Error: ${error.message}`);
   }
 });

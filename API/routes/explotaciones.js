@@ -111,5 +111,23 @@ router.put("/editar/:id", async (req, res) => {
     }
 });
 
+// Obtener explotaciones por DNI del agricultor
+router.get("/dni-agricultor/:dni", async (req, res) => {
+
+    const dni = req.params.dni;
+
+    try {
+        const [rows] = await db.promise().query(
+            "SELECT idExplotacion, Nombre FROM Explotacion WHERE Agricultor_Usuario_DNI1 = ?",
+            [dni]
+        );
+
+        res.status(200).json(rows);
+    } catch (error) {
+        console.error("Error al obtener explotaciones por DNI:", error);
+        res.status(500).json({ error: "Error al obtener explotaciones" });
+    }
+});
+
 
 module.exports = router;
