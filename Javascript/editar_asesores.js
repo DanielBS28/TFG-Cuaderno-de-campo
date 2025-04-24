@@ -1,5 +1,6 @@
-const formDNI = document.getElementById("formulario-DNI");
-const formCarnet = document.getElementById("formulario-Carnet");
+const inputBuscarAsesor = document.getElementById("busqueda-asesor");
+const selectAsesor = document.getElementById("seleccion-asesor");
+
 const botonActualizar = document.getElementById("actualizar_datos_asesor");
 
 const campos = {
@@ -10,56 +11,91 @@ const campos = {
   carnet: document.getElementById("carnet"),
 };
 
-function rellenarFormulario(data) {
+let listaAsesores = [];
+
+// ### FUNCIONES ###
+// Habilitar campos
+const habilitarCampos = () => {
+  for (let key of ["nombre", "apellido1", "apellido2", "carnet"]) {
+    campos[key].removeAttribute("readonly");
+  }
+}
+
+const rellenarFormulario = (data) => {
   campos.nombre.value = data.Nombre;
   campos.apellido1.value = data.Apellido1;
   campos.apellido2.value = data.Apellido2;
   campos.dni.value = data.DNI;
   campos.carnet.value = data.N_Carnet_asesor;
 
-  // Habilitar campos
+  habilitarCampos();
+}
+
+// Comprobar campos obligatorios
+const comprobarCampos = () => {
   for (let key of ["nombre", "apellido1", "apellido2", "carnet"]) {
-    campos[key].removeAttribute("readonly");
+    if (!campos[key].value.trim()) {
+      alert(`El campo ${key} no puede estar vacío.`);
+      return false;
+    }
   }
+  return true;
 }
 
-async function buscarYMostrar(url) {
+const actualizarOpcionesSelect = (asesores) => {
+  selectAsesor.innerHTML = `<option value="primera_opcion" disabled selected>Seleccione el asesor</option>`;
+  asesores.forEach(a => {
+      const opcion = document.createElement("option");
+      opcion.value = a.DNI;
+      opcion.textContent = `${a.Nombre} ${a.Apellido1} - ${a.DNI}`;
+      selectAsesor.appendChild(opcion);
+  });
+};
+
+// ### EVENTOS ###
+// Cargar todos los asesores al iniciar
+window.addEventListener("DOMContentLoaded", async () => {
   try {
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.error || "Error en la búsqueda");
-
-    rellenarFormulario(data);
-  } catch (err) {
-    alert(`Error: ${err.message}`);
+      const res = await fetch("http://localhost:3000/asesores/todos");
+      const data = await res.json();
+      listaAsesores = data;
+      actualizarOpcionesSelect(data);
+  } catch (error) {
+      console.error("Error al cargar asesores:", error);
   }
-}
-
-formDNI.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const dni = document.getElementById("DNIBuscado").value.trim();
-  if (!dni) return alert("Introduce un DNI");
-  buscarYMostrar(`http://localhost:3000/asesores/buscar/dni/${dni}`);
 });
 
-formCarnet.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const carnet = document.getElementById("CBuscado").value.trim();
-  if (!carnet) return alert("Introduce un número de carnet");
-  buscarYMostrar(`http://localhost:3000/asesores/buscar/carnet/${carnet}`);
+// Mostrar datos al seleccionar
+selectAsesor.addEventListener("change", async (e) => {
+  const dniSeleccionado = e.target.value;
+  if (!dniSeleccionado || dniSeleccionado === "primera_opcion") return;
+
+  try {
+      const res = await fetch(`http://localhost:3000/asesores/buscar/dni/${dniSeleccionado}`);
+      const data = await res.json();
+      rellenarFormulario(data);
+  } catch (error) {
+      alert("Error al cargar datos del asesor.");
+      console.error("Error:", error);
+  }
 });
 
+// Filtro del select
+inputBuscarAsesor.addEventListener("input", (e) => {
+  const texto = e.target.value.toLowerCase();
+  const filtrados = listaAsesores.filter(a =>
+      `${a.Nombre} ${a.Apellido1} ${a.Apellido2} ${a.DNI}`.toLowerCase().includes(texto)
+  );
+  actualizarOpcionesSelect(filtrados);
+});
+
+// Actualizar datos asesor
 botonActualizar.addEventListener("click", async (e) => {
   e.preventDefault();
 
-  // Validar campos obligatorios
-  for (let key of ["nombre", "apellido1", "apellido2", "carnet"]) {
-    if (!campos[key].value.trim()) {
-      return alert(`El campo ${key} no puede estar vacío.`);
-    }
-  }
+  if (!comprobarCampos()) return;
 
+  // Carga de datos
   const payload = {
     nombre: campos.nombre.value.trim(),
     apellido1: campos.apellido1.value.trim(),
@@ -68,8 +104,6 @@ botonActualizar.addEventListener("click", async (e) => {
   };
 
   try {
-    console.log("DNI que se está mandando al actualizar:", campos.dni.value);
-
     const res = await fetch(
       `http://localhost:3000/asesores/actualizar/${campos.dni.value}`,
       {
