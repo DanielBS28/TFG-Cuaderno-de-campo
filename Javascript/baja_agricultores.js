@@ -1,7 +1,6 @@
 const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
 const selectAgricultor = document.getElementById("seleccion-agricultor");
 
-const formDNI = document.getElementById("formulario-DNI");
 const formBaja = document.getElementById("formulario-baja");
 
 const campos = {
@@ -70,7 +69,7 @@ selectAgricultor.addEventListener("change", async (e) => {
     }
 });
 
-// Filtro del input
+// Filtro del select
 inputBuscarAgricultor.addEventListener("input", (e) => {
     const texto = e.target.value.toLowerCase();
     const filtrados = listaAgricultores.filter(a =>

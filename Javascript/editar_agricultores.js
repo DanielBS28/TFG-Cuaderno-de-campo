@@ -1,6 +1,7 @@
-const formDNI = document.getElementById("formulario-DNI");
-const formCarnet = document.getElementById("formulario-Carnet");
-const botonActualizar = document.getElementById("actualizar_datos_agricultor");
+const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
+const selectAgricultor = document.getElementById("seleccion-agricultor");
+
+let listaAgricultores = [];
 
 const campos = {
   nombre: document.getElementById("nombre"),
@@ -11,15 +12,12 @@ const campos = {
   carnet: document.getElementById("carnet"),
 };
 
-function rellenarFormulario(data) {
-  campos.nombre.value = data.Nombre;
-  campos.apellido1.value = data.Apellido1;
-  campos.apellido2.value = data.Apellido2;
-  campos.dni.value = data.dni;
-  campos.carnet.value = data.carnet;
-  campos.password.value = "**********"; // No se muestra la contraseña por seguridad
+const mostrarPasswordCheckbox = document.getElementById("mostrarPassword");
+const botonActualizar = document.getElementById("actualizar_datos_agricultor");
 
-  // Activar campos editables
+// ### FUNCIONES ###
+// Activar campos editables
+const activarCampos = () => {
   for (let key of ["nombre", "apellido1", "apellido2", "carnet"]) {
     campos[key].removeAttribute("readonly");
   }
@@ -27,44 +25,90 @@ function rellenarFormulario(data) {
   document.getElementById("mostrarPassword").disabled = false;
 }
 
-async function buscarYMostrar(url) {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.error || "Error en la búsqueda");
-
-    rellenarFormulario(data);
-  } catch (err) {
-    alert(`Error: ${err.message}`);
+// Comprobar campos vacíos
+const comprobarCampos = () => {
+  for (let key of ["nombre", "apellido1", "apellido2", "carnet", "password"]) {
+    if (!campos[key].value.trim()) {
+      alert(`El campo ${key} no puede estar vacío.`);
+      return false;
+    }
   }
+  return true;
 }
 
-formDNI.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const dni = document.getElementById("DNIBuscado").value.trim();
-  if (!dni) return alert("Introduce un DNI");
-  buscarYMostrar(`http://localhost:3000/agricultores/buscar/dni/${dni}`);
-  resetearInputPassword();
+// Limpiar Input Password
+const resetearInputPassword = () => {
+  mostrarPasswordCheckbox.checked = false; // Resetear checkbox
+  campos.password.type = "password";
+  campos.password.disabled = true;
+  document.getElementById("checkbox_password").innerText = "Reestablecer contraseña";
+};
+
+// Rellenar formulario con datos del agricultor
+const rellenarFormulario = (data) => {
+  campos.nombre.value = data.Nombre;
+  campos.apellido1.value = data.Apellido1;
+  campos.apellido2.value = data.Apellido2;
+  campos.dni.value = data.dni;
+  campos.carnet.value = data.carnet;
+  campos.password.value = "**********"; // No se muestra la contraseña por seguridad
+
+  activarCampos();
+}
+
+// Actualizar opciones del select de agricultores
+const actualizarOpcionesSelect = (agricultores) => {
+  selectAgricultor.innerHTML = `<option value="primera_opcion" disabled selected>Seleccione el agricultor</option>`;
+  agricultores.forEach(a => {
+      const opcion = document.createElement("option");
+      opcion.value = a.DNI;
+      opcion.textContent = `${a.Nombre} ${a.Apellido1} - ${a.DNI}`;
+      selectAgricultor.appendChild(opcion);
+  });
+};
+
+// ### EVENTOS ###
+// Cargar todos los agricultores al iniciar
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+      const res = await fetch("http://localhost:3000/agricultores/todos");
+      const data = await res.json();
+      listaAgricultores = data;
+      actualizarOpcionesSelect(data);
+  } catch (error) {
+      console.error("Error al cargar agricultores:", error);
+  }
 });
 
-formCarnet.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const carnet = document.getElementById("CBuscado").value.trim();
-  if (!carnet) return alert("Introduce un número de carnet");
-  buscarYMostrar(`http://localhost:3000/agricultores/buscar/carnet/${carnet}`);
-  resetearInputPassword();
+// Mostrar datos al seleccionar
+selectAgricultor.addEventListener("change", async (e) => {
+  const dniSeleccionado = e.target.value;
+  if (!dniSeleccionado || dniSeleccionado === "primera_opcion") return;
+
+  try {
+      const res = await fetch(`http://localhost:3000/agricultores/buscar/dni/${dniSeleccionado}`);
+      const data = await res.json();
+      rellenarFormulario(data);
+  } catch (error) {
+      alert("Error al cargar datos del agricultor.");
+      console.error("Error:", error);
+  }
 });
 
+// Filtro del select
+inputBuscarAgricultor.addEventListener("input", (e) => {
+  const texto = e.target.value.toLowerCase();
+  const filtrados = listaAgricultores.filter(a =>
+      `${a.Nombre} ${a.Apellido1} ${a.Apellido2} ${a.DNI}`.toLowerCase().includes(texto)
+  );
+  actualizarOpcionesSelect(filtrados);
+});
+
+// Botón Actualizar Datos Agricultor
 botonActualizar.addEventListener("click", async (e) => {
   e.preventDefault();
 
-  // Validación
-  for (let key of ["nombre", "apellido1", "apellido2", "carnet", "password"]) {
-    if (!campos[key].value.trim()) {
-      return alert(`El campo ${key} no puede estar vacío.`);
-    }
-  }
+  if (!comprobarCampos()) return;
 
   // Preparar datos
   const payload = {
@@ -94,7 +138,7 @@ botonActualizar.addEventListener("click", async (e) => {
   }
 });
 
-const mostrarPasswordCheckbox = document.getElementById("mostrarPassword");
+// Checkbox para habilitar reestablecer contraseña
 mostrarPasswordCheckbox.addEventListener("change", () => {
   const habilitado = mostrarPasswordCheckbox.checked;
 
@@ -105,10 +149,3 @@ mostrarPasswordCheckbox.addEventListener("change", () => {
     : "Reestablecer contraseña";
   campos.password.type = habilitado ? "text" : "password";
 });
-
-const resetearInputPassword = () => {
-  mostrarPasswordCheckbox.checked = false; // Resetear checkbox
-  campos.password.type = "password";
-  campos.password.disabled = true;
-  document.getElementById("checkbox_password").innerText = "Reestablecer contraseña";
-};
