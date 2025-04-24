@@ -133,6 +133,7 @@ botonActualizar.addEventListener("click", async (e) => {
     if (!res.ok) throw new Error(data.error || "Error al actualizar");
 
     alert("Datos actualizados correctamente.");
+    location.reload();
   } catch (err) {
     alert(`Error: ${err.message}`);
   }
