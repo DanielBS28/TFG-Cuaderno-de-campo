@@ -1,54 +1,148 @@
-const formAgricultor = document.getElementById("formulario-DNI");
-const formAsesor = document.getElementById("formulario-Carnet");
-const botonAsignar = document.getElementById("asignar");
+const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
+const selectAgricultor = document.getElementById("seleccion-agricultor");
+const btnAsignar = document.getElementById("asignar");  
 
-formAgricultor.addEventListener("submit", async function (e) {
-  e.preventDefault();
-  const dni = document.getElementById("DNIBuscado").value.trim();
+const camposAgricultor = {
+  nombre: document.getElementById("nombre"),
+  apellido1: document.getElementById("apellido1"),
+  apellido2: document.getElementById("apellido2"),
+  dni: document.getElementById("dni"),
+  carnet: document.getElementById("carnet"),
+};
 
-  if (!dni) return alert("Introduce un DNI de agricultor");
+const inputBuscarAsesor = document.getElementById("busqueda-asesor");
+const selectAsesor = document.getElementById("seleccion-asesor");
 
-  const res = await fetch(
-    `http://localhost:3000/agricultores/buscar/dni/${dni}`
+const camposAsesor = {
+  nombre: document.getElementById("nombre-as"),
+  apellido1: document.getElementById("apellido1-as"),
+  apellido2: document.getElementById("apellido2-as"),
+  dni: document.getElementById("dni-as"),
+  carnet: document.getElementById("carnet-as"),
+};
+
+let dniAgricultor = null;
+let dniAsesor = null;
+let listaAgricultores = [];
+let listaAsesores = [];
+
+// ### FUNCIONES ###
+const mostrarDatosAgricultor = (data) => {
+  camposAgricultor.nombre.value = data.Nombre;
+  camposAgricultor.apellido1.value = data.Apellido1;
+  camposAgricultor.apellido2.value = data.Apellido2;
+  camposAgricultor.dni.value = data.dni;
+  camposAgricultor.carnet.value = data.carnet;
+  dniAgricultor = data.dni;
+};
+
+const mostrarDatosAsesor = (data) => {
+  camposAsesor.nombre.value = data.Nombre;
+  camposAsesor.apellido1.value = data.Apellido1;
+  camposAsesor.apellido2.value = data.Apellido2;
+  camposAsesor.dni.value = data.DNI;
+  camposAsesor.carnet.value = data.N_Carnet_asesor;
+  dniAsesor = data.DNI;
+};
+
+const actualizarSelectAgricultores = (agricultores) => {
+  selectAgricultor.innerHTML = `<option value="primera_opcion" disabled selected>Seleccione el agricultor</option>`;
+  agricultores.forEach(a => {
+      const opcion = document.createElement("option");
+      opcion.value = a.DNI;
+      opcion.textContent = `${a.Nombre} ${a.Apellido1} - ${a.DNI}`;
+      selectAgricultor.appendChild(opcion);
+  });
+};
+
+const actualizarSelectAsesores = (asesores) => {
+  selectAsesor.innerHTML = `<option value="primera_opcion" disabled selected>Seleccione el asesor</option>`;
+  asesores.forEach(a => {
+      const opcion = document.createElement("option");
+      opcion.value = a.DNI;
+      opcion.textContent = `${a.Nombre} ${a.Apellido1} - ${a.DNI}`;
+      selectAsesor.appendChild(opcion);
+  });
+};
+
+// ### EVENTOS ###
+// Cargar todos los agricultores y asesores al iniciar
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("http://localhost:3000/agricultores/todos");
+    const data = await res.json();
+    listaAgricultores = data;
+    actualizarSelectAgricultores(data);
+  } catch (error) {
+    console.error("Error al cargar agricultores:", error);
+  }
+
+  try {
+    const res = await fetch("http://localhost:3000/asesores/todos");
+    const data = await res.json();
+    listaAsesores = data;
+    actualizarSelectAsesores(data);
+  } catch (error) {
+    console.error("Error al cargar asesores:", error);
+  }
+});
+
+// Mostrar datos del Agricultor al seleccionar
+selectAgricultor.addEventListener("change", async (e) => {
+  const dniSeleccionado = e.target.value;
+  if (!dniSeleccionado || dniSeleccionado === "primera_opcion") return;
+
+  try {
+      const res = await fetch(`http://localhost:3000/agricultores/buscar/dni/${dniSeleccionado}`);
+      const data = await res.json();
+      mostrarDatosAgricultor(data);
+  } catch (error) {
+      alert("Error al cargar datos del agricultor.");
+      console.error("Error:", error);
+  }
+});
+
+// Filtro del select de Agricultores
+inputBuscarAgricultor.addEventListener("input", (e) => {
+  const texto = e.target.value.toLowerCase();
+  const filtrados = listaAgricultores.filter(a =>
+      `${a.Nombre} ${a.Apellido1} ${a.Apellido2} ${a.DNI}`.toLowerCase().includes(texto)
   );
-  const data = await res.json();
+  actualizarSelectAgricultores(filtrados);
+});
 
-  if (res.ok) {
-    document.getElementById("nombre").value = data.Nombre;
-    document.getElementById("apellido1").value = data.Apellido1;
-    document.getElementById("apellido2").value = data.Apellido2;
-    document.getElementById("dni").value = data.dni;
-    document.getElementById("carnet").value = data.carnet;
-  } else {
-    alert(data.error);
+// Mostrar datos del Asesor al seleccionar
+selectAsesor.addEventListener("change", async (e) => {
+  const dniSeleccionado = e.target.value;
+  if (!dniSeleccionado || dniSeleccionado === "primera_opcion") return;
+
+  try {
+      const res = await fetch(`http://localhost:3000/asesores/buscar/dni/${dniSeleccionado}`);
+      const data = await res.json();
+      mostrarDatosAsesor(data);
+  } catch (error) {
+      alert("Error al cargar datos del asesor.");
+      console.error("Error:", error);
   }
 });
 
-formAsesor.addEventListener("submit", async function (e) {
+// Filtro del select de Asesores
+inputBuscarAsesor.addEventListener("input", (e) => {
+  const texto = e.target.value.toLowerCase();
+  const filtrados = listaAsesores.filter(a =>
+      `${a.Nombre} ${a.Apellido1} ${a.Apellido2} ${a.DNI}`.toLowerCase().includes(texto)
+  );
+  actualizarSelectAsesores(filtrados);
+});
+
+// Asignar Asesor a Agricultor
+btnAsignar.addEventListener("click", async (e) => {
   e.preventDefault();
-  const dni = document.getElementById("CBuscado").value.trim();
 
-  if (!dni) return alert("Introduce un DNI de asesor");
+  camposAgricultor.dni = document.getElementById("dni").value.trim();
+  camposAsesor.dni = document.getElementById("dni-as").value.trim();
 
-  const res = await fetch(`http://localhost:3000/asesores/buscar/dni/${dni}`);
-  const data = await res.json();
-
-  if (res.ok) {
-    document.getElementById("nombre-as").value = data.Nombre;
-    document.getElementById("apellido1-as").value = data.Apellido1;
-    document.getElementById("apellido2-as").value = data.Apellido2;
-    document.getElementById("dni-as").value = data.DNI;
-    document.getElementById("carnet-as").value = data.N_Carnet_asesor;
-  } else {
-    alert(data.error);
-  }
-});
-
-botonAsignar.addEventListener("click", async function () {
-  const dniAgricultor = document.getElementById("dni").value;
-  const dniAsesor = document.getElementById("dni-as").value;
-
-  if (!dniAgricultor || !dniAsesor) {
+  if (!camposAgricultor.dni || !camposAsesor.dni) {
     return alert(
       "Debes buscar y seleccionar tanto al agricultor como al asesor."
     );
@@ -63,8 +157,8 @@ botonAsignar.addEventListener("click", async function () {
   const data = await res.json();
 
   if (res.ok) {
-    alert(data.message);
-    location.reload(); // solo recarga al asignar
+    alert("Asesor asignado correctamente.");
+    location.reload();
   } else {
     alert(data.error);
   }
