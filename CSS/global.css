@@ -98,8 +98,12 @@ header a:hover{
 footer{
     display: flex;
     flex-direction: column;
-    background-color: rgb(230,230,230);
-    
+    background-color: rgb(141, 141, 141);
+}
+
+.fondo-footer{
+    background-color: rgb(206, 205, 205);
+
 }
 #VolverInicio{
     margin-bottom: 10px;
@@ -182,6 +186,26 @@ h1 {
 
 .actualizar{
     background-color: #FBB02D;
+}
+
+.logos-footer{
+    max-width: 1400px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.logos-footer img{
+
+    height: 150px;
+    padding: 20px;
+    margin: 10px 20px;
+}
+
+.logos-footer img:hover{
+     cursor: pointer;
+     background-color: #555;
 }
 
 @media (min-width: 720px) {

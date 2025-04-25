@@ -31,6 +31,9 @@ button:hover{
     background-color:rgb(143, 143, 143);
 }
 
+h1{
+    color: white;
+}
 .container{
     max-width: 1400px;
     margin: auto;
@@ -120,17 +123,11 @@ header a:hover{
     color: #5C8001;
 }
 
-footer{
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(230,230,230);
-    
-}
 
 footer p{
     margin: 0;
     padding: 12px;
-    color: rgb(100,100,100);   
+    color: rgb(255, 255, 255);   
 }
 
 footer .container{
