@@ -183,4 +183,112 @@ router.put("/editar/:id", async (req, res) => {
   }
 });
 
+// Crear parcela y sus recintos
+router.post("/crear-con-recintos", async (req, res) => {
+  const {
+    id,
+    nombre,
+    codigoProvincia,
+    codigoMunicipio,
+    nombreMunicipio,
+    agregado,
+    zona,
+    numPoligono,
+    numParcela,
+    superficieDeclarada,
+    referenciaCatastral,
+    idExplotacion,
+    recintos,
+  } = req.body;
+
+  const conn = await db.promise().getConnection();
+  try {
+    await conn.beginTransaction();
+
+    const [parcelaExiste] = await conn.query(
+      "SELECT 1 FROM Parcela WHERE Numero_identificacion = ?",
+      [id]
+    );
+    if (parcelaExiste.length > 0) {
+      await conn.rollback();
+      return res.status(400).json({ error: "Ya existe una parcela con ese ID." });
+    }
+
+    for (const recinto of recintos) {
+      const [existe] = await conn.query(
+        "SELECT 1 FROM Recinto WHERE idRecinto = ?",
+        [recinto.idRecinto]
+      );
+      if (existe.length > 0) {
+        await conn.rollback();
+        return res.status(400).json({ error: `Ya existe un recinto con ID ${recinto.idRecinto}.` });
+      }
+    }
+
+    // Insertar parcela
+    await conn.query(
+      `INSERT INTO Parcela (
+        Numero_identificacion,
+        Explotacion_idExplotacion,
+        Provincia,
+        Codigo_municipio,
+        Municipio,
+        Agregado,
+        Zona,
+        Poligono,
+        Parcela,
+        Superficie_declarada,
+        Nombre_parcela,
+        Ref_Catastral
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        idExplotacion,
+        codigoProvincia,
+        codigoMunicipio,
+        nombreMunicipio,
+        agregado,
+        zona,
+        numPoligono,
+        numParcela,
+        superficieDeclarada,
+        nombre,
+        referenciaCatastral,
+      ]
+    );
+
+    // Insertar recintos
+    for (const recinto of recintos) {
+      await conn.query(
+        `INSERT INTO Recinto (
+          idRecinto,
+          parcela_Numero_identificacion,
+          Numero,
+          Uso_SIGPAC,
+          Descripcion_uso,
+          Superficie_ha
+        ) VALUES (?, ?, ?, ?, ?, ?)`,
+        [
+          recinto.idRecinto,
+          recinto.parcela_Numero_identificacion,
+          recinto.Numero,
+          recinto.Uso_SIGPAC,
+          recinto.Descripcion_uso,
+          recinto.Superficie_ha,
+        ]
+      );
+    }
+
+    await conn.commit();
+    res.json({ message: "Parcela y recintos creados correctamente" });
+  } catch (error) {
+    await conn.rollback();
+    console.error("Error al crear parcela con recintos:", error);
+    res.status(500).json({ error: "No se pudo crear la parcela con sus recintos" });
+  } finally {
+    conn.release();
+  }
+});
+
+
 module.exports = router;

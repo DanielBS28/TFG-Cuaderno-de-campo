@@ -23,10 +23,18 @@ const rellenarCamposAgricultor = (data) => {
   document.getElementById("nombre").value = data.Nombre;
   document.getElementById("apellido1").value = data.Apellido1;
   document.getElementById("apellido2").value = data.Apellido2;
-  document.getElementById("dni").value = data.Usuario_DNI;
-  document.getElementById("carnet").value = data.Carnet_agricultor;
-  activarCampos();
+  document.getElementById("dni").value = data.dni;
+  document.getElementById("carnet").value = data.carnet;
 };
+
+const limpiarCamposExplotacion = () => {
+  inputBuscarExplotacion.value = "";
+  selectExplotacion.innerHTML = `<option value="Prueba" disabled selected>Seleccione explotación</option>`;
+  inputNombreExplotacion.value = "";
+  inputNombreExplotacion.disabled = true;
+  selectExplotacion.disabled = true;
+  inputBuscarExplotacion.disabled = true;
+}
 
 // Actualizar las opciones del select de agricultores
 const actualizarOpcionesSelectAgricultores = (agricultores) => {
@@ -75,7 +83,9 @@ selectAgricultor.addEventListener("change", async (e) => {
       throw new Error("No se pudo obtener el agricultor.");
     }
     const dataAgricultor = await resAgricultor.json();
+    limpiarCamposExplotacion();
     rellenarCamposAgricultor(dataAgricultor);
+    activarCampos();
   
     const resExplotaciones = await fetch(`http://localhost:3000/explotaciones/dni-agricultor/${dniSeleccionado}`);
     if (!resExplotaciones.ok) {
