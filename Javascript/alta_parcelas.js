@@ -537,6 +537,7 @@ btnCrearParcela.addEventListener("click", async (e) => {
     numPoligono: camposParcela.numPoligono.value.trim(),
     numParcela: camposParcela.numParcela.value.trim(),
     superficieDeclarada: camposParcela.superficieDeclarada.value.trim(),
+    municipio: selectMunicipio.options[selectMunicipio.selectedIndex].text,
   };
 
   const errores = validarCamposParcela(datosParcela);
@@ -569,11 +570,9 @@ btnCrearParcela.addEventListener("click", async (e) => {
   const parcelaFinal = {
     id: idGenerado,
     ...datosParcela,
-    nombreMunicipio: "",
     idExplotacion: camposExplotacion.id.value,
     referenciaCatastral: referenciaCatastral,
   };
-
   console.log("Parcela a enviar:", parcelaFinal);
 
   const recintos = await obtenerRecintosDeParcela({
@@ -597,7 +596,7 @@ btnCrearParcela.addEventListener("click", async (e) => {
         nombre: datosParcela.nombre,
         codigoProvincia: datosParcela.codigoProvincia,
         codigoMunicipio: datosParcela.codigoMunicipio,
-        nombreMunicipio: "", // puedes completarlo luego si lo tienes
+        nombreMunicipio: datosParcela.municipio, 
         agregado: datosParcela.agregado,
         zona: datosParcela.zona,
         numPoligono: datosParcela.numPoligono,
