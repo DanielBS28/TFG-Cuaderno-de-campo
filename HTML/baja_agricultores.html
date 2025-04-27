@@ -17,11 +17,12 @@
           </div>
 
           <nav>
-            <a href="inicio_administrador.html" id="VolverInicio"
-              >Volver a inicio</a
-            >
-            <a href="login.html" id="BotonCerrarSesion">Cerrar sesión</a>
-          </nav>
+            <a href="gestion_agricultores.html">
+              <img src="../Fotos/flecha.png" alt="" id="flecha">
+          </a>
+            <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
+            <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
+        </nav>
         </div>
       </header>
       <h1 class="titulo-h1">Baja de Agricultores</h1>
@@ -104,10 +105,29 @@
                 <input type="text" name="carnet" id="carnet" readonly />
               </div>
             </div>
-            <button type="submit">Dar de baja agricultor</button>
+            <button type="submit" class="dar_baja">Dar de baja agricultor</button>
           </form>
         </div>
       </div>
+      <section class="fondo-footer">
+        <div class="logo-container">
+          <a href="https://salesianosdosa.com/" target="_blank">
+            <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
+          </a>
+        </div>
+        
+        <div class="logo-container">
+          <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
+            <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
+          </a>
+        </div>
+        
+        <div class="logo-container">
+          <a href="https://www.mapa.gob.es/es/" target="_blank">
+            <img src="../Fotos/Logo_ministerio.png" alt="">
+          </a>
+        </div>
+</section>
       <footer>
         <div class="container">
           <p>Cuaderno de campo</p>

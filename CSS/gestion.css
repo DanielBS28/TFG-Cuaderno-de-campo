@@ -1,0 +1,130 @@
+.titulo_cabecera{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 75vh;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: white;
+}
+
+#fondo-agricultores{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.4),
+        rgba(0,0,0,0.4)
+    )
+    ,url("../Fotos/Fondo_Agricultores.jpg");
+}
+
+#fondo-asesores{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.4),
+        rgba(0,0,0,0.4)
+    )
+    ,url("../Fotos/asesores_fondo.jpg");
+    
+}
+
+#fondo-explotaciones{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.4),
+        rgba(0,0,0,0.4)
+    )
+    ,url("../Fotos/fondo13.jpg");
+    
+}
+
+#fondo-parcelas{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.4),
+        rgba(0,0,0,0.4)
+    )
+    ,url("../Fotos/parcela.avif");
+    
+}
+
+#fondo-cultivos{
+    background-image: linear-gradient(
+        0deg,
+        rgba(0,0,0,0.4),
+        rgba(0,0,0,0.4)
+    )
+    ,url("../Fotos/fondo12.jpg");
+    
+}
+
+
+.titulo-h1{
+    color: white;
+    margin-top: 0;
+
+}
+
+.container-cajas{
+    margin: 60px 0;
+}
+
+header .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+    #BotonCerrarSesion{
+        margin-top: 15px;
+    }
+         
+    #VolverInicio{
+        margin-bottom: 10px;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 0;
+        background-color: #FBB02D;
+        color: white;
+    }
+
+header nav{
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 25px;
+    white-space: nowrap;
+    }
+
+@media (min-width: 720px) {
+
+    #BotonCerrarSesion{
+        margin: 0;
+    }
+
+    #VolverInicio{
+        margin-right: 15px;
+    }
+   
+    header{
+        width: 100%;
+    }
+    header .container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    header nav{
+        flex-direction: row;
+        padding-bottom: 0;
+        padding-right: 20px;
+        gap: 5px;
+    }
+
+}
+

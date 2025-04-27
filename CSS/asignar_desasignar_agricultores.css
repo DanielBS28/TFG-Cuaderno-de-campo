@@ -84,7 +84,30 @@ form h1{
     
 }
 
+#VolverInicio{
+    margin-right: 15px;
+}
+
+#BotonCerrarSesion{
+    margin-top: 0;
+}
+
 @media (max-width: 720px) {
+
+    header{
+        width: 100%;
+    }
+    header .container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    header nav{
+        flex-direction: row;
+        padding-bottom: 0;
+        padding-right: 20px;
+        gap: 5px;
+    }
     .form-grid {
         grid-template-columns: 1fr;
         gap: 24px;
@@ -99,6 +122,7 @@ form h1{
         margin: 30px auto 25px;
         width: 50%;
     }
+
 
     #BotónCerrarSesión{
         margin-left: 10px;

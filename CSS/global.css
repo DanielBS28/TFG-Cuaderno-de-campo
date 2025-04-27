@@ -1,9 +1,4 @@
-html{
-    height: 100%;
- 
- }
- 
- body{
+body{
      margin: 0;
      font-family: sans-serif;
  }
@@ -68,8 +63,12 @@ display: flex;
 flex-direction: column;
 align-items: center;
 padding-bottom: 25px;
+white-space: nowrap;
+
 
 }
+
+
 input[type="submit"]:hover, button:hover[type="submit"], button:hover{
     transform: scale(1.02);
     transition: transform 0.3s;
@@ -79,37 +78,31 @@ input[type="submit"], button[type="submit"], button{
  
     transition: transform 0.3s ease;
 }
-header a{
-    padding: 5px 12px;
-    text-decoration: none;
-    color: white;
-    transition: transform 0.3s ease;
-}
+
 header a:hover{
     transform: scale(1.05);
     transition: transform 0.3s;
-    
+}
+
+footer p{
+    font-size: 20px;
 }
 #BotonCerrarSesion{
     border-radius: 5px;
     padding: 10px;
     background-color: #b01111;
 }
+
+
 footer{
     display: flex;
     flex-direction: column;
-    background-color: rgb(141, 141, 141);
+    background-color: rgb(137, 137, 137);
 }
 
 .fondo-footer{
     background-color: rgb(206, 205, 205);
 
-}
-#VolverInicio{
-    margin-bottom: 10px;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #FBB02D;
 }
 
 label, option, select{
@@ -144,10 +137,25 @@ input[type="date"]{
     width: auto;
 }
 
+.propiedades{
+    background-color: #5C8001;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
 footer p{
     margin: 0;
     padding: 12px;
-    color: rgb(100,100,100);   
+    color: rgb(255, 255, 255);   
+}
+
+
+#flecha{
+    height: 50px;
 }
 
 .campo_password{
@@ -188,57 +196,39 @@ h1 {
     background-color: #FBB02D;
 }
 
-.logos-footer{
-    max-width: 1400px;
-    margin: auto;
+.fondo-footer {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-}
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap; 
+    padding: 25px 0;
+    background-color: #b8b8b8; 
+  }
+  
+  .logo-container {
+    margin: 10px; 
+    display: inline-block;
+  }
+  
 
-.logos-footer img{
-
-    height: 150px;
+  .logo-container img {
+    height: 140px;
     padding: 20px;
-    margin: 10px 20px;
-}
-
-.logos-footer img:hover{
-     cursor: pointer;
-     background-color: #555;
-}
-
-@media (min-width: 720px) {
-
-    button {
-        margin: 30px auto 25px;
-        width: 50%;
-    }
-
-    #BotonCerrarSesion{
-        margin-left: 10px;
-    }
-    header{
-        width: 100%;
-    }
-    header .container{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    header nav{
-        flex-direction: row;
-        padding-bottom: 0;
-        padding-right: 20px;
-    }
-    #VolverInicio{
-        margin-bottom: 0;
-        border-radius: 5px;
-        padding: 10px;
-        background-color: #FBB02D;
-        margin-right: 15px;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+.logo-container img:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+    transition: transform 0.3s;
     
-    }
+}
+
+
+@media (min-width: 805px) {
 
     .campo_password{
         margin-top: 5px;

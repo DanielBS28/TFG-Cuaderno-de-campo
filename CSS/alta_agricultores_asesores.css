@@ -72,45 +72,14 @@ button {
     border-radius: 4px;
     font-size: 18px;
     cursor: pointer;
+}
+
+
+.registrar{
     margin: 35px 0 35px 0;
-}
-
-
-header{
-    background-color: #5C8001;
-    
-}
-header .logo{
-    margin: 0;
-    padding: 25px 15px;
-    font-weight: bold;
-    color: rgb(255, 255, 255);
-    font-size: 20px;
-}
-header .img-logo{
-    background-image: url("../Fotos//Granjero.png");
-    background-size:cover;
-    height: 50px;
-    width: 50px; 
-}
-.containerlogo{
-    display: flex;
-    align-items: center;
 
 }
-header .container{
-display: flex;
-flex-direction: column;
-align-items: center;
-}
-header nav{
 
-display: flex;
-flex-direction: column;
-align-items: center;
-padding-bottom: 25px;
-
-}
 
 .form-container .cabecera{
     display: flex;
@@ -120,50 +89,19 @@ padding-bottom: 25px;
     margin: 20px 0 20px 0;
 
 }
-header a{
-    padding: 5px 12px;
-    text-decoration: none;
-    color: white;
-}
-header a:hover{
-    transform: scale(1.05);
-    
+#BotonCerrarSesion{
+    margin-top: 15px;
 }
 
-
-
-#BotónCerrarSesión{
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #b01111;
-}
 
 #VolverInicio{
     margin-bottom: 10px;
     border-radius: 5px;
     padding: 10px;
     background-color: #FBB02D;
-}
-
-footer{
-    display: flex;
-    flex-direction: column;
-    background-color: rgb(230,230,230);
-    
-}
-
-footer p{
     margin: 0;
-    padding: 12px;
-    color: rgb(100,100,100);   
 }
 
-footer .container{
-    height: 75px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 @media (min-width: 720px) {
     .form-grid {
@@ -176,13 +114,14 @@ footer .container{
         flex-direction: column;
     }
 
-    button {
-        margin: 30px auto 25px;
-        width: 50%;
+    
+    #VolverInicio{
+        margin-right: 15px;
     }
+    
 
-    #BotónCerrarSesión{
-        margin-left: 10px;
+    #BotonCerrarSesion{
+        margin-top: 0;
     }
     header{
         width: 100%;
@@ -203,25 +142,16 @@ footer .container{
 
     }
 
+
     .form-container .cabecera{
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
-    
-    #VolverInicio{
-        margin-bottom: 0;
-        margin-right: 15px;
-
-    }
 
     .cabecera h1{
         margin: 30px 0 30px 0;
-    }
-
-    button{
-        margin: 50px 0 50px 0;
     }
 
 }

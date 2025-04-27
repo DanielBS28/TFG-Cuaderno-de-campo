@@ -20,7 +20,7 @@ form{
 }
 
 
-img{
+.img-JSON{
     width: 300px;
     margin-right: 50px;
     margin: 10px 0 80px 0;
@@ -42,3 +42,61 @@ button {
     display: flex;
     justify-content: end;
 }
+
+
+
+header .container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+    #BotonCerrarSesion{
+        margin-top: 15px;
+    }
+         
+    #VolverInicio{
+        margin-bottom: 10px;
+        border-radius: 5px;
+        padding: 10px;
+        margin: 0;
+        background-color: #FBB02D;
+    }
+
+header nav{
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 25px;
+    white-space: nowrap;
+    }
+
+@media (min-width: 720px) {
+
+    #BotonCerrarSesion{
+        margin: 0;
+    }
+
+    #VolverInicio{
+        margin-right: 15px;
+    }
+   
+    header{
+        width: 100%;
+    }
+    header .container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    header nav{
+        flex-direction: row;
+        padding-bottom: 0;
+        padding-right: 20px;
+        gap: 5px;
+    }
+
+}
+

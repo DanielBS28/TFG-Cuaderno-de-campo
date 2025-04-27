@@ -6,4 +6,10 @@
 #dar_alta_explotacion{
 
     background-color: #5C8001;
+    margin: 35px 0 35px 0;
+
+}
+
+.form-grid {
+    gap: 15px;
 }
