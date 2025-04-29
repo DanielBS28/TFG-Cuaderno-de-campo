@@ -81,15 +81,17 @@ router.get("/explotacion/:id", async (req, res) => {
     const [rows] = await db.promise().query(
       `SELECT 
         Numero_identificacion AS idParcela,
+        Ref_Catastral,
         Nombre_parcela AS Nombre,
         Provincia AS Codigo_Provincia,
         Codigo_municipio AS Codigo_Municipio,
         Municipio AS Nombre_Municipio,
+        Agregado,
+        Zona,
         Poligono,
         Parcela,
         Superficie_ha AS Superficie_SIGPAC,
-        Tipo_R_S AS Tipo_Regadio,
-        Tipo_cultivo AS Tipo_Cultivo
+        Superficie_declarada
       FROM Parcela
       WHERE Explotacion_idExplotacion = ?`,
       [idExplotacion]
@@ -118,7 +120,7 @@ router.put("/editar/:id", async (req, res) => {
     tipoCultivo,
   } = req.body;
 
-  // Validaciones 
+  // Validaciones
   if (
     !id ||
     !nombre ||
@@ -211,7 +213,9 @@ router.post("/crear-con-recintos", async (req, res) => {
     );
     if (parcelaExiste.length > 0) {
       await conn.rollback();
-      return res.status(400).json({ error: "Ya existe una parcela con ese ID." });
+      return res
+        .status(400)
+        .json({ error: "Ya existe una parcela con ese ID." });
     }
 
     for (const recinto of recintos) {
@@ -221,7 +225,9 @@ router.post("/crear-con-recintos", async (req, res) => {
       );
       if (existe.length > 0) {
         await conn.rollback();
-        return res.status(400).json({ error: `Ya existe un recinto con ID ${recinto.idRecinto}.` });
+        return res
+          .status(400)
+          .json({ error: `Ya existe un recinto con ID ${recinto.idRecinto}.` });
       }
     }
 
@@ -284,11 +290,46 @@ router.post("/crear-con-recintos", async (req, res) => {
   } catch (error) {
     await conn.rollback();
     console.error("Error al crear parcela con recintos:", error);
-    res.status(500).json({ error: "No se pudo crear la parcela con sus recintos" });
+    res
+      .status(500)
+      .json({ error: "No se pudo crear la parcela con sus recintos" });
   } finally {
     conn.release();
   }
 });
 
+// Obtener número de recintos totales de una parcela
+router.get("/recintos/:idParcela", async (req, res) => {
+  const id = req.params.idParcela;
+
+  try {
+      const [rows] = await db.promise().query(
+          "SELECT COUNT(*) as total FROM Recinto WHERE parcela_Numero_identificacion = ?",
+          [id]
+      );
+
+      res.json({ total: rows[0].total });
+  } catch (error) {
+      console.error("Error al obtener recintos:", error);
+      res.status(500).json({ error: "Error al contar recintos" });
+  }
+});
+
+// Obtener número de tratamientos totales de una parcela
+router.get("/tratamientos/:idParcela", async (req, res) => {
+  const id = req.params.idParcela;
+
+  try {
+      const [rows] = await db.promise().query(
+          "SELECT COUNT(*) as total FROM Tratamiento WHERE parcela_Numero_identificacion = ?",
+          [id]
+      );
+
+      res.json({ total: rows[0].total });
+  } catch (error) {
+      console.error("Error al obtener tratamientos:", error);
+      res.status(500).json({ error: "Error al contar tratamientos" });
+  }
+});
 
 module.exports = router;
