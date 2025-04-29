@@ -179,6 +179,14 @@
               autocomplete="off" readonly/>
           </div>
           <div class="form-group">
+            <label for="n_identificacion">Número del catastro</label>
+            <input
+              type="text"
+              name="n_identificacion"
+              id="n_identificacion"
+              autocomplete="off" readonly/>
+          </div>
+          <div class="form-group">
             <label for="nombre-parcela">Nombre de la parcela identificativo</label>
             <input
               type="text"
@@ -261,6 +269,16 @@
              readonly
             />
           </div>
+          <div class="form-group">
+            <label for="sup_declarada">Superficie declarada en ha</label>
+            <input
+              type="text"
+              name="sup_declarada"
+              id="sup_declarada"
+              autocomplete="off"
+             readonly
+            />
+          </div>
         </div>
         <h2>Datos del recinto</h2>
         <div class="busqueda">
@@ -335,7 +353,8 @@
           </div>
           </div>
           <h3>Selección del tipo de cultivo</h3>
-          <div class="datos">
+          <div class="busqueda">
+            <img src="../Fotos/lupa.webp" alt="" class="lupa">
         <div class="form-group">
           <label for="nombre-cultivo">Buscar tipo de cultivo por nombre</label>
           <input
@@ -352,6 +371,16 @@
               <option value="primera_opcion" disabled selected>Seleccione el tipo de cultivo</option>
           </select>
         </div>
+        <div class="form-group">
+          <label for="nombre-cultivo-buscado">Nombre del cultivo</label>
+          <input
+            type="text"
+            name="nombre-cultivo-buscado"
+            id="nombre-cultivo-buscado"
+            autocomplete="off" readonly/>
+        </div>
+      </div>
+      <div class="datos">
         <div class="form-group">
           <label for="tipo_regadio">Tipo de regadío</label>
           <select name="tipo_regadio" id="tipo_regadio" disabled>

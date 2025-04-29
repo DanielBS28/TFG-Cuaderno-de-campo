@@ -16,6 +16,9 @@
           <p class="logo">Generar informes</p>
         </div>
         <nav>
+          <a href="gestion_tratamientos.html">
+            <img src="../Fotos/flecha.png" alt="" id="flecha">
+        </a>
           <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
           <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
       </nav>
@@ -121,7 +124,7 @@
         <div class="form-group">
           <label for="id-explotacion">ID explotación</label>
           <input type="text" name="id-explotacion" id="id-explotacion"  autocomplete="off"  readonly>
-      </div>
+        </div>
           <div class="form-group">
             <label for="nombre-buscado-explotacion">Nombre</label>
             <input
@@ -177,6 +180,14 @@
               autocomplete="off" readonly/>
           </div>
           <div class="form-group">
+            <label for="n_identificacion">Número del catastro</label>
+            <input
+              type="text"
+              name="n_identificacion"
+              id="n_identificacion"
+              autocomplete="off" readonly/>
+          </div>
+          <div class="form-group">
             <label for="nombre-parcela">Nombre de la parcela identificativo</label>
             <input
               type="text"
@@ -212,6 +223,24 @@
             />
           </div>
           <div class="form-group">
+            <label for="nombre">Agregado</label>
+            <input
+              type="text"
+              name="agregado"
+              id="agregado"
+              autocomplete="off" readonly
+            />
+        </div>
+        <div class="form-group">
+          <label for="nombre">Zona</label>
+          <input
+            type="text"
+            name="zona"
+            id="zona"
+            autocomplete="off" readonly
+          />
+      </div>
+          <div class="form-group">
             <label for="poligono">Polígono</label>
             <input
               type="text"
@@ -232,7 +261,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="sup_sigpac">Superficie SIGPAC</label>
+            <label for="sup_sigpac">Superficie SIGPAC en ha</label>
             <input
               type="text"
               name="sup_sigpac"
@@ -242,23 +271,13 @@
             />
           </div>
           <div class="form-group">
-            <label for="tipo_regadio">Tipo de regadío</label>
+            <label for="sup_declarada">Superficie declarada en ha</label>
             <input
               type="text"
-              name="tipo_regadio"
-              id="tipo_regadio"
+              name="sup_declarada"
+              id="sup_declarada"
               autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="tipo_regadio">Tipo de cultivo</label>
-            <input
-              type="text"
-              name="tipo_regadio"
-              id="tipo_regadio"
-              autocomplete="off"
-              readonly
+             readonly
             />
           </div>
         </div>
@@ -333,11 +352,20 @@
                   autocomplete="off" readonly/>
               </div>
               <div class="form-group">
-                <label for="cantidad_producto">Kg o L de producto por Ha</label>
+                <label for="cantidad_producto">Cantidad de producto aplicada</label>
                 <input
                   type="text"
                   name="cantidad_producto"
                   id="cantidad_producto"
+                  autocomplete="off"readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="unidad-medida">Unidad de medida de la dosis</label>
+                <input
+                  type="text"
+                  name="unidad-medida"
+                  id="unidad-medida"
                   autocomplete="off"readonly
                 />
               </div>
@@ -349,6 +377,14 @@
                   id="superficie_tratada"
                   autocomplete="off"readonly
                 />
+              </div>
+              <div class="form-group">
+                <label for="superficie-cultivo">Superficie en ha del cultivo</label>
+                <input
+                  type="text"
+                  name="superficie-cultivo"
+                  id="superficie-cultivo"
+                  autocomplete="off" readonly/>
               </div>
               <div class="form-group">
                 <label for="numero_carnet_aplicador">Número de carnet del aplicador</label>
@@ -381,13 +417,13 @@
                   autocomplete="off" readonly
                 />
               </div>
-            <div class="form-group">
+              <div class="form-group">
                 <label for="fecha_adquisicion">Fecha de adquisición</label>
-                <input type="date"  readonly/>
+                <input type="date" id="fecha_adquisicion" readonly/>
               </div>
               <div class="form-group">
                 <label for="fecha_ultima_inspeccion">Fecha de última inspección</label>
-                <input type="date" readonly/>
+                <input type="date" id="fecha_ultima_inspeccion" readonly/>
               </div>
         </div>
       </div>
