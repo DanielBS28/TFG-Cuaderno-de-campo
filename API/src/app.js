@@ -16,6 +16,8 @@ const agricultoresRouter = require("../routes/agricultores");
 const asesoresRouter = require("../routes/asesores");
 const explotacionesRouter = require("../routes/explotaciones");
 const parcelasRouter = require("../routes/parcelas");
+const recintosRouter = require("../routes/recintos");
+const cultivosRouter = require("../routes/cultivos");
 
 // Middleware
 app.use(cors());
@@ -36,6 +38,12 @@ app.use("/explotaciones", explotacionesRouter);
 
 // Ruta para funcionalidades parcelas
 app.use("/parcelas", parcelasRouter);
+
+// Ruta para funcionalidades recintos
+app.use("/recintos", recintosRouter);
+
+// Ruta para funcionalidades cultivos
+app.use("/cultivos", cultivosRouter);
 
 // Ruta principal
 app.get("/", (req, res) => {
