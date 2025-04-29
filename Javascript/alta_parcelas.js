@@ -169,7 +169,7 @@ const validarCamposParcela = (datosParcela) => {
   if (!esNatural(datosParcela.numParcela)) errores.push("Parcela inválida.");
   if (
     isNaN(datosParcela.superficieDeclarada) ||
-    datosParcela.superficieDeclarada < 0
+    datosParcela.superficieDeclarada <= 0
   )
     errores.push("Superficie SIGPAC inválida.");
 

@@ -238,7 +238,7 @@ const obtenerTrataminetosTotales = async (idParcela) => {
 };
 
 // Eliminar parcela seleccionada
-async function eliminarParcela(idParcela) {
+const eliminarParcela = async(idParcela) => {
   const confirmacion = confirm(
     "¿Estás seguro de que quieres eliminar esta parcela?"
   );

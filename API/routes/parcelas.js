@@ -104,87 +104,6 @@ router.get("/explotacion/:id", async (req, res) => {
   }
 });
 
-// Editar campos de una parcela
-router.put("/editar/:id", async (req, res) => {
-  const idOriginal = req.params.id;
-  const {
-    id,
-    nombre,
-    codigoProvincia,
-    codigoMunicipio,
-    nombreMunicipio,
-    numPoligono,
-    numParcela,
-    superficieSIGPAC,
-    tipoRegadio,
-    tipoCultivo,
-  } = req.body;
-
-  // Validaciones
-  if (
-    !id ||
-    !nombre ||
-    !codigoProvincia ||
-    !codigoMunicipio ||
-    !nombreMunicipio ||
-    !numPoligono ||
-    !numParcela ||
-    !superficieSIGPAC ||
-    !tipoRegadio ||
-    !tipoCultivo
-  ) {
-    return res.status(400).json({ error: "Faltan campos obligatorios" });
-  }
-
-  try {
-    const [existe] = await db
-      .promise()
-      .query("SELECT * FROM Parcela WHERE Numero_identificacion = ?", [
-        idOriginal,
-      ]);
-
-    if (existe.length === 0) {
-      return res.status(404).json({ error: "La parcela no existe" });
-    }
-
-    await db.promise().query(
-      `
-      UPDATE Parcela SET
-      Numero_identificacion = ?,
-        Nombre_parcela = ?,
-        Provincia = ?,
-        Codigo_municipio = ?,
-        Municipio = ?,
-        Poligono = ?,
-        Parcela = ?,
-        Superficie_ha = ?,
-        Tipo_R_S = ?,
-        Tipo_cultivo = ?
-      WHERE Numero_identificacion = ?`,
-      [
-        id,
-        nombre,
-        codigoProvincia,
-        codigoMunicipio,
-        nombreMunicipio,
-        numPoligono,
-        numParcela,
-        superficieSIGPAC,
-        tipoRegadio,
-        tipoCultivo,
-        idOriginal,
-      ]
-    );
-
-    res.json({ message: "Parcela actualizada correctamente" });
-  } catch (error) {
-    console.error("Error al actualizar parcela:", error);
-    res
-      .status(500)
-      .json({ error: "Error del servidor al actualizar la parcela" });
-  }
-});
-
 // Crear parcela y sus recintos
 router.post("/crear-con-recintos", async (req, res) => {
   const {
@@ -329,6 +248,36 @@ router.get("/tratamientos/:idParcela", async (req, res) => {
   } catch (error) {
       console.error("Error al obtener tratamientos:", error);
       res.status(500).json({ error: "Error al contar tratamientos" });
+  }
+});
+
+// Actualizar nombre y superficie declarada de una parcela
+router.put("/editar/:id", async (req, res) => {
+  const idParcela = req.params.id;
+  const { nombre, superficieDeclarada } = req.body;
+
+  console.log("ID Parcela:", idParcela);
+  console.log("Nombre:", nombre);
+  console.log("Superficie Declarada:", superficieDeclarada);
+
+  if (!nombre || !superficieDeclarada) {
+    return res.status(400).json({ error: "Faltan campos requeridos" });
+  }
+
+  try {
+    const [result] = await db
+      .promise()
+      .query(
+        `UPDATE Parcela 
+         SET Nombre_parcela = ?, Superficie_declarada = ?
+         WHERE Numero_identificacion = ?`,
+        [nombre, superficieDeclarada, idParcela]
+      );
+
+    res.json({ message: "Parcela actualizada correctamente" });
+  } catch (error) {
+    console.error("Error al actualizar parcela:", error);
+    res.status(500).json({ error: "Error al actualizar la parcela" });
   }
 });
 

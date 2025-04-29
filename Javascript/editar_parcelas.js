@@ -1,10 +1,6 @@
-const formGeneral = document.getElementById("general");
-
 // DATOS AGRICULTOR
-const dniAgricultor = document.getElementById("busqueda-dni");
-const botonBuscarAgricultor = document.getElementById(
-  "buscar-agricultor-boton"
-);
+const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
+const selectAgricultor = document.getElementById("seleccion-agricultor");
 
 const camposAgricultor = {
   nombre: document.getElementById("nombre"),
@@ -17,6 +13,7 @@ const camposAgricultor = {
 // DATOS EXPLOTACION
 const inputBuscarExplotacion = document.getElementById("nombre-exp");
 const selectExplotacion = document.getElementById("seleccion-exp");
+let option = document.createElement("option");
 
 const camposExplotacion = {
   id: document.getElementById("id-explotacion"),
@@ -31,19 +28,26 @@ const inputBuscarParcela = document.getElementById("nombre-parcela-busqueda");
 
 const camposParcela = {
   id: document.getElementById("n_identificacion"),
+  catastro: document.getElementById("n_catastro"),
   nombre: document.getElementById("nombre-parcela"),
   codigoProvincia: document.getElementById("codigo_provincia"),
   codigoMunicipio: document.getElementById("codigo_municipio"),
   nombreMunicipio: document.getElementById("nombre_municipio"),
+  agregado: document.getElementById("agregado"),
+  zona: document.getElementById("zona"),
   numPoligono: document.getElementById("poligono"),
   numParcela: document.getElementById("parcela"),
   superficieSIGPAC: document.getElementById("sup_sigpac"),
-  selectTipoRegadio: document.getElementById("tipo_regadio"),
-  inputBuscarTipoCultivo: document.getElementById("nombre-cultivo"),
-  selectTipoCultivo: document.getElementById("seleccion-cultivo"),
+  superficieDeclarada: document.getElementById("sup_declarada"),
+  recintos: document.getElementById("recintos"),
+  tratamientos: document.getElementById("tratamientos"),
 };
 
-// ### FUNCIONES ### //
+// CAMPOS ACTUALIZAR PARCELA
+const nuevoNombreParcela = document.getElementById("nuevo-nombre-parcela");
+const nuevaSupDeclarada = document.getElementById("nueva_sup_declarada");
+
+// #### FUNCIONES ## //
 // Función para mostrar los datos del agricultor
 const mostrarDatosAgricultor = (data) => {
   camposAgricultor.nombre.value = data.Nombre;
@@ -53,39 +57,21 @@ const mostrarDatosAgricultor = (data) => {
   camposAgricultor.carnet.value = data.carnet;
 };
 
-// Función para mostrar los datos de la parcela
 const mostrarDatosParcela = (seleccionada) => {
-  window.idParcelaOriginal = seleccionada.idParcela;
-
   camposParcela.id.value = seleccionada.idParcela;
+  camposParcela.catastro.value = seleccionada.Ref_Catastral;
   camposParcela.nombre.value = seleccionada.Nombre;
   camposParcela.codigoProvincia.value = seleccionada.Codigo_Provincia;
   camposParcela.codigoMunicipio.value = seleccionada.Codigo_Municipio;
   camposParcela.nombreMunicipio.value = seleccionada.Nombre_Municipio;
+  camposParcela.agregado.value = seleccionada.Agregado;
+  camposParcela.zona.value = seleccionada.Zona;
   camposParcela.numPoligono.value = seleccionada.Poligono;
   camposParcela.numParcela.value = seleccionada.Parcela;
   camposParcela.superficieSIGPAC.value = seleccionada.Superficie_SIGPAC;
-  camposParcela.selectTipoRegadio.value = seleccionada.Tipo_Regadio;
-  camposParcela.selectTipoCultivo.value = seleccionada.Tipo_Cultivo;
-};
-
-// Desbloquear todos los campos de datos de la parcela
-const desbloquearCamposParcela = () => {
-  for (const key in camposParcela) {
-    if (camposParcela[key]) {
-      camposParcela[key].disabled = false;
-    }
-  }
-};
-
-// Desbloquear campos de explotación
-const desbloquearExplotacion = () => {
-  inputBuscarExplotacion.disabled = false;
-  inputBuscarExplotacion.value = "";
-
-  selectExplotacion.disabled = false;
-  selectExplotacion.innerHTML =
-    "<option selected disabled>Seleccionar explotación</option>";
+  camposParcela.superficieDeclarada.value = seleccionada.Superficie_declarada;
+  camposParcela.recintos.value = seleccionada.Numero_recintos;
+  camposParcela.tratamientos.value = seleccionada.Numero_tratamientos;
 };
 
 // Limpiar campos de explotación
@@ -99,65 +85,66 @@ const limpiarCamposExplotacion = () => {
 
 // Limpiar campos de parcela
 const limpiarCamposParcela = () => {
+  for (const key in camposParcela) {
+    camposParcela[key].value = "";
+  }
+};
+
+const bloquearExplotacion = () => {
+  selectExplotacion.innerHTML =
+    "<option selected disabled>Seleccionar explotación</option>";
+  selectExplotacion.selectedIndex = 0;
+  selectExplotacion.disabled = true;
+  inputBuscarExplotacion.value = "";
+  inputBuscarExplotacion.disabled = true;
+}
+
+const bloquearParcela = () => {
   selectParcela.innerHTML =
     "<option selected disabled>Seleccione una parcela</option>";
   selectParcela.selectedIndex = 0;
   selectParcela.disabled = true;
+  inputBuscarParcela.value = "";
   inputBuscarParcela.disabled = true;
-  for (const key in camposParcela) {
-    camposParcela[key].value = "";
-  }
-  camposParcela.selectTipoRegadio.selectedIndex = 0;
-  camposParcela.selectTipoCultivo.selectedIndex = 0;
+}
+
+const bloquearActualizarParcela = () => {
+  nuevoNombreParcela.disabled = true;
+  nuevaSupDeclarada.disabled = true;
+  nuevoNombreParcela.value = "";
+  nuevaSupDeclarada.value = "";
+}
+
+// Desbloquear campos de explotación
+const desbloquearExplotacion = () => {
+  inputBuscarExplotacion.disabled = false;
+  inputBuscarExplotacion.value = "";
+
+  selectExplotacion.disabled = false;
+  selectExplotacion.innerHTML =
+    "<option selected disabled>Seleccionar explotación</option>";
 };
 
-const bloquearParcela = () => {
-  camposParcela.id.disabled = true;
-  camposParcela.nombre.disabled = true;
-  camposParcela.codigoProvincia.disabled = true;
-  camposParcela.codigoMunicipio.disabled = true;
-  camposParcela.nombreMunicipio.disabled = true;
-  camposParcela.numPoligono.disabled = true;
-  camposParcela.numParcela.disabled = true;
-  camposParcela.superficieSIGPAC.disabled = true;
-  camposParcela.selectTipoRegadio.disabled = true;
-  camposParcela.inputBuscarTipoCultivo.disabled = true;
-  camposParcela.selectTipoCultivo.disabled = true;
-};
+const desbloquearActualizarParcela = () => {
+  nuevoNombreParcela.disabled = false;
+  nuevaSupDeclarada.disabled = false;
+  nuevoNombreParcela.value = camposParcela.nombre.value;
+  nuevaSupDeclarada.value = camposParcela.superficieDeclarada.value;
+}
 
-// Validación de sintaxis
-const validarCamposParcela = (datos) => {
-  const errores = [];
-  const esNatural = (valor) => /^\d+$/.test(valor);
-
-  if (!esNatural(datos.id)) errores.push("El ID debe ser un número natural.");
-  if (!esNatural(datos.codigoProvincia))
-    errores.push("Código de provincia inválido.");
-  if (!esNatural(datos.codigoMunicipio))
-    errores.push("Código de municipio inválido.");
-  if (!esNatural(datos.numPoligono)) errores.push("Polígono inválido.");
-  if (!esNatural(datos.numParcela)) errores.push("Parcela inválida.");
-
-  const superficie = parseFloat(datos.superficieSIGPAC);
-  if (isNaN(superficie) || superficie < 0)
-    errores.push("Superficie SIGPAC inválida.");
-
-  if (!datos.tipoRegadio || datos.tipoRegadio === "Seleccione")
-    errores.push("Selecciona un tipo de regadío.");
-
-  if (!datos.tipoCultivo || datos.tipoCultivo === "Seleccione")
-    errores.push("Selecciona un tipo de cultivo.");
-
-  if (!datos.nombre)
-    errores.push("El nombre de la parcela no puede estar vacío.");
-  if (!datos.nombreMunicipio)
-    errores.push("El nombre del municipio no puede estar vacío.");
-
-  return errores;
+// Actualizar el select de agricultores
+const actualizarSelectAgricultores = (agricultores) => {
+  selectAgricultor.innerHTML = `<option value="primera_opcion" disabled selected>Seleccione el agricultor</option>`;
+  agricultores.forEach((a) => {
+    const opcion = document.createElement("option");
+    opcion.value = a.DNI;
+    opcion.textContent = `${a.Nombre} ${a.Apellido1} - ${a.DNI}`;
+    selectAgricultor.appendChild(opcion);
+  });
 };
 
 // Renderizar opciones de explotaciones
-const renderizarOpcionesExplotaciones = (lista) => {
+const actualizarSelectExplotaciones = (lista) => {
   selectExplotacion.innerHTML =
     "<option selected disabled>Seleccionar explotación</option>";
   lista.forEach((explotacion) => {
@@ -165,6 +152,18 @@ const renderizarOpcionesExplotaciones = (lista) => {
     option.value = explotacion.idExplotacion;
     option.textContent = `${explotacion.Nombre} | ${explotacion.Superficie_total} ha`;
     selectExplotacion.appendChild(option);
+  });
+};
+
+// Rellenar las opciones del select de parcelas
+const actualizarSelectParcelas = (lista) => {
+  selectParcela.innerHTML =
+    "<option selected disabled>Seleccione una parcela</option>";
+  lista.forEach((parcela) => {
+    const option = document.createElement("option");
+    option.value = parcela.idParcela;
+    option.textContent = `${parcela.Nombre} | ${parcela.Superficie_SIGPAC} ha`;
+    selectParcela.appendChild(option);
   });
 };
 
@@ -178,16 +177,16 @@ const cargarCamposExplotacion = () => {
       limpiarCamposExplotacion();
       limpiarCamposParcela();
       bloquearParcela();
+      bloquearActualizarParcela();
 
       if (!Array.isArray(explotaciones) || explotaciones.length === 0) {
-        selectExplotacion.disabled = true;
-        inputBuscarExplotacion.disabled = true;
+        bloquearExplotacion();
         alert("Este agricultor no tiene ninguna explotación.");
         return;
       }
 
       window.explotacionesOriginales = explotaciones;
-      renderizarOpcionesExplotaciones(explotaciones);
+      actualizarSelectExplotaciones(explotaciones);
     })
     .catch((error) => {
       console.error("Error cargando explotaciones:", error);
@@ -207,18 +206,6 @@ const obtenerParcelasTotales = async (idSeleccionado) => {
     });
 };
 
-// Rellenar las opciones del select de parcelas
-const renderizarOpcionesParcelas = (lista) => {
-  selectParcela.innerHTML =
-    "<option selected disabled>Seleccione una parcela</option>";
-  lista.forEach((parcela) => {
-    const option = document.createElement("option");
-    option.value = parcela.idParcela;
-    option.textContent = `${parcela.Nombre} | ${parcela.Superficie_SIGPAC} ha`;
-    selectParcela.appendChild(option);
-  });
-};
-
 // Obtener parcelas de una explotación
 const cargarParcelasDeExplotacion = async (idExplotacion) => {
   try {
@@ -227,18 +214,14 @@ const cargarParcelasDeExplotacion = async (idExplotacion) => {
     );
     const parcelas = await res.json();
 
-    limpiarCamposParcela();
-    bloquearParcela();
-
     if (!Array.isArray(parcelas) || parcelas.length === 0) {
-      selectParcela.disabled = true;
-      inputBuscarParcela.disabled = true;
+      bloquearParcela();
       alert("Esta explotación no tiene parcelas.");
       return;
     }
 
     window.parcelas = parcelas;
-    renderizarOpcionesParcelas(parcelas);
+    actualizarSelectParcelas(parcelas);
 
     selectParcela.disabled = false;
     inputBuscarParcela.disabled = false;
@@ -247,56 +230,123 @@ const cargarParcelasDeExplotacion = async (idExplotacion) => {
   }
 };
 
-const renderizarCultivos = (lista) => {
-  camposParcela.selectTipoCultivo.innerHTML = `
-        <option disabled selected>Seleccione el tipo de cultivo</option>
-      `;
-
-  lista.forEach(({ Cultivo }) => {
-    const option = document.createElement("option");
-    option.value = Cultivo;
-    option.textContent = Cultivo;
-    camposParcela.selectTipoCultivo.appendChild(option);
-  });
-};
-
-// Cargar todos los tipos de cultivo en el select
-const cargarCultivos = (valorSeleccionado = null) => {
-  fetch("http://localhost:3000/parcelas/cultivos")
+// Obtener recintos totales de una parcela
+const obtenerRecintosTotales = async (idParcela) => {
+  fetch(`http://localhost:3000/parcelas/recintos/${idParcela}`)
     .then((res) => res.json())
-    .then((cultivos) => {
-      cultivosOriginales = cultivos;
-      renderizarCultivos(cultivosOriginales);
-
-      if (valorSeleccionado) {
-        camposParcela.selectTipoCultivo.value = valorSeleccionado;
-      }
+    .then((data) => {
+      camposParcela.recintos.value = data.total;
     })
     .catch((err) => {
-      console.error("Error al cargar cultivos:", err);
+      console.error("Error al obtener recintos:", err);
+      camposParcela.recintos.value = "—";
     });
 };
 
+// Obtener tratamientos totales de una parcela
+const obtenerTrataminetosTotales = async (idParcela) => {
+  fetch(`http://localhost:3000/parcelas/tratamientos/${idParcela}`)
+    .then((res) => res.json())
+    .then((data) => {
+      camposParcela.tratamientos.value = data.total;
+
+      desbloquearActualizarParcela();
+    })
+    .catch((err) => {
+      console.error("Error al obtener tratamientos:", err);
+      camposParcela.tratamientos.value = "—";
+    });
+};
+
+// Editar parcela seleccionada
+const editarParcela = async (idParcela) => {
+  const nuevoNombre = nuevoNombreParcela.value.trim();
+  const superficieInput = nuevaSupDeclarada.value.trim();
+
+  if (!nuevoNombre) {
+    alert("⚠️ El nuevo nombre de la parcela no puede estar vacío.");
+    return;
+  }
+
+  const nuevaSuperficie = parseFloat(superficieInput.replace(",", "."));
+  if (isNaN(nuevaSuperficie) || nuevaSuperficie <= 0) {
+    alert("⚠️ La superficie declarada debe ser un número válido mayor a 0.");
+    return;
+  }
+
+  const confirmacion = confirm("¿Estás seguro de que quieres actualizar esta parcela?");
+  if (!confirmacion) return;
+
+  const body = {
+    nombre: nuevoNombre,
+    superficieDeclarada: nuevaSuperficie,
+  };
+
+  try {
+    const res = await fetch(`http://localhost:3000/parcelas/editar/${idParcela}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      alert("✅ Parcela editada correctamente");
+      location.reload();
+    } else {
+      alert(data.error || "Error al editar la parcela");
+    }
+  } catch (error) {
+    console.error("Error en la edición de parcela:", error);
+    alert("Error inesperado al editar la parcela");
+  }
+};
+
+
 // ### EVENTOS ### //
-// Evento botón buscar agricultor
-botonBuscarAgricultor.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const dni = dniAgricultor.value.trim();
+// Cargar todos los agricultores al iniciar
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await fetch("http://localhost:3000/agricultores/todos");
+    const data = await res.json();
+    listaAgricultores = data;
+    actualizarSelectAgricultores(data);
+  } catch (error) {
+    console.error("Error al cargar agricultores:", error);
+  }
+});
 
-  if (!dni) return alert("Introduce un DNI");
+// Mostrar datos del Agricultor al seleccionar
+selectAgricultor.addEventListener("change", async (e) => {
+  const dniSeleccionado = e.target.value;
+  if (!dniSeleccionado || dniSeleccionado === "primera_opcion") return;
 
-  const res = await fetch(
-    `http://localhost:3000/agricultores/buscar/dni/${dni}`
-  );
-  const data = await res.json();
-
-  if (res.ok) {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/agricultores/buscar/dni/${dniSeleccionado}`
+    );
+    const data = await res.json();
     mostrarDatosAgricultor(data);
     desbloquearExplotacion();
     cargarCamposExplotacion();
-  } else {
-    alert(data.error || "Agricultor no encontrado");
+  } catch (error) {
+    alert("Error al cargar datos del agricultor.");
+    console.error("Error:", error);
   }
+});
+
+// Filtro del select Agricultor
+inputBuscarAgricultor.addEventListener("input", (e) => {
+  const texto = e.target.value.toLowerCase();
+  const filtrados = listaAgricultores.filter((a) =>
+    `${a.Nombre} ${a.Apellido1} ${a.Apellido2} ${a.DNI}`
+      .toLowerCase()
+      .includes(texto)
+  );
+  actualizarSelectAgricultores(filtrados);
 });
 
 // Evento select explotación
@@ -307,6 +357,8 @@ selectExplotacion.addEventListener("change", () => {
   );
 
   if (seleccionada) {
+    limpiarCamposParcela();
+    bloquearActualizarParcela();
     // Imprimir datos de explotación
     camposExplotacion.id.value = seleccionada.idExplotacion;
     camposExplotacion.nombre.value = seleccionada.Nombre;
@@ -324,7 +376,7 @@ inputBuscarExplotacion.addEventListener("input", () => {
   const filtradas = window.explotacionesOriginales.filter((exp) =>
     exp.Nombre.toLowerCase().includes(texto)
   );
-  renderizarOpcionesExplotaciones(filtradas);
+  actualizarSelectExplotaciones(filtradas);
 });
 
 // Evento select parcela
@@ -335,8 +387,8 @@ selectParcela.addEventListener("change", () => {
   );
 
   if (seleccionada) {
-    desbloquearCamposParcela();
-    cargarCultivos(seleccionada.Tipo_Cultivo);
+    obtenerRecintosTotales(idSeleccionado);
+    obtenerTrataminetosTotales(idSeleccionado);
     mostrarDatosParcela(seleccionada);
   }
 });
@@ -351,65 +403,13 @@ inputBuscarParcela.addEventListener("input", () => {
     parcela.Nombre.toLowerCase().includes(texto)
   );
 
-  renderizarOpcionesParcelas(filtradas);
+  actualizarSelectParcelas(filtradas);
 });
 
-//Escuchar cambios en el inputBuscarTipoCultivo para filtrar
-camposParcela.inputBuscarTipoCultivo.addEventListener("input", () => {
-  const texto = camposParcela.inputBuscarTipoCultivo.value.toLowerCase();
-
-  const filtrados = cultivosOriginales.filter(({ Cultivo }) =>
-    Cultivo.toLowerCase().includes(texto)
-  );
-
-  renderizarCultivos(filtrados);
-});
-
-formGeneral.addEventListener("submit", async (e) => {
-  e.preventDefault(); // Evita recarga de página
-
-  const idOriginal = window.idParcelaOriginal;
-  const datos = {
-    id: camposParcela.id.value.trim(),
-    nombre: camposParcela.nombre.value.trim(),
-    codigoProvincia: camposParcela.codigoProvincia.value.trim(),
-    codigoMunicipio: camposParcela.codigoMunicipio.value.trim(),
-    nombreMunicipio: camposParcela.nombreMunicipio.value.trim(),
-    numPoligono: camposParcela.numPoligono.value.trim(),
-    numParcela: camposParcela.numParcela.value.trim(),
-    superficieSIGPAC: camposParcela.superficieSIGPAC.value.trim(),
-    tipoRegadio: camposParcela.selectTipoRegadio.value,
-    tipoCultivo: camposParcela.selectTipoCultivo.value,
-  };
-
-  const errores = validarCamposParcela(datos);
-  if (errores.length > 0) {
-    alert("Errores encontrados:\n" + errores.join("\n"));
-    return; 
-  }
-
-  try {
-    const res = await fetch(
-      `http://localhost:3000/parcelas/editar/${idOriginal}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(datos),
-      }
-    );
-
-    const resultado = await res.json();
-
-    if (res.ok) {
-      alert("Datos de la parcela actualizados correctamente.");
-      location.reload();
-    } else {
-      alert(resultado.error || "Error al actualizar los datos.");
-    }
-  } catch (err) {
-    console.error("Error en el servidor:", err);
-    alert("Error en el servidor al actualizar la parcela.");
-  }
+// Evento botón actualizar parcela
+document.getElementById("editar-parcela").addEventListener("click", (e) => {
+  e.preventDefault();
+  const idParcela = camposParcela.id.value;
+  if (!idParcela) return alert("No hay ninguna parcela seleccionada.");
+  editarParcela(idParcela);
 });
