@@ -179,11 +179,11 @@
               autocomplete="off" readonly/>
           </div>
           <div class="form-group">
-            <label for="n_identificacion">Número del catastro</label>
+            <label for="n_catastro">Número del catastro</label>
             <input
               type="text"
-              name="n_identificacion"
-              id="n_identificacion"
+              name="n_catastro"
+              id="n_catastro"
               autocomplete="off" readonly/>
           </div>
           <div class="form-group">
@@ -195,7 +195,7 @@
               autocomplete="off" readonly/>
           </div>
           <div class="form-group">
-            <label for="nombre">Código de provincia</label>
+            <label for="codigo_provincia">Código de provincia</label>
             <input
               type="text"
               name="codigo_provincia"
@@ -204,7 +204,7 @@
             />
             </div>
             <div class="form-group">
-              <label for="nombre">Código de municipio</label>
+              <label for="codigo_municipio">Código de municipio</label>
               <input
                 type="text"
                 name="codigo_municipio"
@@ -213,7 +213,7 @@
               />
           </div>
           <div class="form-group">
-            <label for="nombre">Nombre del municipio</label>
+            <label for="nombre_municipio">Nombre del municipio</label>
             <input
               type="text"
               name="nombre_municipio"
@@ -222,7 +222,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="nombre">Agregado</label>
+            <label for="agregado">Agregado</label>
             <input
               type="text"
               name="agregado"
@@ -231,7 +231,7 @@
             />
         </div>
         <div class="form-group">
-          <label for="nombre">Zona</label>
+          <label for="zona">Zona</label>
           <input
             type="text"
             name="zona"
@@ -275,6 +275,26 @@
               type="text"
               name="sup_declarada"
               id="sup_declarada"
+              autocomplete="off"
+             readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="recintos">Recintos</label>
+            <input
+              type="text"
+              name="recintos"
+              id="recintos"
+              autocomplete="off"
+             readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="tratamientos">Tratamientos</label>
+            <input
+              type="text"
+              name="tratamientos"
+              id="tratamientos"
               autocomplete="off"
              readonly
             />
@@ -404,5 +424,6 @@
         <p>Cuaderno de campo</p>
       </div>
     </footer>
+    <script src="../Javascript/baja_cultivos.js"></script>
   </body>
 </html>

@@ -46,4 +46,20 @@ router.put("/cultivar/:id", async (req, res) => {
   }
 });
 
+// Dar de baja cultivo en un recinto
+router.put("/baja-cultivo/:id", async (req, res) => {
+  const idRecinto = req.params.id;
+
+  try {
+    await db.promise().query(
+      `UPDATE Recinto SET Tipo_Cultivo = NULL, Tipo_regadio = NULL WHERE idRecinto = ?`,
+      [idRecinto]
+    );
+    res.json({ message: "Cultivo dado de baja correctamente en el recinto." });
+  } catch (error) {
+    console.error("Error al dar de baja cultivo:", error);
+    res.status(500).json({ error: "Error al dar de baja el cultivo." });
+  }
+});
+
 module.exports = router;
