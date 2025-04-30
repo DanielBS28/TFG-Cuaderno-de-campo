@@ -127,7 +127,7 @@ const limpiarCamposRecinto = () => {
   for (const key in camposRecinto) {
     camposRecinto[key].value = "";
   }
-}
+};
 
 // Desbloquear campos de explotación
 const desbloquearExplotacion = () => {
@@ -149,7 +149,7 @@ const desbloquearParcela = () => {
 const desbloquearRecinto = () => {
   selectRecinto.disabled = false;
   inputBuscarRecinto.disabled = false;
-}
+};
 
 // Desbloquear tipo de cultivo
 const desbloquearTipoCultivo = () => {
@@ -176,7 +176,7 @@ const bloquearRecinto = () => {
   selectRecinto.disabled = true;
   inputBuscarRecinto.value = "";
   inputBuscarRecinto.disabled = true;
-}
+};
 
 // Bloquear y Limpiar Filtro y Select de Tipo Cultivo
 const bloquearTipoCultivo = () => {
@@ -186,7 +186,7 @@ const bloquearTipoCultivo = () => {
   inputBuscarTipoCultivo.disabled = true;
   selectTipoRegadio.selectedIndex = 0;
   selectTipoRegadio.disabled = true;
-}
+};
 
 // Actualizar el select de agricultores
 const actualizarSelectAgricultores = (agricultores) => {
@@ -233,7 +233,7 @@ const actualizarSelectRecintos = (lista) => {
     option.textContent = `${recinto.Numero} | ${recinto.Superficie_ha} ha`;
     selectRecinto.appendChild(option);
   });
-}
+};
 
 // Rellenar las opciones del select de cultivos
 const renderizarCultivos = (lista) => {
@@ -245,7 +245,7 @@ const renderizarCultivos = (lista) => {
     option.textContent = Cultivo;
     selectTipoCultivo.appendChild(option);
   });
-}
+};
 
 // Función para cargar las explotaciones del agricultor
 const cargarCamposExplotacion = () => {
@@ -365,7 +365,7 @@ const cargarRecintosDeParcela = async (idParcela) => {
   } catch (error) {
     console.error("Error al cargar recintos:", error);
   }
-}
+};
 
 // Cargar todos los tipos de cultivo en el select
 const cargarCultivos = () => {
@@ -378,7 +378,7 @@ const cargarCultivos = () => {
     .catch((err) => {
       console.error("Error al cargar cultivos:", err);
     });
-}
+};
 
 // Crear cultivo en el recinto seleccionado
 const realizarCultivo = async () => {
@@ -392,16 +392,19 @@ const realizarCultivo = async () => {
   }
 
   try {
-    const res = await fetch(`http://localhost:3000/recintos/cultivar/${idRecinto}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        tipoCultivo,
-        tipoRegadio,
-      }),
-    });
+    const res = await fetch(
+      `http://localhost:3000/recintos/cultivar/${idRecinto}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tipoCultivo,
+          tipoRegadio,
+        }),
+      }
+    );
 
     if (res.ok) {
       alert("¡Cultivo registrado correctamente!");
@@ -416,7 +419,6 @@ const realizarCultivo = async () => {
     alert("Error inesperado al registrar el cultivo.");
   }
 };
-
 
 // ### EVENTOS ### //
 // Cargar todos los agricultores al iniciar
@@ -526,6 +528,19 @@ selectRecinto.addEventListener("change", () => {
     mostrarDatosRecinto(seleccionada);
     bloquearTipoCultivo();
     desbloquearTipoCultivo();
+
+    // Asignar tipo de cultivo y regadío si existen
+    if (seleccionada.Tipo_Cultivo) {
+      selectTipoCultivo.value = seleccionada.Tipo_Cultivo;
+    } else {
+      selectTipoCultivo.selectedIndex = 0;
+    }
+
+    if (seleccionada.Tipo_regadio) {
+      selectTipoRegadio.value = seleccionada.Tipo_regadio;
+    } else {
+      selectTipoRegadio.selectedIndex = 0;
+    }
   }
 });
 
@@ -546,7 +561,8 @@ inputBuscarRecinto.addEventListener("input", () => {
 inputBuscarTipoCultivo.addEventListener("input", () => {
   const texto = inputBuscarTipoCultivo.value.trim().toLowerCase();
 
-  if (!window.cultivosOriginales || window.cultivosOriginales.length === 0) return;
+  if (!window.cultivosOriginales || window.cultivosOriginales.length === 0)
+    return;
 
   const filtradas = window.cultivosOriginales.filter((cultivo) =>
     cultivo.Cultivo.toLowerCase().includes(texto)

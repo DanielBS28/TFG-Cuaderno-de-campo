@@ -15,7 +15,9 @@ router.get("/parcela/:id", async (req, res) => {
         Numero,
         Uso_SIGPAC,
         Descripcion_uso,
-        Superficie_ha
+        Superficie_ha,
+        Tipo_Cultivo,
+        Tipo_regadio
         FROM Recinto WHERE parcela_Numero_identificacion = ?`, [
         idParcela,
       ]);
