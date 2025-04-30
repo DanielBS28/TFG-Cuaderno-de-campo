@@ -84,6 +84,16 @@ button {
     align-items: center;
 }
 
+#baja-agricultor-foto{
+    height: 130px;
+    margin-bottom: 30px;
+}
+
+#editar-agricultores-foto{
+    height: 170px;
+    margin-bottom: 25px;
+}
+
 
 header{
     margin-bottom: 50px;

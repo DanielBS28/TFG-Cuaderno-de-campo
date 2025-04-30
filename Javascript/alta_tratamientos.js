@@ -458,21 +458,21 @@ const cargarProductosDePlaga = async (tipoCultivo, tipoPlaga) => {
 // Imprimir información sobre el producto seleccionado
 const infoProducto = (seleccionada) => {
   propiedadesProducto.innerHTML = `
-    <div id="propiedades-producto">
-        <p>Fecha de Caducidad: ${seleccionada.Fecha_caducidad}</p>
-        <p>Estado: ${seleccionada.Estado}</p>
-        <p>Dosis Mínima: ${seleccionada.Dosis_min}</p>
-        <p>Dosis Máxima: ${seleccionada.Dosis_max}</p>
-        <p>Unidad de Medida: ${seleccionada.Unidad_medida_dosis}</p>
-        <p>Plazo de Seguridad: ${seleccionada.Plazo_Seguridad}</p>
-        <p>Volumen Caldo: ${seleccionada.Volumen_caldo}</p>
-        <p>Aplicaciones: ${seleccionada.Aplicaciones}</p>
-        <p>Intervalo de Aplicaciones: ${seleccionada.Intervalo_aplicaciones}</p>
-        <p>Condicionamiento específico: ${seleccionada.Condicionamiento_especifico}</p>
-        <p>Método de Aplicación: ${seleccionada.Metodo_aplicacion}</p>
-        <p>Volumen Mínimo: ${seleccionada.Volumen_min}</p>
-        <p>Volumen Máximo: ${seleccionada.Volumen_max}</p>
-        <p>Unidades Volumen: ${seleccionada.Unidades_volumen}</p>
+    <div id="propiedades-producto" style="margin: 30px 0;">
+        <p><span>Fecha de Caducidad: </span>${seleccionada.Fecha_caducidad}</p>
+        <p><span>Estado: </span>${seleccionada.Estado}</p>
+        <p><span>Dosis Mínima: </span>${seleccionada.Dosis_min}</p>
+        <p><span>Dosis Máxima: </span>${seleccionada.Dosis_max}</p>
+        <p><span>Unidad de Medida: </span>${seleccionada.Unidad_medida_dosis}</p>
+        <p><span>Plazo de Seguridad: </span>${seleccionada.Plazo_Seguridad}</p>
+        <p><span>Volumen Caldo: </span>${seleccionada.Volumen_caldo}</p>
+        <p><span>Aplicaciones: </span>${seleccionada.Aplicaciones}</p>
+        <p><span>Intervalo de Aplicaciones: </span>${seleccionada.Intervalo_aplicaciones}</p>
+        <p><span>Condicionamiento específico: </span>${seleccionada.Condicionamiento_especifico}</p>
+        <p><span>Método de Aplicación: </span>${seleccionada.Metodo_aplicacion}</p>
+        <p><span>Volumen Mínimo: </span>${seleccionada.Volumen_min}</p>
+        <p><span>Volumen Máximo: </span>${seleccionada.Volumen_max}</p>
+        <p><span>Unidades Volumen: </span>${seleccionada.Unidades_volumen}</p>
     </div>
   `;
 

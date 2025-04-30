@@ -51,6 +51,16 @@
     width: 40px;
 }
 
+#propiedades-producto span{
+    color: #FBB02D;
+    font-weight: bold;
+    
+}
+
+#propiedades-producto p{
+    margin: 10px 0;
+}
+
 @media (max-width: 750px) {
 
     .izquierda{
