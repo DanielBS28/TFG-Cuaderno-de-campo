@@ -179,11 +179,11 @@
               autocomplete="off" readonly/>
           </div>
           <div class="form-group">
-            <label for="n_identificacion">Número del catastro</label>
+            <label for="n_catastro">Número del catastro</label>
             <input
               type="text"
-              name="n_identificacion"
-              id="n_identificacion"
+              name="n_catastro"
+              id="n_catastro"
               autocomplete="off" readonly/>
           </div>
           <div class="form-group">
@@ -195,7 +195,7 @@
               autocomplete="off" readonly/>
           </div>
           <div class="form-group">
-            <label for="nombre">Código de provincia</label>
+            <label for="codigo_provincia">Código de provincia</label>
             <input
               type="text"
               name="codigo_provincia"
@@ -204,7 +204,7 @@
             />
             </div>
             <div class="form-group">
-              <label for="nombre">Código de municipio</label>
+              <label for="codigo_municipio">Código de municipio</label>
               <input
                 type="text"
                 name="codigo_municipio"
@@ -213,7 +213,7 @@
               />
           </div>
           <div class="form-group">
-            <label for="nombre">Nombre del municipio</label>
+            <label for="nombre_municipio">Nombre del municipio</label>
             <input
               type="text"
               name="nombre_municipio"
@@ -222,7 +222,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="nombre">Agregado</label>
+            <label for="agregado">Agregado</label>
             <input
               type="text"
               name="agregado"
@@ -231,7 +231,7 @@
             />
         </div>
         <div class="form-group">
-          <label for="nombre">Zona</label>
+          <label for="zona">Zona</label>
           <input
             type="text"
             name="zona"
@@ -279,41 +279,45 @@
              readonly
             />
           </div>
+          <div class="form-group">
+            <label for="recintos">Recintos</label>
+            <input
+              type="text"
+              name="recintos"
+              id="recintos"
+              autocomplete="off"
+             readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="tratamientos">Tratamientos</label>
+            <input
+              type="text"
+              name="tratamientos"
+              id="tratamientos"
+              autocomplete="off"
+             readonly
+            />
+          </div>
         </div>
         <h2>Selección del tipo de cultivo</h2>
         <div class="busqueda">
           <img src="../Fotos/lupa.webp" alt="" class="lupa">
           <div class="form-group">
-            <label for="nombre-plaga">Buscar tipo de plaga por nombre</label>
+            <label for="nombre-cultivo">Buscar tipo de cultivo por nombre</label>
             <input
               type="text"
-              name="nombre-plaga"
-              id="nombre-plaga"
-              placeholder="Buscar tipo de plaga"
+              name="nombre-cultivo"
+              id="nombre-cultivo"
+              placeholder="Buscar tipo de cultivo"
               autocomplete="off"disabled
             />
           </div>
           <div class="form-group">
             <label for="seleccion-cultivo">Tipo de cultivo</label>
-            <select name="seleccion-cultivo" id="seleccion-plaga" disabled>
+            <select name="seleccion-cultivo" id="seleccion-cultivo" disabled>
                 <option value="primera_opcion" disabled selected>Seleccione el tipo de cultivo</option>
             </select>
-            </div>
-            <div class="form-group">
-              <label for="nombre-cultivo-buscado">Nombre del cultivo</label>
-              <input
-                type="text"
-                name="nombre-cultivo-buscado"
-                id="nombre-cultivo-buscado"
-                autocomplete="off" readonly/>
-            </div>
-            <div class="form-group">
-              <label for="superficie-cultivo">Superficie en ha del cultivo</label>
-              <input
-                type="text"
-                name="superficie-cultivo"
-                id="superficie-cultivo"
-                autocomplete="off" readonly/>
             </div>
         </div>
       <h2>Realizar tratamiento</h2>
@@ -336,14 +340,6 @@
                 <option value="primera_opcion" disabled selected>Seleccione el tipo de plaga</option>
             </select>
             </div>
-            <div class="form-group">
-              <label for="nombre-plaga-buscado">Nombre de la plaga</label>
-              <input
-                type="text"
-                name="nombre-plaga-buscado"
-                id="nombre-plaga-buscado"
-                autocomplete="off" readonly/>
-            </div>
         </div>
         <h3>Producto fitosanitario</h3>
         <div class="busqueda">
@@ -364,26 +360,11 @@
                     <option value="primera_opcion" disabled selected>Seleccione el producto</option>
                 </select>
             </div>
-            <div class="form-group">
-              <label for="nombre-producto-seleccionado">Nombre del producto</label>
-              <input
-                type="text"
-                name="nombre-producto-seleccionado"
-                id="nombre-producto-seleccionado"
-                autocomplete="off" readonly/>
-            </div>
-            <div class="form-group">
-              <label for="n_registro_producto">Número de registro del producto</label>
-              <input
-                type="text"
-                name="n_registro_producto"
-                id="n_registro_producto"
-                autocomplete="off" readonly/>
-            </div>
          </div>
+         <div id="propiedades-producto"></div>
          <div class="datos">
               <div class="form-group">
-                <label for="cantidad_producto">Kg o L de producto por Ha</label>
+                <label for="cantidad_producto" id="label_cantidad_producto">Cantidad del Producto en:</label>
                 <input
                   type="text"
                   name="cantidad_producto"
@@ -404,7 +385,7 @@
               </div>
               <div class="form-group">
                 <label for="fecha_tratamiento">Fecha del tratamiento</label>
-                <input type="date" disabled/>
+                <input type="date" id="fecha_tratamiento" disabled/>
               </div>
               <button id="validar-datos" disabled>Validar datos</button>
             </div>
@@ -412,27 +393,27 @@
             <div class="busqueda">
               <img src="../Fotos/lupa.webp" alt="" class="lupa">
               <div class="form-group">
-                <label for="identificacion-carnet">Buscar carnet del asesor o agricultor aplicador por número</label>
+                <label for="nombre-aplicador">Buscar nombre o DNI del asesor o agricultor aplicador</label>
                 <input
                   type="text"
-                  name="identificacion-carnet"
-                  id="identificacion-carnet"
-                  placeholder="Nº de identificación del aplicador o asesor"
+                  name="nombre-aplicador"
+                  id="nombre-aplicador"
+                  placeholder="Nombre o DNI del aplicador o asesor"
                   autocomplete="off"disabled
                 />
               </div>
               <div class="form-group">
-                <label for="productos">Carnets disponibles</label>
-                <select name="productos" id="productos" disabled>
-                    <option value="primera_opcion" disabled selected>Seleccione el carnet del aplicador</option>
+                <label for="seleccion-aplicador">Aplicadores disponibles</label>
+                <select name="seleccion-aplicador" id="seleccion-aplicador" disabled>
+                    <option value="primera_opcion" disabled selected>Seleccione el aplicador</option>
                 </select>
             </div>
             <div class="form-group">
-              <label for="numero-carnet-buscado">Número de carnet seleccionado</label>
+              <label for="numero-carnet-aplicador">Número de carnet del aplicador seleccionado</label>
             <input
                 type="text"
-                name="numero-carnet-buscado"
-                id="numero-carnet-buscado"
+                name="numero-carnet-aplicador"
+                id="numero-carnet-aplicador"
                 autocomplete="off"
                 readonly
               />
@@ -442,11 +423,11 @@
           <div class="busqueda">
             <img src="../Fotos/lupa.webp" alt="" class="lupa" />
             <div class="form-group">
-              <label for="nombre-exp">Buscar equipo de tratamiento por nombre</label>
+              <label for="nombre-equipo">Buscar equipo tratamiento por nombre</label>
               <input
                 type="text"
-                name="nombre-equipo-buscado"
-                id="nombre-equipo-buscado"
+                name="nombre-equipo"
+                id="nombre-equipo"
                 autocomplete="off"
                 placeholder="Buscar equipo de tratamiento"
                 disabled
@@ -522,5 +503,6 @@
         <p>Cuaderno de campo</p>
       </div>
     </footer>
+    <script src="../Javascript/alta_tratamientos.js"></script>
   </body>
 </html>

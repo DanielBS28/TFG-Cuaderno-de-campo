@@ -268,4 +268,25 @@ router.put("/editar/:id", async (req, res) => {
   }
 });
 
+router.get("/cultivos/:idParcela", async (req, res) => {
+  const { idParcela } = req.params;
+  try {
+    const [rows] = await db.promise().query(`
+      SELECT 
+        Tipo_Cultivo,
+        SUM(Superficie_ha) AS Superficie_ha
+      FROM recinto
+      WHERE parcela_Numero_identificacion = ?
+        AND Tipo_Cultivo IS NOT NULL
+      GROUP BY Tipo_Cultivo
+    `, [idParcela]);
+
+    res.json(rows);
+  } catch (error) {
+    console.error("Error al obtener cultivos de la parcela:", error);
+    res.status(500).json({ error: "Error al obtener cultivos" });
+  }
+});
+
+
 module.exports = router;
