@@ -1,3 +1,11 @@
+import {
+  comprobarUnidadMedida,
+  conversionUnidad,
+  calculoDosis,
+  unidadValida,
+  comprobarDosisAplicada,
+} from "./ConversionesDosis/calculosDosis.js";
+
 // DATOS AGRICULTOR
 const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
 const selectAgricultor = document.getElementById("seleccion-agricultor");
@@ -47,9 +55,14 @@ const camposParcela = {
 const inputBuscarTipoCultivo = document.getElementById("nombre-cultivo");
 const selectTipoCultivo = document.getElementById("seleccion-cultivo");
 
+const nombreCultivo = document.getElementById("nombre-cultivo-buscado");
+const superficieCultivo = document.getElementById("superficie-cultivo");
+
 // DATOS TIPO PLAGA
 const inputBuscarTipoPlaga = document.getElementById("nombre-plaga");
 const selectTipoPlaga = document.getElementById("seleccion-plaga");
+
+const nombrePlaga = document.getElementById("nombre-plaga-buscado");
 
 // DATOS PRODUCTO FITOSANITARIO
 const inputBuscarProducto = document.getElementById("nombre-producto");
@@ -64,6 +77,10 @@ const cantidadProducto = document.getElementById("cantidad_producto");
 const superficiceTratada = document.getElementById("superficie_tratada");
 const fechaTratamiento = document.getElementById("fecha_tratamiento");
 const btnValidarProducto = document.getElementById("validar-datos");
+
+const propiedadesEspecificas = document.getElementById(
+  "propiedades-especificas"
+);
 
 // DATOS CARNET DEL APLICADOR
 const inputBuscarAplicador = document.getElementById("nombre-aplicador");
@@ -118,6 +135,17 @@ const mostrarDatosParcela = (seleccionada) => {
   camposParcela.tratamientos.value = seleccionada.Numero_tratamientos;
 };
 
+// Mostrar datos de tipo de cultivo
+const mostrarDatosCultivo = (seleccionada) => {
+  nombreCultivo.value = seleccionada.Tipo_Cultivo;
+  superficieCultivo.value = seleccionada.Superficie_ha;
+};
+
+// Mostrar datos de tipo de plaga
+const mostrarDatosPlaga = (seleccionada) => {
+  nombrePlaga.value = seleccionada.Agente;
+};
+
 // Limpiar campos de explotación
 const limpiarCamposExplotacion = () => {
   camposExplotacion.id.value = "";
@@ -132,6 +160,17 @@ const limpiarCamposParcela = () => {
   for (const key in camposParcela) {
     camposParcela[key].value = "";
   }
+};
+
+// Limpiar campos de tipo de cultivo
+const limpiarCamposCultivo = () => {
+  nombreCultivo.value = "";
+  superficieCultivo.value = "";
+};
+
+// Limpiar campos de tipo de plaga
+const limpiarCamposPlaga = () => {
+  nombrePlaga.value = "";
 };
 
 // Limpiar campos cantidades de producto fitosanitario
@@ -180,6 +219,7 @@ const desbloquearCantidadProducto = () => {
   cantidadProducto.disabled = false;
   superficiceTratada.disabled = false;
   fechaTratamiento.disabled = false;
+  btnValidarProducto.disabled = false;
 };
 
 // Bloquear Filtro y Select de Parcela
@@ -227,6 +267,7 @@ const bloquearCantidadProducto = () => {
   cantidadProducto.disabled = true;
   superficiceTratada.disabled = true;
   fechaTratamiento.disabled = true;
+  btnValidarProducto.disabled = true;
 };
 
 // Actualizar el select de agricultores
@@ -457,26 +498,78 @@ const cargarProductosDePlaga = async (tipoCultivo, tipoPlaga) => {
 
 // Imprimir información sobre el producto seleccionado
 const infoProducto = (seleccionada) => {
+  // Información Genérica del Producto
   propiedadesProducto.innerHTML = `
     <div id="propiedades-producto" style="margin: 30px 0;">
+        <p><span>Nombre del Producto: </span><span id="nombre-producto-seleccionado">${
+          seleccionada.Nombre
+        }</span></p>
+        <p><span>Número Registro: </span><span id="numero-registro-seleccionado">${
+          seleccionada.Num_registro
+        }</span></p>
         <p><span>Fecha de Caducidad: </span>${seleccionada.Fecha_caducidad}</p>
         <p><span>Estado: </span>${seleccionada.Estado}</p>
-        <p><span>Dosis Mínima: </span>${seleccionada.Dosis_min}</p>
-        <p><span>Dosis Máxima: </span>${seleccionada.Dosis_max}</p>
-        <p><span>Unidad de Medida: </span>${seleccionada.Unidad_medida_dosis}</p>
+        <p><span>Dosis Mínima: </span><span id="dosis-minima-span">${conversionUnidad(
+          seleccionada.Unidad_medida_dosis,
+          seleccionada.Dosis_min
+        )}</span></p>
+        <p><span>Dosis Máxima: </span><span id="dosis-max-span">${conversionUnidad(
+          seleccionada.Unidad_medida_dosis,
+          seleccionada.Dosis_max
+        )}</span></p>
+        <p><span>Unidad de Medida: </span><span id="unidad-medida-dosis">${comprobarUnidadMedida(
+          seleccionada.Unidad_medida_dosis
+        )}</span></p>
         <p><span>Plazo de Seguridad: </span>${seleccionada.Plazo_Seguridad}</p>
         <p><span>Volumen Caldo: </span>${seleccionada.Volumen_caldo}</p>
         <p><span>Aplicaciones: </span>${seleccionada.Aplicaciones}</p>
-        <p><span>Intervalo de Aplicaciones: </span>${seleccionada.Intervalo_aplicaciones}</p>
-        <p><span>Condicionamiento específico: </span>${seleccionada.Condicionamiento_especifico}</p>
-        <p><span>Método de Aplicación: </span>${seleccionada.Metodo_aplicacion}</p>
+        <p><span>Intervalo de Aplicaciones: </span>${
+          seleccionada.Intervalo_aplicaciones
+        }</p>
+        <p><span>Condicionamiento específico: </span>${
+          seleccionada.Condicionamiento_especifico
+        }</p>
+        <p><span>Método de Aplicación: </span>${
+          seleccionada.Metodo_aplicacion
+        }</p>
         <p><span>Volumen Mínimo: </span>${seleccionada.Volumen_min}</p>
         <p><span>Volumen Máximo: </span>${seleccionada.Volumen_max}</p>
         <p><span>Unidades Volumen: </span>${seleccionada.Unidades_volumen}</p>
     </div>
   `;
+  labelCantidadProducto.innerText = `Cantidad del Producto en: ${comprobarUnidadMedida(
+    seleccionada.Unidad_medida_dosis
+  )}`;
 
-  labelCantidadProducto.innerText = `Cantidad del Producto en: ${seleccionada.Unidad_medida_dosis}`;
+  // Información Específica de las Dosis del Producto según Superficie del Cultivo
+  if (unidadValida(seleccionada.Unidad_medida_dosis)) {
+    propiedadesEspecificas.innerHTML = `
+    <div id="propiedades-especificas" style="margin: 30px 0;">
+        <p><span>La Dosis Máxima del Producto ${seleccionada.Nombre} para ${
+      superficieCultivo.value
+    } ha es: ${calculoDosis(
+      superficieCultivo.value,
+      conversionUnidad(seleccionada.Unidad_medida_dosis, seleccionada.Dosis_max)
+    )} ${
+      comprobarUnidadMedida(seleccionada.Unidad_medida_dosis).split("/")[0]
+    }</span></p>
+    </div>
+  `;
+  } else {
+    propiedadesEspecificas.innerHTML = `
+    <div id="propiedades-especificas" style="margin: 30px 0;">
+        <p>No se pueden realizar cálculos automáticos con esta unidad (${seleccionada.Unidad_medida_dosis})</p>
+    </div>
+  `;
+  }
+  console.log(
+    superficieCultivo.value,
+    cantidadProducto.value,
+    fechaTratamiento.value,
+    document.getElementById("dosis-min-span").textContent,
+    document.getElementById("dosis-max-span").textContent,
+    document.getElementById("unidad-medida-dosis").textContent
+  );
 };
 
 // ### EVENTOS ### //
@@ -485,7 +578,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   try {
     const res = await fetch("http://localhost:3000/agricultores/todos");
     const data = await res.json();
-    listaAgricultores = data;
+    window.listaAgricultores = data;
     actualizarSelectAgricultores(data);
   } catch (error) {
     console.error("Error al cargar agricultores:", error);
@@ -582,6 +675,7 @@ selectTipoCultivo.addEventListener("change", () => {
   );
 
   if (seleccionada) {
+    mostrarDatosCultivo(seleccionada);
     cargarPlagasDeCultivo(valorSeleccionado);
     desbloquearTipoPlaga();
   }
@@ -610,8 +704,9 @@ selectTipoPlaga.addEventListener("change", () => {
   );
 
   if (seleccionada) {
+    mostrarDatosPlaga(seleccionada);
     desbloquearProducto();
-    cargarProductosDePlaga(selectTipoCultivo.value, valorSeleccionado);
+    cargarProductosDePlaga(nombreCultivo.value, valorSeleccionado);
   }
 });
 
@@ -657,4 +752,13 @@ inputBuscarProducto.addEventListener("input", () => {
 // Evento botón Validar Datos
 btnValidarProducto.addEventListener("click", async (e) => {
   e.preventDefault();
+  console.log("juro que hice click");
+  comprobarDosisAplicada(
+    superficieCultivo.value,
+    cantidadProducto.value,
+    fechaTratamiento.value,
+    spanDosisMin.textContent,
+    spanDosisMax.textContent,
+    spanUnidadMedida.textContent
+  );
 });
