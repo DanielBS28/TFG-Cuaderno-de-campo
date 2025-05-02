@@ -4,6 +4,7 @@ import {
   calculoDosis,
   unidadValida,
   comprobarDosisAplicada,
+  redondearDecimales,
 } from "./ConversionesDosis/calculosDosis.js";
 
 // DATOS AGRICULTOR
@@ -68,8 +69,15 @@ const nombrePlaga = document.getElementById("nombre-plaga-buscado");
 const inputBuscarProducto = document.getElementById("nombre-producto");
 const selectProducto = document.getElementById("productos");
 
-const propiedadesProducto = document.getElementById("propiedades-producto");
+const camposProducto = {
+  nombreProducto: document.getElementById("nombre-producto-buscado"),
+  numRegistro: document.getElementById("num-registro-producto"),
+  dosisMin: document.getElementById("minima-dosis"),
+  dosisMax: document.getElementById("maxima-dosis"),
+  unidadDeMedida: document.getElementById("medida-dosis"),
+};
 
+const propiedadesProducto = document.getElementById("propiedades-producto");
 const labelCantidadProducto = document.getElementById(
   "label_cantidad_producto"
 );
@@ -85,22 +93,32 @@ const propiedadesEspecificas = document.getElementById(
 // DATOS CARNET DEL APLICADOR
 const inputBuscarAplicador = document.getElementById("nombre-aplicador");
 const selectAplicador = document.getElementById("seleccion-aplicador");
-const numCarnetAplicador = document.getElementById("numero_carnet_aplicador");
+const numCarnetAplicador = document.getElementById("numero-carnet-aplicador");
 
 // DATOS EQUIPO TRATAMIENTO
 const inputBuscarEquipo = document.getElementById("nombre-equipo");
 const selectEquipo = document.getElementById("seleccion-equipamiento");
 
-const nombreEquipo = document.getElementById("nombre-equipo-tratamiento");
-const numeroROMA = document.getElementById("numero_roma");
-const fechaAdquisicion = document.getElementById("fecha_adquisicion");
-const fechaUltimaInspeccion = document.getElementById(
-  "fecha_ultima_inspeccion"
-);
+const camposEquipo = {
+  nombreEquipo: document.getElementById("nombre-equipo-tratamiento"),
+  numeroROMA: document.getElementById("numero_roma"),
+  fechaAdquisicion: document.getElementById("fecha_adquisicion"),
+  fechaUltimaInspeccion: document.getElementById("fecha_ultima_inspeccion"),
+};
 
 const btnCrearTratamiento = document.getElementById("crear-tratamiento");
 
 // ### FUNCIONES ### //
+// Formatear fecha a 'yyyy-MM-dd'
+const formatearFecha = (fechaISO) => {
+  if (!fechaISO) return "";
+  const fecha = new Date(fechaISO);
+  const year = fecha.getFullYear();
+  const month = String(fecha.getMonth() + 1).padStart(2, "0");
+  const day = String(fecha.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 // Función para mostrar los datos del agricultor
 const mostrarDatosAgricultor = (data) => {
   camposAgricultor.nombre.value = data.Nombre;
@@ -146,6 +164,36 @@ const mostrarDatosPlaga = (seleccionada) => {
   nombrePlaga.value = seleccionada.Agente;
 };
 
+// Mostrar datos de producto fitosanitario
+const mostrarDatosProducto = (seleccionada) => {
+  camposProducto.nombreProducto.value = seleccionada.Nombre;
+  camposProducto.numRegistro.value = seleccionada.Num_registro;
+  camposProducto.dosisMin.value = conversionUnidad(
+    seleccionada.Unidad_medida_dosis,
+    seleccionada.Dosis_min
+  );
+  camposProducto.dosisMax.value = conversionUnidad(
+    seleccionada.Unidad_medida_dosis,
+    seleccionada.Dosis_max
+  );
+  camposProducto.unidadDeMedida.value = comprobarUnidadMedida(
+    seleccionada.Unidad_medida_dosis
+  );
+};
+
+// Mostrar datos de aplicador
+const mostrarDatosAplicador = (carnetAplicador) => {
+  numCarnetAplicador.value = carnetAplicador;
+};
+
+// Mostrar datos del equipo
+const mostrarDatosEquipo = (seleccionada) => {
+  camposEquipo.nombreEquipo.value = seleccionada.Nombre;
+  camposEquipo.numeroROMA.value = seleccionada.Numero_ROMA;
+  camposEquipo.fechaAdquisicion.value = formatearFecha(seleccionada.Fecha_adquisicion);
+  camposEquipo.fechaUltimaInspeccion.value = formatearFecha(seleccionada.Fecha_ultima_revision);
+};
+
 // Limpiar campos de explotación
 const limpiarCamposExplotacion = () => {
   camposExplotacion.id.value = "";
@@ -173,11 +221,30 @@ const limpiarCamposPlaga = () => {
   nombrePlaga.value = "";
 };
 
+// Limpiar campos producto
+const limpiarCamposProducto = () => {
+  for (const key in camposProducto) {
+    camposProducto[key].value = "";
+  }
+};
+
 // Limpiar campos cantidades de producto fitosanitario
 const limpiarCamposCantidadProducto = () => {
   cantidadProducto.value = "";
   superficiceTratada.value = "";
   fechaTratamiento.value = "";
+};
+
+// Limpiar campos del Aplicador del tratamiento
+const limpiarCamposAplicador = () => {
+  numCarnetAplicador = "";
+};
+
+// Limpiar campos de Equipo de tratamiento
+const limpiarCamposEquipo = () => {
+  for (const key in camposEquipo) {
+    camposEquipo[key].value = "";
+  }
 };
 
 // Desbloquear campos de explotación
@@ -220,6 +287,18 @@ const desbloquearCantidadProducto = () => {
   superficiceTratada.disabled = false;
   fechaTratamiento.disabled = false;
   btnValidarProducto.disabled = false;
+};
+
+// Desbloquear campos del Aplicador del tratamiento
+const desbloquearAplicador = () => {
+  inputBuscarAplicador.disabled = false;
+  selectAplicador.disabled = false;
+};
+
+// Desbloquear campos del Equipo de tratamiento
+const desbloquearEquipo = () => {
+  inputBuscarEquipo.disabled = false;
+  selectEquipo.disabled = false;
 };
 
 // Bloquear Filtro y Select de Parcela
@@ -268,6 +347,26 @@ const bloquearCantidadProducto = () => {
   superficiceTratada.disabled = true;
   fechaTratamiento.disabled = true;
   btnValidarProducto.disabled = true;
+};
+
+// Bloquear campos del Aplicador del tratamiento
+const bloquearAplicador = () => {
+  selectAplicador.innerHTML =
+    "<option disabled selected>Seleccione el aplicador</option>";
+  selectAplicador.selectedIndex = 0;
+  selectAplicador.disabled = true;
+  inputBuscarAplicador.value = "";
+  inputBuscarAplicador.disabled = true;
+};
+
+// Bloquear campos del Equipo de tratamiento
+const bloquearEquipo = () => {
+  selectEquipo.innerHTML =
+    "<option disabled selected>Seleccione el equipo</option>";
+  selectEquipo.selectedIndex = 0;
+  selectEquipo.disabled = true;
+  inputBuscarEquipo.value = "";
+  inputBuscarEquipo.disabled = true;
 };
 
 // Actualizar el select de agricultores
@@ -338,6 +437,50 @@ const actualizarSelectProducto = (lista) => {
     option.value = producto.idProducto;
     option.textContent = `${producto.Nombre} | ${producto.Num_registro}`;
     selectProducto.appendChild(option);
+  });
+};
+
+// Rellenar las opciones del select de aplicadores
+const actualizarSelectAplicadores = (aplicadores) => {
+  selectAplicador.innerHTML = `
+    <option disabled selected>Seleccione el aplicador</option>
+    <option value="segunda_opcion" disabled>Agricultor</option>
+  `;
+
+  // Insertar agricultor
+  const agricultor = camposAgricultor;
+  if (agricultor) {
+    const optAgr = document.createElement("option");
+    optAgr.value = agricultor.dni.value;
+    optAgr.textContent = `${agricultor.nombre.value} ${agricultor.apellido1.value} | ${agricultor.dni.value}`;
+    selectAplicador.appendChild(optAgr);
+  }
+
+  // Insertar separador para asesores
+  const separador = document.createElement("option");
+  separador.value = "tercera_opcion";
+  separador.textContent = "Asesores";
+  separador.disabled = true;
+  selectAplicador.appendChild(separador);
+
+  // Insertar asesores
+  aplicadores.forEach((asesor) => {
+    const optAsesor = document.createElement("option");
+    optAsesor.value = asesor.DNI;
+    optAsesor.textContent = `${asesor.Nombre} ${asesor.Apellido1} | ${asesor.DNI}`;
+    selectAplicador.appendChild(optAsesor);
+  });
+};
+
+// Rellenar las opciones del select de equipos
+const actualizarSelectEquipos = (equipos) => {
+  selectEquipo.innerHTML =
+    "<option disabled selected>Seleccione el equipo</option>";
+  equipos.forEach((equipo) => {
+    const option = document.createElement("option");
+    option.value = equipo.Numero_ROMA;
+    option.textContent = `${equipo.Nombre} | ${equipo.Numero_ROMA}`;
+    selectEquipo.appendChild(option);
   });
 };
 
@@ -501,7 +644,7 @@ const infoProducto = (seleccionada) => {
   // Información Genérica del Producto
   propiedadesProducto.innerHTML = `
     <div id="propiedades-producto" style="margin: 30px 0;">
-        <p><span>Fecha de Caducidad: </span>${seleccionada.Fecha_caducidad}</p>
+        <p><span>Fecha de Caducidad: </span>${formatearFecha(seleccionada.Fecha_caducidad)}</p>
         <p><span>Estado: </span>${seleccionada.Estado}</p>
         <p><span>Dosis Mínima: </span>${conversionUnidad(
           seleccionada.Unidad_medida_dosis,
@@ -541,9 +684,14 @@ const infoProducto = (seleccionada) => {
     <div id="propiedades-especificas" style="margin: 30px 0;">
         <p><span>La Dosis Máxima del Producto ${seleccionada.Nombre} para ${
       superficieCultivo.value
-    } ha es: ${calculoDosis(
-      superficieCultivo.value,
-      conversionUnidad(seleccionada.Unidad_medida_dosis, seleccionada.Dosis_max)
+    } ha es: ${redondearDecimales(
+      calculoDosis(
+        superficieCultivo.value,
+        conversionUnidad(
+          seleccionada.Unidad_medida_dosis,
+          seleccionada.Dosis_max
+        )
+      )
     )} ${
       comprobarUnidadMedida(seleccionada.Unidad_medida_dosis).split("/")[0]
     }</span></p>
@@ -556,14 +704,45 @@ const infoProducto = (seleccionada) => {
     </div>
   `;
   }
-  console.log(
-    superficieCultivo.value,
-    cantidadProducto.value,
-    fechaTratamiento.value,
-    document.getElementById("dosis-min-span").textContent,
-    document.getElementById("dosis-max-span").textContent,
-    document.getElementById("unidad-medida-dosis").textContent
-  );
+};
+
+// Cargar asesores del agricultor
+const cargarAsesores = async () => {
+  try {
+    const dniAgricultor = camposAgricultor.dni.value;
+    const res = await fetch(
+      `http://localhost:3000/asesores/asignados/${dniAgricultor}`
+    );
+    const asesores = await res.json();
+    window.aplicadores = asesores;
+    actualizarSelectAplicadores(asesores);
+  } catch (err) {
+    console.error("Error cargando asesores:", err);
+  }
+};
+
+// Cargar equipos de una explotación
+const cargarEquipos = async (idExplotacion) => {
+  if (!idExplotacion) return;
+
+  try {
+    const res = await fetch(
+      `http://localhost:3000/equipos/explotacion/${idExplotacion}`
+    );
+    const equipos = await res.json();
+    console.log(equipos);
+
+    if (!Array.isArray(equipos) || equipos.length === 0) {
+      alert("No hay equipos disponibles para esta explotación.");
+      bloquearEquipo();
+      return;
+    }
+
+    window.equipos = equipos;
+    actualizarSelectEquipos(equipos);
+  } catch (err) {
+    console.error("Error al cargar equipos:", err);
+  }
 };
 
 // ### EVENTOS ### //
@@ -622,12 +801,14 @@ selectExplotacion.addEventListener("change", () => {
     obtenerParcelasTotales(idSeleccionado);
     // Cargar parcelas en el select
     cargarParcelasDeExplotacion(idSeleccionado);
+    // Cargar equipos de la explotación
+    cargarEquipos(idSeleccionado);
   }
 });
 
 // Escuchar cambios en el inputBuscarExplotacion para filtrar
 inputBuscarExplotacion.addEventListener("input", () => {
-  const texto = inputBuscarExplotacion.value.toLowerCase();
+  const texto = inputBuscarExplotacion.value.trim().toLowerCase();
   const filtradas = window.explotacionesOriginales.filter((exp) =>
     exp.Nombre.toLowerCase().includes(texto)
   );
@@ -650,7 +831,7 @@ selectParcela.addEventListener("change", () => {
 
 // Evento input parcela para filtrar
 inputBuscarParcela.addEventListener("input", () => {
-  const texto = inputBuscarParcela.value.trim().toLowerCase();
+  const texto = inputBuscarParcela.value.trim().toLowerCase().toLowerCase();
 
   if (!window.parcelas || window.parcelas.length === 0) return;
 
@@ -677,7 +858,7 @@ selectTipoCultivo.addEventListener("change", () => {
 
 // Evento input tipo cultivo para filtrar
 inputBuscarTipoCultivo.addEventListener("input", () => {
-  const texto = inputBuscarTipoCultivo.value.trim();
+  const texto = inputBuscarTipoCultivo.value.trim().toLowerCase();
 
   if (!window.cultivos || window.cultivos.length === 0) return;
 
@@ -706,7 +887,7 @@ selectTipoPlaga.addEventListener("change", () => {
 
 // Evento input tipo plaga para filtrar
 inputBuscarTipoPlaga.addEventListener("input", () => {
-  const texto = inputBuscarTipoPlaga.value.trim();
+  const texto = inputBuscarTipoPlaga.value.trim().toLowerCase();
 
   if (!window.plagas || window.plagas.length === 0) return;
 
@@ -726,13 +907,19 @@ selectProducto.addEventListener("change", () => {
 
   if (seleccionada) {
     desbloquearCantidadProducto();
+    mostrarDatosProducto(seleccionada);
     infoProducto(seleccionada);
+
+    desbloquearAplicador();
+    cargarAsesores();
+
+    desbloquearEquipo();
   }
 });
 
 // Evento input producto fitosanitario para filtrar
 inputBuscarProducto.addEventListener("input", () => {
-  const texto = inputBuscarProducto.value.trim();
+  const texto = inputBuscarProducto.value.trim().toLowerCase();
 
   if (!window.productos || window.productos.length === 0) return;
 
@@ -746,13 +933,66 @@ inputBuscarProducto.addEventListener("input", () => {
 // Evento botón Validar Datos
 btnValidarProducto.addEventListener("click", async (e) => {
   e.preventDefault();
-  console.log("juro que hice click");
   comprobarDosisAplicada(
     superficieCultivo.value,
+    superficiceTratada.value,
     cantidadProducto.value,
     fechaTratamiento.value,
-    spanDosisMin.textContent,
-    spanDosisMax.textContent,
-    spanUnidadMedida.textContent
+    camposProducto.dosisMin.value,
+    camposProducto.dosisMax.value,
+    camposProducto.unidadDeMedida.value
   );
+});
+
+// Evento select del Aplicador del tratamiento
+selectAplicador.addEventListener("change", async () => {
+  const seleccionadaAgr = camposAgricultor.dni.value;
+  const valorSeleccionado = selectAplicador.value;
+
+  const seleccionadaAs = window.aplicadores.find(
+    (aplicador) => aplicador.DNI == valorSeleccionado
+  );
+
+  if (valorSeleccionado == seleccionadaAgr)
+    mostrarDatosAplicador(camposAgricultor.carnet.value);
+  else if (seleccionadaAs)
+    mostrarDatosAplicador(seleccionadaAs.N_Carnet_asesor);
+});
+
+// Evento input aplicador del tratamiento para filtrar
+inputBuscarAplicador.addEventListener("input", () => {
+  const texto = inputBuscarAplicador.value.trim().toLowerCase();
+
+  if (!window.aplicadores || window.aplicadores.length === 0) return;
+
+  const filtradas = window.aplicadores.filter((aplicador) =>
+    `${aplicador.Nombre} ${aplicador.Apellido1} | ${aplicador.DNI}`
+      .toLowerCase()
+      .includes(texto)
+  );
+  actualizarSelectAplicadores(filtradas);
+});
+
+// Evento select del Equipo de tratamiento
+selectEquipo.addEventListener("change", async () => {
+  const valorSeleccionado = selectEquipo.value;
+  const seleccionada = window.equipos.find(
+    (equipo) => equipo.Numero_ROMA == valorSeleccionado
+  );
+
+  if (seleccionada) {
+    mostrarDatosEquipo(seleccionada);
+  }
+});
+
+// Evento input equipo de tratamiento para filtrar
+inputBuscarEquipo.addEventListener("input", () => {
+  const texto = inputBuscarEquipo.value.trim().toLowerCase();
+  if (!window.equipos || window.equipos.lenght === 0) return;
+
+  const filtradas = window.equipos.filter((equipo) =>
+    `${equipo.Nombre} | ${equipo.Numero_ROMA}`.toLowerCase().includes(texto)
+  );
+
+  actualizarSelectEquipos(filtradas);
 });

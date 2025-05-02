@@ -175,4 +175,24 @@ router.put("/actualizar/:dni", async (req, res) => {
   }
 });
 
+// Obtener asesores asignados a un agricultor
+router.get("/asignados/:dni", (req, res) => {
+  const { dni } = req.params;
+
+  const sql = `
+    SELECT t.*
+    FROM asesor_has_agricultor
+    INNER JOIN asesor t ON t.DNI = asesor_has_agricultor.Asesor_DNI
+    WHERE asesor_has_agricultor.Agricultor_Usuario_DNI = ?
+  `;
+
+  db.query(sql, [dni], (err, results) => {
+    if (err) {
+      console.error("Error al obtener asesores asignados:", err);
+      return res.status(500).json({ error: "Error interno del servidor" });
+    }
+    res.json(results);
+  });
+});
+
 module.exports = router;

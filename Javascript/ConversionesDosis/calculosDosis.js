@@ -60,17 +60,94 @@ const arrayU = [
 export const unidadValida = (u) => (arrayU.includes(u) ? true : false);
 
 // Comprobar valores max/min de la dosis aplicada según superficie
-export const comprobarDosisAplicada = (sup, dosis, fecha, dosisMin, dosisMax, u) => {
-  // Obtener la fecha actual
+export const comprobarDosisAplicada = (
+  supCultivo,
+  sup,
+  dosis,
+  fecha,
+  dosisMin,
+  dosisMax,
+  u
+) => {
+  if (!unidadValida(u)) return alert(`Para la Unidad de Medida (${u}) no podemos hacer una validación informativa de las dósis.`);
+
+  const errores = [];
+  console.log(
+    calculoDosis(sup, dosisMax) +
+      ">=" +
+      dosis +
+      " && " +
+      supCultivo +
+      ">=" +
+      sup
+  );
+  // Validación de campos vacíos
+  if (!sup || !supCultivo || !dosis || !fecha || !dosisMin || !dosisMax || !u) {
+    errores.push("Todos los campos deben estar completos.");
+  }
+
+  sup = parseFloat(sup);
+  supCultivo = parseFloat(supCultivo);
+  dosis = parseFloat(dosis);
+  dosisMin = parseFloat(dosisMin);
+  dosisMax = parseFloat(dosisMax);
+
+  // Validar que los campos numéricos sean números válidos
+  if (
+    isNaN(sup) ||
+    isNaN(supCultivo) ||
+    isNaN(dosis) ||
+    isNaN(dosisMin) ||
+    isNaN(dosisMax)
+  ) {
+    errores.push(
+      "La superficie, dosis y valores mínimos/máximos deben ser números válidos."
+    );
+  }
+
+  // Validar fecha del tratamiento
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Eliminar la hora para comparar solo fechas
-
+  today.setHours(0, 0, 0, 0);
   const inputDate = new Date(fecha);
-  inputDate.setHours(0, 0, 0, 0); // Igualar precisión
+  inputDate.setHours(0, 0, 0, 0);
+  if (inputDate > today) {
+    errores.push("La fecha del tratamiento no puede ser mayor a hoy.");
+  }
 
-  console.log(sup, dosis, fecha, dosisMin, dosisMax, u);
+  // Validar superficie tratada
+  if (supCultivo < sup) {
+    errores.push(
+      "La superficie tratada no puede superar la superficie total del cultivo."
+    );
+  }
 
-  if (calculoDosis(sup, dosisMax) >= dosis && inputDate <= today)
-    return alert("Datos correctos");
-  else return alert("mamaste");
+  const dosisMaxima = calculoDosis(sup, dosisMax);
+  const dosisMinima = calculoDosis(sup, dosisMin);
+
+  if (dosis > dosisMaxima) {
+    errores.push(
+      `Para la superficie introducida (${sup} ha), la dosis máxima permitida es (${redondearDecimales(dosisMaxima)} ${
+        comprobarUnidadMedida(u).split("/")[0]
+      })`
+    );
+  }
+
+  if (dosis < dosisMinima) {
+    errores.push(
+      `Para la superficie introducida (${sup} ha), la dosis mínima recomendada es (${redondearDecimales(dosisMinima)} ${
+        comprobarUnidadMedida(u).split("/")[0]
+      })`
+    );
+  }
+
+  // Mostrar resultados
+  if (errores.length > 0) {
+    console.error("Errores:", errores);
+    alert("Errores:\n" + errores.join("\n"));
+  } else {
+    alert("Datos correctos");
+  }
 };
+
+// Redondear a 3 decimales
+export const redondearDecimales = (n) => Math.round(n * 1000) / 1000;
