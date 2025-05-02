@@ -110,7 +110,7 @@ header{
 
 }
 
-#formulario-DNI{
+#formulario-DNI, #formulario-equipo{
     display: flex;
     flex-direction: column;
     align-items: center;

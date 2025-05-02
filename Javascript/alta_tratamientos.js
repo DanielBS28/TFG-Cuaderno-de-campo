@@ -501,25 +501,19 @@ const infoProducto = (seleccionada) => {
   // Información Genérica del Producto
   propiedadesProducto.innerHTML = `
     <div id="propiedades-producto" style="margin: 30px 0;">
-        <p><span>Nombre del Producto: </span><span id="nombre-producto-seleccionado">${
-          seleccionada.Nombre
-        }</span></p>
-        <p><span>Número Registro: </span><span id="numero-registro-seleccionado">${
-          seleccionada.Num_registro
-        }</span></p>
         <p><span>Fecha de Caducidad: </span>${seleccionada.Fecha_caducidad}</p>
         <p><span>Estado: </span>${seleccionada.Estado}</p>
-        <p><span>Dosis Mínima: </span><span id="dosis-minima-span">${conversionUnidad(
+        <p><span>Dosis Mínima: </span>${conversionUnidad(
           seleccionada.Unidad_medida_dosis,
           seleccionada.Dosis_min
-        )}</span></p>
-        <p><span>Dosis Máxima: </span><span id="dosis-max-span">${conversionUnidad(
+        )}</p>
+        <p><span>Dosis Máxima: </span>${conversionUnidad(
           seleccionada.Unidad_medida_dosis,
           seleccionada.Dosis_max
-        )}</span></p>
-        <p><span>Unidad de Medida: </span><span id="unidad-medida-dosis">${comprobarUnidadMedida(
+        )}</p>
+        <p><span>Unidad de Medida: </span>${comprobarUnidadMedida(
           seleccionada.Unidad_medida_dosis
-        )}</span></p>
+        )}</p>
         <p><span>Plazo de Seguridad: </span>${seleccionada.Plazo_Seguridad}</p>
         <p><span>Volumen Caldo: </span>${seleccionada.Volumen_caldo}</p>
         <p><span>Aplicaciones: </span>${seleccionada.Aplicaciones}</p>

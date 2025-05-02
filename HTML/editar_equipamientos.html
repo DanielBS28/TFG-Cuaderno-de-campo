@@ -1,264 +1,120 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Menú administrador</title>
-    <link rel="stylesheet" href="../CSS/global.css" />
-    <link rel="stylesheet" href="../CSS/alta_baja_parcelas.css" />
-  </head>
-  <body>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baja de asesores</title>
+    <link rel="stylesheet" href="../CSS/global.css">
+    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css">
+
+</head>
+<body>
+    <div class="contenedor-principal">
     <header>
-      <div class="container">
-        <div class="containerlogo">
-          <div class="img-logo"></div>
-          <p class="logo">Editar datos de equipamientos</p>
+        <div class="container">
+            <div class="containerlogo">
+                <div class="img-logo"></div>
+            <p class="logo">Editar datos de equipos de tratamiento</p>
+            
         </div>
         <nav>
-          <a href="gestion_explotaciones.html">
+          <a href="gestion_equipamientos.html">
             <img src="../Fotos/flecha.png" alt="" id="flecha">
         </a>
-          <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
-          <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
-      </nav>
-      </div>
+            <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
+            <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
+        </nav>
+        </div>
     </header>
     <h1 class="titulo-h1">Editar datos de equipamientos</h1>
-    <section class="form-container">
-      <form id="general">
-        <h2>Datos del agricultor</h2>
-        <div class="busqueda">
-          <img src="../Fotos/lupa.webp" alt="" class="lupa" />
-          <div class="form-group">
-            <label for="nombre-exp">Buscar agricultor</label>
-            <input
-              type="text"
-              name="busqueda-agricultor"
-              id="busqueda-agricultor"
-              placeholder="Búsqueda del agricultor"
-              autocomplete="off"
-            />
+    <div id="formularios">
+        <div id="formularios-busqueda">
+          <form id="formulario-equipo">
+            <h1>Seleccionar equipo</h1>
+            <img src="../Fotos/baja_asesores.png" alt="" style="height: 150px; margin-bottom: 30px;">
+            <div class="form-group">
+                <label for="busqueda-equipo">Búsqueda del equipamiento</label>
+              <input
+                type="text"
+                name="busqueda-equipo"
+                id="busqueda-equipo"
+                placeholder="Búsqueda del equipo"
+                autocomplete="off"
+              />
+              <label for="seleccion-equipo" class="margen-arriba">Selección del equipamiento</label>
+              <select name="seleccion-equipo" id="seleccion-asesor">
+                <option value="primera_opcion" selected disabled>
+                  Seleccione el equipo
+                </option>
+              </select>
+            </div>
+          </form>
           </div>
-          <div class="form-group">
-            <label for="seleccion-agricultor">Seleccione un agricultor</label>
-            <select name="seleccion-agricultor" id="seleccion-agricultor">
-              <option value="Seleccione un agricultor" selected disabled>
-                Seleccione un agricultor
-              </option>
-            </select>
-          </div>
+       
+          <div class="form-container">
+            <div class="cabecera">
+                <h1>Datos del equipo</h1>
+            </div>     
+            <form>
+              <div class="form-grid">
+                <div class="form-group">
+                    <label for="nombre-equipo-tratamiento">Nombre del equipo</label>
+                    <input
+                      type="text"
+                      name="nombre-equipo-tratamiento"
+                      id="nombre-equipo-tratamiento"
+                      autocomplete="off"
+                      readonly
+                    />
+                  </div>
+                <div class="form-group">
+                    <label for="numero_roma">Número de ROMA del equipo</label>
+                    <input
+                      type="text"
+                      name="numero_roma"
+                      id="numero_roma"
+                      autocomplete="off"
+                      readonly
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="fecha_adquisicion">Fecha de adquisición</label>
+                    <input type="date" id="fecha_adquisicion" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="fecha_ultima_inspeccion">Fecha de última inspección</label>
+                    <input type="date" id="fecha_ultima_inspeccion" readonly/>
+                </div>
+            </div>
+            <button  type="submit" class="actualizar actualizar_datos" id="baja-equipamiento">Actualizar datos del equipo</button>
         </div>
-
-        <div class="datos">
-          <div class="form-group">
-            <label for="dni">DNI</label>
-            <input
-              type="text"
-              name="dni"
-              id="dni"
-              placeholder=""
-              autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="nombre">Nombre</label>
-            <input
-              type="text"
-              name="nombre"
-              id="nombre"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="apellido1">Primer Apellido</label>
-            <input
-              type="text"
-              name="apellido1"
-              id="apellido1"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="apellido2">Segundo Apellido</label>
-            <input
-              type="text"
-              name="apellido2"
-              id="apellido2"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="carnet">Nº Carnet agricultor</label>
-            <input
-              type="text"
-              name="carnet"
-              id="carnet"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-        </div>
-        <h2>Datos de la explotación</h2>
-        <div class="busqueda">
-          <img src="../Fotos/lupa.webp" alt="" class="lupa" />
-          <div class="form-group">
-            <label for="nombre-exp">Buscar explotación por nombre</label>
-            <input
-              type="text"
-              name="nombre-exp"
-              id="nombre-exp"
-              placeholder="Buscar explotación"
-              autocomplete="off"
-              disabled
-            />
-          </div>
-          <div class="form-group">
-            <label for="seleccion-exp"
-              >Seleccione la explotación del agricultor</label
-            >
-            <select name="seleccion-exp" id="seleccion-exp" disabled>
-              <option value="Selecciona una explotación" selected disabled>
-                Selecciona una explotación
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="datos">
-          <div class="form-group">
-            <label for="id-explotacion">ID explotación</label>
-            <input
-              type="text"
-              name="id-explotacion"
-              id="id-explotacion"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="nombre-buscado-explotacion">Nombre</label>
-            <input
-              type="text"
-              name="nombre-buscado-explotacion"
-              id="nombre-buscado-explotacion"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="superficie">Superficie total</label>
-            <input
-              type="text"
-              name="superficie"
-              id="superficie"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-          <div class="form-group">
-            <label for="total-parcelas">Parcelas totales</label>
-            <input
-              type="text"
-              name="total-parcelas"
-              id="total-parcelas"
-              autocomplete="off"
-              readonly
-            />
-          </div>
-        </div>
-        <h2>Editar equipo de tratamiento</h2>
-        <div class="busqueda">
-          <img src="../Fotos/lupa.webp" alt="" class="lupa" />
-          <div class="form-group">
-            <label for="nombre-exp">Buscar equipo de tratamiento por nombre</label>
-            <input
-              type="text"
-              name="nombre-equipo-buscado"
-              id="nombre-equipo-buscado"
-              placeholder="Buscar equipo de tratamiento"
-              autocomplete="off"
-              disabled
-            />
-          </div>
-          <div class="form-group">
-            <label for="seleccion-equipamiento"
-              >Seleccione un equipo de tratamiento</label
-            >
-            <select name="seleccion-equipamiento" id="seleccion-equipamiento" disabled>
-              <option value="Seleccione un equipo de tratamiento" selected disabled>
-                Seleccione el equipo</option>
-            </select>
-          </div>
-        </div>
-        <div class="datos">
-          <div class="form-group">
-            <label for="nombre-equipo-tratamiento"
-              >Nombre del equipo de tratamiento</label
-            >
-            <input
-              type="text"
-              name="nombre-equipo-tratamiento"
-              id="nombre-equipo-tratamiento"
-              placeholder="Introduzca el nombre del equipo"
-              autocomplete="off"
-              disabled
-            />
-          </div>
-          <div class="form-group">
-            <label for="numero_roma">Número de ROMA del equipo</label>
-            <input
-              type="text"
-              name="numero_roma"
-              id="numero_roma"
-              placeholder="Introduzca el número de ROMA"
-              autocomplete="off"
-              disabled
-            />
-          </div>
-          <div class="form-group">
-            <label for="fecha_adquisicion">Fecha de adquisición</label>
-            <input type="date" id="fecha_adquisicion" disabled />
-          </div>
-          <div class="form-group">
-            <label for="fecha_ultima_inspeccion"
-              >Fecha de última inspección</label
-            >
-            <input type="date" id="fecha_ultima_inspeccion" disabled />
-          </div>
-        </div>
-        <div class="boton_subir">
-          <button class="subir-formulario color-naranja"  id="actualizar-equipamiento">
-            Editar equipamiento
-          </button>
-        </div>
-      </form>
-    </section>
-    <section class="fondo-footer">
-      <div class="logo-container">
-        <a href="https://salesianosdosa.com/" target="_blank">
-          <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
-        </a>
-      </div>
-      
-      <div class="logo-container">
-        <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
-          <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
-        </a>
-      </div>
-      
-      <div class="logo-container">
-        <a href="https://www.mapa.gob.es/es/" target="_blank">
-          <img src="../Fotos/Logo_ministerio.png" alt="">
-        </a>
-      </div>
+</div>
+<section class="fondo-footer">
+    <div class="logo-container">
+      <a href="https://salesianosdosa.com/" target="_blank">
+        <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
+      </a>
+    </div>
+    
+    <div class="logo-container">
+      <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
+        <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
+      </a>
+    </div>
+    
+    <div class="logo-container">
+      <a href="https://www.mapa.gob.es/es/" target="_blank">
+        <img src="../Fotos/Logo_ministerio.png" alt="">
+      </a>
+    </div>
 </section>
+
     <footer>
-      <div class="container">
-        <p>Cuaderno de campo</p>
-      </div>
+        <div class="container">
+            <p>Cuaderno de campo</p>
+        </div>
     </footer>
-  </body>
+</div>
+<script src="../Javascript/editar_asesores.js"></script>
+</body>
 </html>
