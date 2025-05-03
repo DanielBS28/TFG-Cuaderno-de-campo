@@ -497,3 +497,14 @@ btnBajaCultivo.addEventListener("click", async (e) => {
     alert("Error al dar de baja el cultivo.");
   }
 });
+
+// Evento botón mostrar parcela en el SIGPAC
+document.getElementById("SIGPAC").addEventListener("click", (e) => {
+  e.preventDefault();
+  const idRecinto = camposRecinto.recinto.value;
+  if (!idRecinto) return alert("No hay ningún recinto seleccionado.");
+
+  const urlSIGPAC = `https://sigpac.mapa.es/fega/visor/?provincia=${camposParcela.codigoProvincia.value}&municipio=${camposParcela.codigoMunicipio.value}&agregado=${camposParcela.agregado.value}&zona=${camposParcela.zona.value}&poligono=${camposParcela.numPoligono.value}&parcela=${camposParcela.numParcela.value}&recinto=${idRecinto}`;
+
+  window.open(urlSIGPAC, "_blank");
+});

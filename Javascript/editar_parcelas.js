@@ -413,3 +413,14 @@ document.getElementById("editar-parcela").addEventListener("click", (e) => {
   if (!idParcela) return alert("No hay ninguna parcela seleccionada.");
   editarParcela(idParcela);
 });
+
+// Evento botón mostrar parcela en el SIGPAC
+document.getElementById("SIGPAC").addEventListener("click", (e) => {
+  e.preventDefault();
+  const idParcela = camposParcela.id.value;
+  if (!idParcela) return alert("No hay ninguna parcela seleccionada.");
+
+  const urlSIGPAC = `https://sigpac.mapa.es/fega/visor/?provincia=${camposParcela.codigoProvincia.value}&municipio=${camposParcela.codigoMunicipio.value}&agregado=${camposParcela.agregado.value}&zona=${camposParcela.zona.value}&poligono=${camposParcela.numPoligono.value}&parcela=${camposParcela.numParcela.value}`;
+
+  window.open(urlSIGPAC, "_blank");
+});

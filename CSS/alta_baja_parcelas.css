@@ -85,6 +85,10 @@ option,select{
     float: right;
 }
 
+#automatizar-parcela{
+    background-color: #0f77df;
+}
+
 .lupa{
     position: relative;
     top: 13px;
@@ -135,6 +139,10 @@ header nav{
     background-color: #FBB02D;
     padding: 10px;
     border-radius: 4px;
+}
+
+#SIGPAC{
+    background-color: #101c34;
 }
 
 @media (max-width: 1020px) {
@@ -193,13 +201,13 @@ header nav{
         margin-top: 20px;
         display: flex;
         justify-content: center;
+        flex-direction: column;
 
     }
 
     .subir-formulario{
         margin-bottom: 5px;
         padding: 20px;
-        float: right;
         margin-top: 20px;
         float: none;
     }
