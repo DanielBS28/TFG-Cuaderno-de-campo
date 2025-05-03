@@ -1,5 +1,5 @@
 const inputBusqueda = document.getElementById("busqueda-equipo");
-const selectEquipos = document.getElementById("seleccion-asesor");
+const selectEquipos = document.getElementById("seleccion-equipo");
 
 const nombreInput = document.getElementById("nombre-equipo-tratamiento");
 const romaInput = document.getElementById("numero_roma");
@@ -27,18 +27,23 @@ function cargarSelect(lista) {
     lista.forEach(eq => {
         const option = document.createElement("option");
         option.value = eq.Numero_ROMA;
-        option.textContent = eq.Nombre;
+        option.textContent = `${eq.Nombre} | ${eq.Numero_ROMA}`;
         selectEquipos.appendChild(option);
     });
 }
 
 // Filtrado por texto
 inputBusqueda.addEventListener("input", () => {
-    const filtro = inputBusqueda.value.toLowerCase();
-    const filtrados = equipos.filter(eq => eq.Nombre.toLowerCase().includes(filtro));
-    cargarSelect(filtrados);
-});
+    const texto = inputBusqueda.value.trim().toLowerCase();
+    if (!equipos || equipos.length === 0) return;
 
+    const filtradas = equipos.filter((equipo) =>
+        `${equipo.Nombre} | ${equipo.Numero_ROMA}`.toLowerCase().includes(texto)
+    );
+
+    cargarSelect(filtradas);
+});
+  
 // Mostrar datos al seleccionar equipo
 selectEquipos.addEventListener("change", () => {
     const seleccionado = equipos.find(eq => eq.Numero_ROMA == selectEquipos.value);
@@ -54,7 +59,7 @@ selectEquipos.addEventListener("change", () => {
 document.getElementById("baja-equipamiento").addEventListener("click", async (e) => {
     e.preventDefault();
 
-    const roma = selectEquipos.value;
+    const roma = romaInput.value;
     if (!roma) {
         alert("Selecciona un equipo para dar de baja");
         return;

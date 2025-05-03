@@ -16,20 +16,20 @@ router.post("/alta", async (req, res) => {
   try {
     // Verifica si el Nombre del equipo existe
     const [equipoExistente] = await conn.query(
-      "SELECT Nombre FROM equipo WHERE Nombre = ?",
-      [nombre]
+      "SELECT Numero_ROMA FROM equipo WHERE Nombre = ?",
+      [roma]
     );
 
     if (equipoExistente.length > 0) {
       await conn.rollback();
-      return res.status(409).json({ error: "El Nombre ya está registrado." });
+      return res.status(409).json({ error: "El número de ROMA ya está registrado, no se ha podido registrar el equipo." });
     }
 
     // Verifica que fechaAdquisicion sea anterior a fechaRevision
-    if (new Date(fechaAdquisicion) >= new Date(fechaRevision)) {
+    if (new Date(fechaAdquisicion) > new Date(fechaRevision)) {
         await conn.rollback();
         return res.status(400).json({
-         error: "La fecha de adquisición debe ser anterior a la fecha de revisión."
+         error: "La fecha de adquisición debe ser anterior o igual a la fecha de revisión."
          });
     }
 
@@ -123,10 +123,10 @@ router.put("/actualizar/:roma", async (req, res) => {
   }
 
   // Validación de fechas
-  if (new Date(fecha_adquisicion) >= new Date(fecha_ultima_revision)) {
+  if (new Date(fecha_adquisicion) > new Date(fecha_ultima_revision)) {
     return res.status(400).json({
-      error: "La fecha de adquisición debe ser anterior a la fecha de revisión.",
-    });
+      error: "La fecha de adquisición debe ser anterior o igual a la fecha de revisión."
+      });
   }
 
   try {
@@ -145,8 +145,6 @@ router.put("/actualizar/:roma", async (req, res) => {
     return res.status(500).json({ error: "Error en la base de datos" });
   }
 });
-
-
 
 
 module.exports = router;

@@ -42,7 +42,7 @@
                 autocomplete="off"
               />
               <label for="seleccion-equipo" class="margen-arriba">Selección del equipamiento</label>
-              <select name="seleccion-equipo" id="seleccion-asesor">
+              <select name="seleccion-equipo" id="seleccion-equipo">
                 <option value="primera_opcion" selected disabled>
                   Seleccione el equipo
                 </option>
@@ -58,6 +58,17 @@
             <form>
               <div class="form-grid">
                 <div class="form-group">
+                  <label for="numero_roma">Número de ROMA del equipo</label>
+                  <input
+                    type="text"
+                    name="numero_roma"
+                    id="numero_roma"
+                    autocomplete="off"
+                    readonly
+                    disabled
+                  />
+              </div>
+                <div class="form-group">
                     <label for="nombre-equipo-tratamiento">Nombre del equipo</label>
                     <input
                       type="text"
@@ -67,16 +78,6 @@
                       readonly
                     />
                   </div>
-                <div class="form-group">
-                    <label for="numero_roma">Número de ROMA del equipo</label>
-                    <input
-                      type="text"
-                      name="numero_roma"
-                      id="numero_roma"
-                      autocomplete="off"
-                      readonly
-                    />
-                </div>
                 <div class="form-group">
                     <label for="fecha_adquisicion">Fecha de adquisición</label>
                     <input type="date" id="fecha_adquisicion" readonly/>
