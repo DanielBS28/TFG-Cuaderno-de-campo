@@ -35,11 +35,11 @@ header .logo{
     font-size: 20px;
 }
 header .img-logo{
-    background-image: url("../Fotos//Granjero.png");
+    background-image: url("../Fotos/Logo.png");
     background-size:cover;
     background-position: center center;
-    height: 50px;
-    width: 50px; 
+    height: 55px;
+    width: 55px; 
 }
 .containerlogo{
     display: flex;
@@ -223,9 +223,20 @@ h1 {
 .logo-container img:hover {
     cursor: pointer;
     transform: scale(1.03);
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
     
 }
+.containerlogo a, nav a {
+    cursor: pointer;
+    transform: scale(1.02);
+    transition: transform 0.3s;
+}
+
+.containerlogo a, nav a{
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
 
 
 @media (min-width: 805px) {

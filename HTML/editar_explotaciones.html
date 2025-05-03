@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baja de Explotaciones</title>
-    <link rel="stylesheet" href="../CSS/global.css">
-    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css">
-    <link rel="stylesheet" href="../CSS/explotaciones.css">
-
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edición de explotaciones</title>
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css" />
+    <link rel="stylesheet" href="../CSS/explotaciones.css" />
+    <link rel="shortcut icon" href="../Fotos/Logo.png" />
+  </head>
+  <body>
     <div class="contenedor-principal">
-    <header>
+      <header>
         <div class="container">
-            <div class="containerlogo">
-                <div class="img-logo"></div>
-            <p class="logo">Editar datos de explotaciones</p>
-            
-        </div>
-        
-        <nav>
-            <a href="gestion_explotaciones.html">
-                <img src="../Fotos/flecha.png" alt="" id="flecha">
+          <div class="containerlogo">
+            <a href="index.html">
+              <div class="img-logo"></div>
             </a>
-            <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
-            <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
-        </nav>
+            <p class="logo">Editar datos de explotaciones</p>
+          </div>
+
+          <nav>
+            <a href="gestion_explotaciones.html">
+              <img src="../Fotos/flecha.png" alt="" id="flecha" />
+            </a>
+            <button
+              id="VolverInicio"
+              onclick="location.href='inicio_administrador.html'"
+            >
+              Menu administrador
+            </button>
+            <button id="BotonCerrarSesion" class="propiedades">
+              Cerrar sesión
+            </button>
+          </nav>
         </div>
-    </header>
-    <h1 class="titulo-h1">Editar datos de explotaciones</h1>
-    <div id="formularios">
+      </header>
+      <h1 class="titulo-h1">Editar datos de explotaciones</h1>
+      <div id="formularios">
         <div id="formularios-busqueda">
-        <form id="formulario-DNI">
+          <form id="formulario-DNI">
             <h1>Seleccionar agricultor</h1>
-            <img src="https://static.vecteezy.com/system/resources/thumbnails/021/502/097/small/gardener-planting-vegetables-illustration-in-doodle-style-png.png" alt="">
+            <img
+              src="../Fotos/editarexplotacion.jpg"
+              alt=""
+              style="height: 180px; border-radius: 5px; margin: 40px 0"
+            />
             <div class="form-group">
-                <label for="busqueda-agricultor">Búsqueda del agricultor</label>
+              <label for="busqueda-agricultor">Búsqueda del agricultor</label>
               <input
                 type="text"
                 name="busqueda-agricultor"
@@ -43,90 +55,137 @@
                 placeholder="Búsqueda del agricultor"
                 autocomplete="off"
               />
-              <label for="seleccion-agricultor" class="margen-arriba">Selección del agricultor</label>
+              <label for="seleccion-agricultor" class="margen-arriba"
+                >Selección del agricultor</label
+              >
               <select name="seleccion-agricultor" id="seleccion-agricultor">
                 <option value="primera_opcion" selected disabled>
                   Seleccione el agricultor
                 </option>
               </select>
             </div>
-            </form>
-            </div>
-       
-    <div class="form-container">
-        <div class="cabecera">
+          </form>
+        </div>
+
+        <div class="form-container">
+          <div class="cabecera">
             <h1>Datos del agricultor</h1>
-        </div>     
-        <form>
+          </div>
+          <form>
             <div class="form-grid">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" autocomplete="off" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="apellido1">Primer Apellido</label>
-                    <input type="text" name="apellido1" id="apellido1"  autocomplete="off" readonly >
-                </div>
-                <div class="form-group">
-                    <label for="apellido2">Segundo Apellido</label>
-                    <input type="text" name="apellido2" id="apellido2"  autocomplete="off"  readonly>
-                </div>
-                <div class="form-group">
-                    <label for="dni">DNI</label>
-                    <input type="text" name="dni" id="dni"  autocomplete="off"  readonly>
-                </div>
-                <div class="form-group">
-                    <label for="carnet">Nº Carnet agricultor</label>
-                    <input type="text" name="carnet" id="carnet" readonly>
-                </div>
+              <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  id="nombre"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="apellido1">Primer Apellido</label>
+                <input
+                  type="text"
+                  name="apellido1"
+                  id="apellido1"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="apellido2">Segundo Apellido</label>
+                <input
+                  type="text"
+                  name="apellido2"
+                  id="apellido2"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="dni">DNI</label>
+                <input
+                  type="text"
+                  name="dni"
+                  id="dni"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="carnet">Nº Carnet agricultor</label>
+                <input type="text" name="carnet" id="carnet" readonly />
+              </div>
             </div>
             <h1 id="titulo-explotacion">Datos de la explotación</h1>
             <div class="form-grid">
-                
-                <div class="form-group">
-                    <label for="apellido1">Buscar explotación por nombre</label>
-                    <input type="text" name="buscar-explotacion" id="buscar-explotacion" placeholder="Búsqueda por el nombre" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="seleccion">Seleccionar explotación</label>
-                    <select name="seleccion" id="seleccion" disabled>
-                        <option value="Prueba" selected disabled>Seleccione explotación</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="apellido2">Nombre de la explotación</label>
-                    <input type="text" name="nombre-explotacion" id="nombre-explotacion"  autocomplete="off" placeholder="Introduzca el nombre nuevo" disabled>
-                </div>
+              <div class="form-group">
+                <label for="apellido1">Buscar explotación por nombre</label>
+                <input
+                  type="text"
+                  name="buscar-explotacion"
+                  id="buscar-explotacion"
+                  placeholder="Búsqueda por el nombre"
+                  disabled
+                />
+              </div>
+              <div class="form-group">
+                <label for="seleccion">Seleccionar explotación</label>
+                <select name="seleccion" id="seleccion" disabled>
+                  <option value="Prueba" selected disabled>
+                    Seleccione explotación
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="apellido2">Nombre de la explotación</label>
+                <input
+                  type="text"
+                  name="nombre-explotacion"
+                  id="nombre-explotacion"
+                  autocomplete="off"
+                  placeholder="Introduzca el nombre nuevo"
+                  disabled
+                />
+              </div>
             </div>
-            <button type="submit" style="width: auto;" id="actualizar_datos_explotacion" class="actualizar actualizar_datos">Actualizar datos de la explotación</button>
-        </form>
-    </div>
-</div>
-<section class="fondo-footer">
-    <div class="logo-container">
-      <a href="https://salesianosdosa.com/" target="_blank">
-        <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
-      </a>
-    </div>
-    
-    <div class="logo-container">
-      <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
-        <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
-      </a>
-    </div>
-    
-    <div class="logo-container">
-      <a href="https://www.mapa.gob.es/es/" target="_blank">
-        <img src="../Fotos/Logo_ministerio.png" alt="">
-      </a>
-    </div>
-</section>
-    <footer>
-        <div class="container">
-            <p>Cuaderno de campo</p>
+            <button
+              type="submit"
+              style="width: auto"
+              id="actualizar_datos_explotacion"
+              class="actualizar actualizar_datos"
+            >
+              Actualizar datos de la explotación
+            </button>
+          </form>
         </div>
-    </footer>
-</div>
-<script src="../Javascript/editar_explotaciones.js"></script>
-</body>
+      </div>
+      <section class="fondo-footer">
+        <div class="logo-container">
+          <a href="https://salesianosdosa.com/" target="_blank">
+            <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac" />
+          </a>
+        </div>
+
+        <div class="logo-container">
+          <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
+            <img src="../Fotos/sigpac.png" alt="" id="logo-dosa" />
+          </a>
+        </div>
+
+        <div class="logo-container">
+          <a href="https://www.mapa.gob.es/es/" target="_blank">
+            <img src="../Fotos/Logo_ministerio.png" alt="" />
+          </a>
+        </div>
+      </section>
+      <footer>
+        <div class="container">
+          <p>Cuaderno de campo</p>
+        </div>
+      </footer>
+    </div>
+    <script src="../Javascript/editar_explotaciones.js"></script>
+  </body>
 </html>

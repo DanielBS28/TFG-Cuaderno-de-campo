@@ -1,94 +1,138 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de Agricultores</title>
-    <link rel="stylesheet" href="../CSS/global.css">
-    <link rel="stylesheet" href="../CSS/alta_agricultores_asesores.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alta de agricultores</title>
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <link rel="stylesheet" href="../CSS/alta_agricultores_asesores.css" />
+    <link rel="shortcut icon" href="../Fotos/Logo.png" />
+  </head>
+  <body>
     <header>
-        <div class="container">
-            <div class="containerlogo">
-                <div class="img-logo"></div>
-            <p class="logo">Alta de agricultores</p>
-            
+      <div class="container">
+        <div class="containerlogo">
+          <a href="index.html">
+            <div class="img-logo"></div>
+          </a>
+          <p class="logo">Alta de agricultores</p>
         </div>
-        
-            <nav>
-                <a href="gestion_agricultores.html">
-                    <img src="../Fotos/flecha.png" alt="" id="flecha">
-                </a>
-                <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
-                <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
-            </nav>
-        </div>
+        <nav>
+          <a href="gestion_agricultores.html">
+            <img src="../Fotos/flecha.png" alt="" id="flecha" />
+          </a>
+          <button
+            id="VolverInicio"
+            onclick="location.href='inicio_administrador.html'"
+          >
+            Menu administrador
+          </button>
+          <button id="BotonCerrarSesion" class="propiedades">
+            Cerrar sesión
+          </button>
+        </nav>
+      </div>
     </header>
-<h1 class="titulo-h1">Alta de agricultores</h1>
+    <h1 class="titulo-h1">Alta de agricultores</h1>
     <div class="form-container">
-        <div class="cabecera">
-            <h1>Datos del agricultor</h1>
-            <img src="../Fotos/Granjero.png" alt="" id="foto_agricultor">
-        </div>     
-        <form>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Introduce el nombre"  autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="apellido1">Primer Apellido</label>
-                    <input type="text" name="apellido1" id="apellido1" placeholder="Introduce el primer apellido" autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="apellido2">Segundo Apellido</label>
-                    <input type="text" name="apellido2" id="apellido2" placeholder="Introduce el segundo apellido"  autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="dni">DNI</label>
-                    <input type="text" name="dni" id="dni" placeholder="Introduce el DNI"  autocomplete="off">
-                </div>
-                <div class="form-group">
-                    <label for="contrasena">Contraseña</label>
-                    <input type="password" name="contrasena" id="contrasena" placeholder="Introduce la contraseña"  autocomplete="off">
-                    <div class="campo_password">
-                        <input type="checkbox" id="mostrarPassword">
-                        <label for="mostrarPassword">Mostrar contraseña</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="carnet">Nº Carnet agricultor</label>
-                    <input type="text" name="carnet" id="carnet" placeholder="Introduce el número de carnet"  autocomplete="off">
-                </div>
+      <div class="cabecera">
+        <h1>Datos del agricultor</h1>
+        <img src="../Fotos/Granjero.png" alt="" id="foto_agricultor" />
+      </div>
+      <form>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input
+              type="text"
+              name="nombre"
+              id="nombre"
+              placeholder="Introduce el nombre"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="apellido1">Primer Apellido</label>
+            <input
+              type="text"
+              name="apellido1"
+              id="apellido1"
+              placeholder="Introduce el primer apellido"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="apellido2">Segundo Apellido</label>
+            <input
+              type="text"
+              name="apellido2"
+              id="apellido2"
+              placeholder="Introduce el segundo apellido"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="dni">DNI</label>
+            <input
+              type="text"
+              name="dni"
+              id="dni"
+              placeholder="Introduce el DNI"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="contrasena">Contraseña</label>
+            <input
+              type="password"
+              name="contrasena"
+              id="contrasena"
+              placeholder="Introduce la contraseña"
+              autocomplete="off"
+            />
+            <div class="campo_password">
+              <input type="checkbox" id="mostrarPassword" />
+              <label for="mostrarPassword">Mostrar contraseña</label>
             </div>
-            <button type="submit" class="registrar">Registrar agricultor</button>
-        </form>
+          </div>
+          <div class="form-group">
+            <label for="carnet">Nº Carnet agricultor</label>
+            <input
+              type="text"
+              name="carnet"
+              id="carnet"
+              placeholder="Introduce el número de carnet"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+        <button type="submit" class="registrar">Registrar agricultor</button>
+      </form>
     </div>
     <section class="fondo-footer">
-        <div class="logo-container">
-          <a href="https://salesianosdosa.com/" target="_blank">
-            <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
-          </a>
-        </div>
-        
-        <div class="logo-container">
-          <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
-            <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
-          </a>
-        </div>
-        
-        <div class="logo-container">
-          <a href="https://www.mapa.gob.es/es/" target="_blank">
-            <img src="../Fotos/Logo_ministerio.png" alt="">
-          </a>
-        </div>
-</section>
+      <div class="logo-container">
+        <a href="https://salesianosdosa.com/" target="_blank">
+          <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac" />
+        </a>
+      </div>
+
+      <div class="logo-container">
+        <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
+          <img src="../Fotos/sigpac.png" alt="" id="logo-dosa" />
+        </a>
+      </div>
+
+      <div class="logo-container">
+        <a href="https://www.mapa.gob.es/es/" target="_blank">
+          <img src="../Fotos/Logo_ministerio.png" alt="" />
+        </a>
+      </div>
+    </section>
     <footer>
-        <div class="container">
-            <p>Cuaderno de campo</p>
-        </div>
+      <div class="container">
+        <p>Cuaderno de campo</p>
+      </div>
     </footer>
     <script src="../Javascript/alta_agricultores.js"></script>
-</body>
+  </body>
 </html>

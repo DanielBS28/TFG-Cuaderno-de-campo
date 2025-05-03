@@ -3,26 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Baja de Agricultores</title>
+    <title>Baja de agricultores</title>
     <link rel="stylesheet" href="../CSS/global.css" />
     <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css" />
+    <link rel="shortcut icon" href="../Fotos/Logo.png" />
   </head>
   <body>
     <div class="contenedor-principal">
       <header>
         <div class="container">
           <div class="containerlogo">
-            <div class="img-logo"></div>
+            <a href="index.html">
+              <div class="img-logo"></div>
+            </a>
             <p class="logo">Baja de agricultores</p>
           </div>
 
           <nav>
             <a href="gestion_agricultores.html">
-              <img src="../Fotos/flecha.png" alt="" id="flecha">
-          </a>
-            <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
-            <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
-        </nav>
+              <img src="../Fotos/flecha.png" alt="" id="flecha" />
+            </a>
+            <button
+              id="VolverInicio"
+              onclick="location.href='inicio_administrador.html'"
+            >
+              Menu administrador
+            </button>
+            <button id="BotonCerrarSesion" class="propiedades">
+              Cerrar sesión
+            </button>
+          </nav>
         </div>
       </header>
       <h1 class="titulo-h1">Baja de Agricultores</h1>
@@ -30,9 +40,13 @@
         <div id="formularios-busqueda">
           <form id="formulario-DNI">
             <h1>Seleccionar agricultor</h1>
-            <img src="../Fotos/baja_agricultor.png" alt="" id="baja-agricultor-foto">
+            <img
+              src="../Fotos/baja_agricultor.png"
+              alt=""
+              id="baja-agricultor-foto"
+            />
             <div class="form-group">
-                <label for="busqueda-agricultor">Búsqueda del agricultor</label>
+              <label for="busqueda-agricultor">Búsqueda del agricultor</label>
               <input
                 type="text"
                 name="busqueda-agricultor"
@@ -40,7 +54,9 @@
                 placeholder="Búsqueda del agricultor"
                 autocomplete="off"
               />
-              <label for="seleccion-agricultor" class="margen-arriba">Selección del agricultor</label>
+              <label for="seleccion-agricultor" class="margen-arriba"
+                >Selección del agricultor</label
+              >
               <select name="seleccion-agricultor" id="seleccion-agricultor">
                 <option value="primera_opcion" selected disabled>
                   Seleccione el agricultor
@@ -101,29 +117,31 @@
                 <input type="text" name="carnet" id="carnet" readonly />
               </div>
             </div>
-            <button type="submit" class="dar_baja">Dar de baja agricultor</button>
+            <button type="submit" class="dar_baja">
+              Dar de baja agricultor
+            </button>
           </form>
         </div>
       </div>
       <section class="fondo-footer">
         <div class="logo-container">
           <a href="https://salesianosdosa.com/" target="_blank">
-            <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
+            <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac" />
           </a>
         </div>
-        
+
         <div class="logo-container">
           <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
-            <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
+            <img src="../Fotos/sigpac.png" alt="" id="logo-dosa" />
           </a>
         </div>
-        
+
         <div class="logo-container">
           <a href="https://www.mapa.gob.es/es/" target="_blank">
-            <img src="../Fotos/Logo_ministerio.png" alt="">
+            <img src="../Fotos/Logo_ministerio.png" alt="" />
           </a>
         </div>
-</section>
+      </section>
       <footer>
         <div class="container">
           <p>Cuaderno de campo</p>

@@ -50,12 +50,13 @@ header .logo{
     font-size: 20px;
 }
 header .img-logo{
-    background-image: url("../Fotos//Granjero.png");
+    background-image: url("../Fotos/Logo.png");
     background-size:cover;
     background-position: center center;
-    height: 50px;
-    width: 50px; 
+    height: 55px;
+    width: 55px;
 }
+
 .containerlogo{
     display: flex;
     align-items: center;
@@ -75,10 +76,11 @@ padding-bottom: 25px;
 
 }
 header a{
-    padding: 5px 12px;
+    padding: 12px;
     text-decoration: none;
     color: white;
     transition: transform 0.3s ease;
+    font-size: 18px;
 
 }
 header a:hover{
@@ -130,6 +132,10 @@ footer .container{
     align-items: center;
 }
 
+#CUE{
+    margin: 20px 0;
+}
+
 @media (min-width: 720px){
 
     #BotónLogin{
@@ -156,23 +162,31 @@ footer .container{
     }
     #CUE  .texto{
         width: 50%;
-        max-width: 600px;
+        max-width: 500px;
         text-align: initial;
         padding-left: 30px;
         display: flex;
         flex-direction: column;
         justify-content: center;
     }
+
+    #CUE  p{
+
+        text-align: justify;
+        
+    }
     #CUE  h2{
+
+        font-size: 40px;
         margin-top:0px;
     }
 
     #CUE .img-container{
-        background-image: url("../Fotos//Granjero.png");
+        background-image: url("../Fotos//Ordenador.png");
         background-size:cover;
         background-position: center center;
-        height: 400px;
-        width: 400px; 
+        height: 340px;
+        width: 500px; 
    
     }
 }

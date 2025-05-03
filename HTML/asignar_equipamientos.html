@@ -3,24 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Menú administrador</title>
+    <title>Asignar equipamientos</title>
     <link rel="stylesheet" href="../CSS/global.css" />
     <link rel="stylesheet" href="../CSS/alta_baja_parcelas.css" />
+    <link rel="shortcut icon" href="../Fotos/Logo.png" />
   </head>
   <body>
     <header>
       <div class="container">
         <div class="containerlogo">
-          <div class="img-logo"></div>
+          <a href="index.html">
+            <div class="img-logo"></div>
+          </a>
           <p class="logo">Asignación de equipamientos</p>
         </div>
         <nav>
           <a href="gestion_equipamientos.html">
-            <img src="../Fotos/flecha.png" alt="" id="flecha">
-        </a>
-          <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
-          <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
-      </nav>
+            <img src="../Fotos/flecha.png" alt="" id="flecha" />
+          </a>
+          <button
+            id="VolverInicio"
+            onclick="location.href='inicio_administrador.html'"
+          >
+            Menu administrador
+          </button>
+          <button id="BotonCerrarSesion" class="propiedades">
+            Cerrar sesión
+          </button>
+        </nav>
       </div>
     </header>
     <h1 class="titulo-h1">Asignar equipamiento</h1>
@@ -173,7 +183,9 @@
         <div class="busqueda">
           <img src="../Fotos/lupa.webp" alt="" class="lupa" />
           <div class="form-group">
-            <label for="nombre-equipo">Buscar equipo de tratamiento por nombre</label>
+            <label for="nombre-equipo"
+              >Buscar equipo de tratamiento por nombre</label
+            >
             <input
               type="text"
               name="nombre-equipo"
@@ -187,9 +199,18 @@
             <label for="seleccion-equipamiento"
               >Seleccione un equipo de tratamiento</label
             >
-            <select name="seleccion-equipamiento" id="seleccion-equipamiento" disabled>
-              <option value="Seleccione un equipo de tratamiento" selected disabled>
-                Seleccione el equipo</option>
+            <select
+              name="seleccion-equipamiento"
+              id="seleccion-equipamiento"
+              disabled
+            >
+              <option
+                value="Seleccione un equipo de tratamiento"
+                selected
+                disabled
+              >
+                Seleccione el equipo
+              </option>
             </select>
           </div>
         </div>
@@ -224,12 +245,14 @@
             <label for="fecha_ultima_inspeccion"
               >Fecha de última inspección</label
             >
-            <input type="date" id="fecha_ultima_inspeccion" readonly
-            />
+            <input type="date" id="fecha_ultima_inspeccion" readonly />
           </div>
         </div>
         <div class="boton_subir">
-          <button class="subir-formulario color-verde"  id="asignar-equipamiento">
+          <button
+            class="subir-formulario color-verde"
+            id="asignar-equipamiento"
+          >
             Asignar equipamiento
           </button>
         </div>
@@ -238,22 +261,22 @@
     <section class="fondo-footer">
       <div class="logo-container">
         <a href="https://salesianosdosa.com/" target="_blank">
-          <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
+          <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac" />
         </a>
       </div>
-      
+
       <div class="logo-container">
         <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
-          <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
+          <img src="../Fotos/sigpac.png" alt="" id="logo-dosa" />
         </a>
       </div>
-      
+
       <div class="logo-container">
         <a href="https://www.mapa.gob.es/es/" target="_blank">
-          <img src="../Fotos/Logo_ministerio.png" alt="">
+          <img src="../Fotos/Logo_ministerio.png" alt="" />
         </a>
       </div>
-</section>
+    </section>
     <footer>
       <div class="container">
         <p>Cuaderno de campo</p>

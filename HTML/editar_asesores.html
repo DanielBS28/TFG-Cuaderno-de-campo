@@ -1,113 +1,157 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baja de asesores</title>
-    <link rel="stylesheet" href="../CSS/global.css">
-    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css">
-
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edición de asesores</title>
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css" />
+    <link rel="shortcut icon" href="../Fotos/Logo.png" />
+  </head>
+  <body>
     <div class="contenedor-principal">
-    <header>
+      <header>
         <div class="container">
-            <div class="containerlogo">
-                <div class="img-logo"></div>
+          <div class="containerlogo">
+            <a href="index.html">
+              <div class="img-logo"></div>
+            </a>
             <p class="logo">Actualizar datos de asesores</p>
-            
+          </div>
+          <nav>
+            <a href="gestion_asesores.html">
+              <img src="../Fotos/flecha.png" alt="" id="flecha" />
+            </a>
+            <button
+              id="VolverInicio"
+              onclick="location.href='inicio_administrador.html'"
+            >
+              Menu administrador
+            </button>
+            <button id="BotonCerrarSesion" class="propiedades">
+              Cerrar sesión
+            </button>
+          </nav>
         </div>
-        <nav>
-          <a href="gestion_asesores.html">
-            <img src="../Fotos/flecha.png" alt="" id="flecha">
-        </a>
-            <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
-            <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
-        </nav>
-        </div>
-    </header>
-    <h1 class="titulo-h1">Actualizar datos de asesores</h1>
-    <div id="formularios">
+      </header>
+      <h1 class="titulo-h1">Actualizar datos de asesores</h1>
+      <div id="formularios">
         <div id="formularios-busqueda">
-            <form id="formulario-DNI">
-              <h1>Seleccionar asesor</h1>
-              <img src="../Fotos/editarasesor.png" alt="" style="height: 200px; margin-bottom: 15px;">
+          <form id="formulario-DNI">
+            <h1>Seleccionar asesor</h1>
+            <img
+              src="../Fotos/editarasesor.png"
+              alt=""
+              style="height: 200px; margin-bottom: 15px"
+            />
+            <div class="form-group">
+              <label for="busqueda-asesor">Búsqueda del asesor</label>
+              <input
+                type="text"
+                name="busqueda-asesor"
+                id="busqueda-asesor"
+                placeholder="Búsqueda del asesor"
+                autocomplete="off"
+              />
+              <label for="seleccion-asesor" class="margen-arriba"
+                >Selección del asesor</label
+              >
+              <select name="seleccion-asesor" id="seleccion-asesor">
+                <option value="primera_opcion" selected disabled>
+                  Seleccione el asesor
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="form-container">
+          <div class="cabecera">
+            <h1>Datos del asesor</h1>
+          </div>
+          <form>
+            <div class="form-grid">
               <div class="form-group">
-                  <label for="busqueda-asesor">Búsqueda del asesor</label>
+                <label for="nombre">Nombre</label>
                 <input
                   type="text"
-                  name="busqueda-asesor"
-                  id="busqueda-asesor"
-                  placeholder="Búsqueda del asesor"
+                  name="nombre"
+                  id="nombre"
                   autocomplete="off"
+                  readonly
                 />
-                <label for="seleccion-asesor" class="margen-arriba">Selección del asesor</label>
-                <select name="seleccion-asesor" id="seleccion-asesor">
-                  <option value="primera_opcion" selected disabled>
-                    Seleccione el asesor
-                  </option>
-                </select>
               </div>
-            </form>
-          </div>
-       
-    <div class="form-container">
-        <div class="cabecera">
-            <h1>Datos del asesor</h1>
-        </div>     
-        <form>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" autocomplete="off" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="apellido1">Primer Apellido</label>
-                    <input type="text" name="apellido1" id="apellido1"  autocomplete="off" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="apellido2">Segundo Apellido</label>
-                    <input type="text" name="apellido2" id="apellido2"  autocomplete="off" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="dni">DNI</label>
-                    <input type="text" name="dni" id="dni"  autocomplete="off" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="carnet">Nº Carnet asesor</label>
-                    <input type="text" name="carnet" id="carnet" readonly>
-                </div>
+              <div class="form-group">
+                <label for="apellido1">Primer Apellido</label>
+                <input
+                  type="text"
+                  name="apellido1"
+                  id="apellido1"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="apellido2">Segundo Apellido</label>
+                <input
+                  type="text"
+                  name="apellido2"
+                  id="apellido2"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="dni">DNI</label>
+                <input
+                  type="text"
+                  name="dni"
+                  id="dni"
+                  autocomplete="off"
+                  disabled
+                />
+              </div>
+              <div class="form-group">
+                <label for="carnet">Nº Carnet asesor</label>
+                <input type="text" name="carnet" id="carnet" readonly />
+              </div>
             </div>
-            <button type="submit" id="actualizar_datos_asesor" class="actualizar actualizar_datos">Actualizar datos asesor</button>
-        </form>
-    </div>
-</div>
-<section class="fondo-footer">
-    <div class="logo-container">
-      <a href="https://salesianosdosa.com/" target="_blank">
-        <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
-      </a>
-    </div>
-    
-    <div class="logo-container">
-      <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
-        <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
-      </a>
-    </div>
-    
-    <div class="logo-container">
-      <a href="https://www.mapa.gob.es/es/" target="_blank">
-        <img src="../Fotos/Logo_ministerio.png" alt="">
-      </a>
-    </div>
-</section>
-
-    <footer>
-        <div class="container">
-            <p>Cuaderno de campo</p>
+            <button
+              type="submit"
+              id="actualizar_datos_asesor"
+              class="actualizar actualizar_datos"
+            >
+              Actualizar datos asesor
+            </button>
+          </form>
         </div>
-    </footer>
-</div>
-<script src="../Javascript/editar_asesores.js"></script>
-</body>
+      </div>
+      <section class="fondo-footer">
+        <div class="logo-container">
+          <a href="https://salesianosdosa.com/" target="_blank">
+            <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac" />
+          </a>
+        </div>
+
+        <div class="logo-container">
+          <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
+            <img src="../Fotos/sigpac.png" alt="" id="logo-dosa" />
+          </a>
+        </div>
+
+        <div class="logo-container">
+          <a href="https://www.mapa.gob.es/es/" target="_blank">
+            <img src="../Fotos/Logo_ministerio.png" alt="" />
+          </a>
+        </div>
+      </section>
+
+      <footer>
+        <div class="container">
+          <p>Cuaderno de campo</p>
+        </div>
+      </footer>
+    </div>
+    <script src="../Javascript/editar_asesores.js"></script>
+  </body>
 </html>

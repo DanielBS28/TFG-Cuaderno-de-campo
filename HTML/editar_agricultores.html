@@ -1,122 +1,167 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baja de Agricultores</title>
-    <link rel="stylesheet" href="../CSS/global.css">
-    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css">
-
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar agricultores</title>
+    <link rel="stylesheet" href="../CSS/global.css" />
+    <link rel="stylesheet" href="../CSS/baja_agricultores_asesores.css" />
+    <link rel="shortcut icon" href="../Fotos/Logo.png" />
+  </head>
+  <body>
     <div class="contenedor-principal">
-    <header>
+      <header>
         <div class="container">
-            <div class="containerlogo">
-                <div class="img-logo"></div>
+          <div class="containerlogo">
+            <a href="index.html">
+              <div class="img-logo"></div>
+            </a>
             <p class="logo">Editar datos de agricultores</p>
-            
+          </div>
+
+          <nav>
+            <a href="gestion_agricultores.html">
+              <img src="../Fotos/flecha.png" alt="" id="flecha" />
+            </a>
+            <button
+              id="VolverInicio"
+              onclick="location.href='inicio_administrador.html'"
+            >
+              Menu administrador
+            </button>
+            <button id="BotonCerrarSesion" class="propiedades">
+              Cerrar sesión
+            </button>
+          </nav>
         </div>
-        
-        <nav>
-          <a href="gestion_agricultores.html">
-            <img src="../Fotos/flecha.png" alt="" id="flecha">
-        </a>
-            <button id="VolverInicio" onclick="location.href='inicio_administrador.html'">Menu administrador</button>
-            <button id="BotonCerrarSesion" class="propiedades">Cerrar sesión</button>
-        </nav>
-        </div>
-    </header>
-    <h1 class="titulo-h1">Editar datos de agricultores</h1>
-    <div id="formularios">
+      </header>
+      <h1 class="titulo-h1">Editar datos de agricultores</h1>
+      <div id="formularios">
         <div id="formularios-busqueda">
-            <form id="formulario-DNI">
-              <h1>Seleccionar agricultor</h1>
-              <img src="../Fotos/editar_agricultores.png" alt="" id="editar-agricultores-foto">
+          <form id="formulario-DNI">
+            <h1>Seleccionar agricultor</h1>
+            <img
+              src="../Fotos/editar_agricultores.png"
+              alt=""
+              id="editar-agricultores-foto"
+            />
+            <div class="form-group">
+              <label for="busqueda-agricultor">Búsqueda del agricultor</label>
+              <input
+                type="text"
+                name="busqueda-agricultor"
+                id="busqueda-agricultor"
+                placeholder="Búsqueda del agricultor"
+                autocomplete="off"
+              />
+              <label for="seleccion-agricultor" class="margen-arriba"
+                >Selección del agricultor</label
+              >
+              <select name="seleccion-agricultor" id="seleccion-agricultor">
+                <option value="primera_opcion" selected disabled>
+                  Seleccione el agricultor
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="form-container">
+          <div class="cabecera">
+            <h1>Datos del agricultor</h1>
+          </div>
+          <form>
+            <div class="form-grid">
               <div class="form-group">
-                  <label for="busqueda-agricultor">Búsqueda del agricultor</label>
+                <label for="dni">DNI</label>
                 <input
                   type="text"
-                  name="busqueda-agricultor"
-                  id="busqueda-agricultor"
-                  placeholder="Búsqueda del agricultor"
+                  name="dni"
+                  id="dni"
                   autocomplete="off"
+                  disabled
                 />
-                <label for="seleccion-agricultor" class="margen-arriba">Selección del agricultor</label>
-                <select name="seleccion-agricultor" id="seleccion-agricultor">
-                  <option value="primera_opcion" selected disabled>
-                    Seleccione el agricultor
-                  </option>
-                </select>
               </div>
-            </form>
-          </div>
-       
-    <div class="form-container">
-        <div class="cabecera">
-            <h1>Datos del agricultor</h1>
-        </div>     
-        <form>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="dni">DNI</label>
-                    <input type="text" name="dni" id="dni"  autocomplete="off"  disabled>
+              <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  id="nombre"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="apellido1">Primer Apellido</label>
+                <input
+                  type="text"
+                  name="apellido1"
+                  id="apellido1"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="apellido2">Segundo Apellido</label>
+                <input
+                  type="text"
+                  name="apellido2"
+                  id="apellido2"
+                  autocomplete="off"
+                  readonly
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" name="password" id="password" disabled />
+                <div class="campo_password">
+                  <input type="checkbox" id="mostrarPassword" disabled />
+                  <label for="mostrarPassword" id="checkbox_password"
+                    >Reestablecer contraseña</label
+                  >
                 </div>
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" autocomplete="off" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="apellido1">Primer Apellido</label>
-                    <input type="text" name="apellido1" id="apellido1"  autocomplete="off" readonly >
-                </div>
-                <div class="form-group">
-                    <label for="apellido2">Segundo Apellido</label>
-                    <input type="text" name="apellido2" id="apellido2"  autocomplete="off"  readonly>
-                </div>
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" name="password" id="password" disabled>
-                    <div class="campo_password">
-                        <input type="checkbox" id="mostrarPassword" disabled>
-                        <label for="mostrarPassword" id="checkbox_password">Reestablecer contraseña</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="carnet">Nº Carnet agricultor</label>
-                    <input type="text" name="carnet" id="carnet" readonly>
-                    
-                </div>
+              </div>
+              <div class="form-group">
+                <label for="carnet">Nº Carnet agricultor</label>
+                <input type="text" name="carnet" id="carnet" readonly />
+              </div>
             </div>
-            <button type="submit" id="actualizar_datos_agricultor" class="actualizar actualizar_datos">Actualizar datos agricultor</button>
-        </form>
-    </div>
-</div>
-<section class="fondo-footer">
-    <div class="logo-container">
-      <a href="https://salesianosdosa.com/" target="_blank">
-        <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac">
-      </a>
-    </div>
-    
-    <div class="logo-container">
-      <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
-        <img src="../Fotos/sigpac.png" alt="" id="logo-dosa">
-      </a>
-    </div>
-    
-    <div class="logo-container">
-      <a href="https://www.mapa.gob.es/es/" target="_blank">
-        <img src="../Fotos/Logo_ministerio.png" alt="">
-      </a>
-    </div>
-</section>
-    <footer>
-        <div class="container">
-            <p>Cuaderno de campo</p>
+            <button
+              type="submit"
+              id="actualizar_datos_agricultor"
+              class="actualizar actualizar_datos"
+            >
+              Actualizar datos agricultor
+            </button>
+          </form>
         </div>
-    </footer>
-</div>
-<script src="../Javascript/editar_agricultores.js"></script>
-</body>
+      </div>
+      <section class="fondo-footer">
+        <div class="logo-container">
+          <a href="https://salesianosdosa.com/" target="_blank">
+            <img src="../Fotos/Salesianos_Dosa.png" alt="" id="logo-sigpac" />
+          </a>
+        </div>
+
+        <div class="logo-container">
+          <a href="https://sigpac.mapa.es/fega/visor/" target="_blank">
+            <img src="../Fotos/sigpac.png" alt="" id="logo-dosa" />
+          </a>
+        </div>
+
+        <div class="logo-container">
+          <a href="https://www.mapa.gob.es/es/" target="_blank">
+            <img src="../Fotos/Logo_ministerio.png" alt="" />
+          </a>
+        </div>
+      </section>
+      <footer>
+        <div class="container">
+          <p>Cuaderno de campo</p>
+        </div>
+      </footer>
+    </div>
+    <script src="../Javascript/editar_agricultores.js"></script>
+  </body>
 </html>
