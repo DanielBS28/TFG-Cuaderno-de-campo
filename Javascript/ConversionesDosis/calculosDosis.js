@@ -69,7 +69,10 @@ export const comprobarDosisAplicada = (
   dosisMax,
   u
 ) => {
-  if (!unidadValida(u)) return alert(`Para la Unidad de Medida (${u}) no podemos hacer una validación informativa de las dósis.`);
+  if (!unidadValida(u))
+    return alert(
+      `Para la Unidad de Medida (${u}) no podemos hacer una validación informativa de las dósis.`
+    );
 
   const errores = [];
   console.log(
@@ -126,17 +129,17 @@ export const comprobarDosisAplicada = (
 
   if (dosis > dosisMaxima) {
     errores.push(
-      `Para la superficie introducida (${sup} ha), la dosis máxima permitida es (${redondearDecimales(dosisMaxima)} ${
-        comprobarUnidadMedida(u).split("/")[0]
-      })`
+      `Para la superficie introducida (${sup} ha), la dosis máxima permitida es (${redondearDecimales(
+        dosisMaxima
+      )} ${comprobarUnidadMedida(u).split("/")[0]})`
     );
   }
 
   if (dosis < dosisMinima) {
     errores.push(
-      `Para la superficie introducida (${sup} ha), la dosis mínima recomendada es (${redondearDecimales(dosisMinima)} ${
-        comprobarUnidadMedida(u).split("/")[0]
-      })`
+      `Para la superficie introducida (${sup} ha), la dosis mínima recomendada es (${redondearDecimales(
+        dosisMinima
+      )} ${comprobarUnidadMedida(u).split("/")[0]})`
     );
   }
 
@@ -159,37 +162,7 @@ export const comprobacionFinal = (
   dosisMax,
   u
 ) => {
-  if (!unidadValida(u)) return alert(`Para la Unidad de Medida (${u}) no podemos hacer una validación informativa de las dósis.`);
-
   const errores = [];
-  console.log(
-    calculoDosis(sup, dosisMax) +
-      ">=" +
-      dosis +
-      " && " +
-      supCultivo +
-      ">=" +
-      sup
-  );
-
-  sup = parseFloat(sup);
-  supCultivo = parseFloat(supCultivo);
-  dosis = parseFloat(dosis);
-  dosisMin = parseFloat(dosisMin);
-  dosisMax = parseFloat(dosisMax);
-
-  // Validar que los campos numéricos sean números válidos
-  if (
-    isNaN(sup) ||
-    isNaN(supCultivo) ||
-    isNaN(dosis) ||
-    isNaN(dosisMin) ||
-    isNaN(dosisMax)
-  ) {
-    errores.push(
-      "La superficie, dosis y valores mínimos/máximos deben ser números válidos."
-    );
-  }
 
   // Validar fecha del tratamiento
   const today = new Date();
@@ -207,24 +180,63 @@ export const comprobacionFinal = (
     );
   }
 
-  const dosisMaxima = calculoDosis(sup, dosisMax);
-  const dosisMinima = calculoDosis(sup, dosisMin);
-
-  if (dosis > dosisMaxima) {
-    errores.push(
-      `Para la superficie introducida (${sup} ha), la dosis máxima permitida es (${redondearDecimales(dosisMaxima)} ${
-        comprobarUnidadMedida(u).split("/")[0]
-      })`
+  if (!unidadValida(u)) {
+    const confirmarUnidad = confirm(
+      `Para la Unidad de Medida (${u}) no podemos hacer una validación informativa de las dósis.
+      ¿Quiere continuar igualmente?`
     );
-  }
-
-  if (dosis < dosisMinima) {
-    const confirmar = confirm(
-      `Para la superficie introducida (${sup} ha), la dosis mínima recomendada es (${redondearDecimales(dosisMinima)} ${
-        comprobarUnidadMedida(u).split("/")[0]
-      }). ¿Quiere aplicar esta dosis de todas formas?`
+    if (!confirmarUnidad) return false;
+  } else {
+    console.log(
+      calculoDosis(sup, dosisMax) +
+        ">=" +
+        dosis +
+        " && " +
+        supCultivo +
+        ">=" +
+        sup
     );
-    if (!confirmar) return false;
+
+    sup = parseFloat(sup);
+    supCultivo = parseFloat(supCultivo);
+    dosis = parseFloat(dosis);
+    dosisMin = parseFloat(dosisMin);
+    dosisMax = parseFloat(dosisMax);
+
+    // Validar que los campos numéricos sean números válidos
+    if (
+      isNaN(sup) ||
+      isNaN(supCultivo) ||
+      isNaN(dosis) ||
+      isNaN(dosisMin) ||
+      isNaN(dosisMax)
+    ) {
+      errores.push(
+        "La superficie, dosis y valores mínimos/máximos deben ser números válidos."
+      );
+    }
+
+    const dosisMaxima = calculoDosis(sup, dosisMax);
+    const dosisMinima = calculoDosis(sup, dosisMin);
+
+    if (dosis > dosisMaxima) {
+      errores.push(
+        `Para la superficie introducida (${sup} ha), la dosis máxima permitida es (${redondearDecimales(
+          dosisMaxima
+        )} ${comprobarUnidadMedida(u).split("/")[0]})`
+      );
+    }
+
+    if (dosis < dosisMinima) {
+      const confirmar = confirm(
+        `Para la superficie introducida (${sup} ha), la dosis mínima recomendada es (${redondearDecimales(
+          dosisMinima
+        )} ${
+          comprobarUnidadMedida(u).split("/")[0]
+        }). ¿Quiere aplicar esta dosis de todas formas?`
+      );
+      if (!confirmar) return false;
+    }
   }
 
   // Mostrar resultados
@@ -232,8 +244,7 @@ export const comprobacionFinal = (
     alert("Errores:\n" + errores.join("\n"));
     return false;
   }
-
-  return confirm("¿Estás seguro que desea realizar el tratamiento?");
+  return confirm("El tratamiento es apto para nuestras comprobaciones. ¿Estás seguro que desea realizar el tratamiento?");
 };
 
 // Redondear a 3 decimales
