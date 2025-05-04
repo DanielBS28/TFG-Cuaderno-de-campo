@@ -19,6 +19,7 @@ const parcelasRouter = require("../routes/parcelas");
 const recintosRouter = require("../routes/recintos");
 const cultivosRouter = require("../routes/cultivos");
 const equiposRouter = require("../routes/equipos");
+const tratamientosRouter = require("../routes/tratamientos");
 
 // Middleware
 app.use(cors());
@@ -48,6 +49,9 @@ app.use("/cultivos", cultivosRouter);
 
 // Ruta para funcionalidades equipos
 app.use("/equipos", equiposRouter);
+
+// Ruta para funcionalidades tratamientos
+app.use("/tratamientos", tratamientosRouter);
 
 // Ruta principal
 app.get("/", (req, res) => {

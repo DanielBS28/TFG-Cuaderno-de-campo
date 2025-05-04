@@ -5,6 +5,7 @@ import {
   unidadValida,
   comprobarDosisAplicada,
   redondearDecimales,
+  comprobacionFinal,
 } from "./ConversionesDosis/calculosDosis.js";
 
 // DATOS AGRICULTOR
@@ -190,8 +191,12 @@ const mostrarDatosAplicador = (carnetAplicador) => {
 const mostrarDatosEquipo = (seleccionada) => {
   camposEquipo.nombreEquipo.value = seleccionada.Nombre;
   camposEquipo.numeroROMA.value = seleccionada.Numero_ROMA;
-  camposEquipo.fechaAdquisicion.value = formatearFecha(seleccionada.Fecha_adquisicion);
-  camposEquipo.fechaUltimaInspeccion.value = formatearFecha(seleccionada.Fecha_ultima_revision);
+  camposEquipo.fechaAdquisicion.value = formatearFecha(
+    seleccionada.Fecha_adquisicion
+  );
+  camposEquipo.fechaUltimaInspeccion.value = formatearFecha(
+    seleccionada.Fecha_ultima_revision
+  );
 };
 
 // Limpiar campos de explotación
@@ -226,6 +231,9 @@ const limpiarCamposProducto = () => {
   for (const key in camposProducto) {
     camposProducto[key].value = "";
   }
+  propiedadesProducto.innerHTML = "<div id='propiedades-producto'></div>";
+  labelCantidadProducto.innerText = "Cantidad del Producto en:";
+  propiedadesEspecificas.innerHTML = "<div id='propiedades-especificas'></div>";
 };
 
 // Limpiar campos cantidades de producto fitosanitario
@@ -237,7 +245,7 @@ const limpiarCamposCantidadProducto = () => {
 
 // Limpiar campos del Aplicador del tratamiento
 const limpiarCamposAplicador = () => {
-  numCarnetAplicador = "";
+  numCarnetAplicador.value = "";
 };
 
 // Limpiar campos de Equipo de tratamiento
@@ -301,10 +309,16 @@ const desbloquearEquipo = () => {
   selectEquipo.disabled = false;
 };
 
+// Bloquear Filtro y Select de Explotación
+const bloquearExplotacion = () => {
+  selectExplotacion.selectedIndex = 0;
+  selectExplotacion.disabled = true;
+  inputBuscarExplotacion.value = "";
+  inputBuscarExplotacion.disabled = true;
+};
+
 // Bloquear Filtro y Select de Parcela
 const bloquearParcela = () => {
-  selectParcela.innerHTML =
-    "<option selected disabled>Seleccione una parcela</option>";
   selectParcela.selectedIndex = 0;
   selectParcela.disabled = true;
   inputBuscarParcela.value = "";
@@ -313,8 +327,6 @@ const bloquearParcela = () => {
 
 // Bloquear Filtro y Select de Tipo Cultivo
 const bloquearTipoCultivo = () => {
-  selectTipoCultivo.innerHTML =
-    "<option selected disabled>Seleccione un cultivo</option>";
   selectTipoCultivo.selectedIndex = 0;
   selectTipoCultivo.disabled = true;
   inputBuscarTipoCultivo.value = "";
@@ -323,8 +335,6 @@ const bloquearTipoCultivo = () => {
 
 // Bloquear Filtro y Select de Tipo Plaga
 const bloquearTipoPlaga = () => {
-  selectTipoPlaga.innerHTML =
-    "<option selected disabled>Seleccione una plaga</option>";
   selectTipoPlaga.selectedIndex = 0;
   selectTipoPlaga.disabled = true;
   inputBuscarTipoPlaga.value = "";
@@ -333,8 +343,6 @@ const bloquearTipoPlaga = () => {
 
 // Bloquear Filtro y Select de Producto Fitosanitario
 const bloquearProducto = () => {
-  selectProducto.innerHTML =
-    "<option selected disabled>Seleccione un producto</option>";
   selectProducto.selectedIndex = 0;
   selectProducto.disabled = true;
   inputBuscarProducto.value = "";
@@ -351,8 +359,6 @@ const bloquearCantidadProducto = () => {
 
 // Bloquear campos del Aplicador del tratamiento
 const bloquearAplicador = () => {
-  selectAplicador.innerHTML =
-    "<option disabled selected>Seleccione el aplicador</option>";
   selectAplicador.selectedIndex = 0;
   selectAplicador.disabled = true;
   inputBuscarAplicador.value = "";
@@ -361,8 +367,6 @@ const bloquearAplicador = () => {
 
 // Bloquear campos del Equipo de tratamiento
 const bloquearEquipo = () => {
-  selectEquipo.innerHTML =
-    "<option disabled selected>Seleccione el equipo</option>";
   selectEquipo.selectedIndex = 0;
   selectEquipo.disabled = true;
   inputBuscarEquipo.value = "";
@@ -491,15 +495,11 @@ const cargarCamposExplotacion = () => {
   )
     .then((response) => response.json())
     .then((explotaciones) => {
-      limpiarCamposParcela();
-      bloquearParcela();
-      limpiarCamposExplotacion();
-
       if (!Array.isArray(explotaciones) || explotaciones.length === 0) {
         alert("Este agricultor no tiene ninguna explotación.");
         return;
       }
-
+      desbloquearExplotacion();
       window.explotacionesOriginales = explotaciones;
       actualizarSelectExplotaciones(explotaciones);
     })
@@ -530,16 +530,12 @@ const cargarParcelasDeExplotacion = async (idExplotacion) => {
     const parcelas = await res.json();
 
     if (!Array.isArray(parcelas) || parcelas.length === 0) {
-      limpiarCamposParcela();
-      bloquearParcela();
       alert("Esta explotación no tiene parcelas.");
       return;
     }
 
     window.parcelas = parcelas;
     actualizarSelectParcelas(parcelas);
-
-    desbloquearParcela();
   } catch (error) {
     console.error("Error al cargar parcelas:", error);
   }
@@ -564,9 +560,6 @@ const obtenerTrataminetosTotales = async (idParcela) => {
     .then((res) => res.json())
     .then((data) => {
       camposParcela.tratamientos.value = data.total;
-
-      cargarCultivosDePacela(idParcela);
-      desbloquearTipoCultivo();
     })
     .catch((err) => {
       console.error("Error al obtener tratamientos:", err);
@@ -575,7 +568,7 @@ const obtenerTrataminetosTotales = async (idParcela) => {
 };
 
 // Obtener tipo de cultivo de una parcela
-const cargarCultivosDePacela = async (idParcela) => {
+const cargarCultivosDeParcela = async (idParcela) => {
   try {
     const res = await fetch(
       `http://localhost:3000/parcelas/cultivos/${idParcela}`
@@ -584,12 +577,10 @@ const cargarCultivosDePacela = async (idParcela) => {
 
     if (!Array.isArray(cultivos) || cultivos.length === 0) {
       alert("No hay cultivos asociados a esta parcela.");
-      bloquearTipoCultivo();
       return;
     }
-
+    desbloquearTipoCultivo();
     window.cultivos = cultivos;
-
     actualizarSelectTipoCultivo(cultivos);
   } catch (error) {
     console.error("Error al cargar cultivos:", error);
@@ -606,12 +597,10 @@ const cargarPlagasDeCultivo = async (tipoCultivo) => {
 
     if (!Array.isArray(plagas) || plagas.length === 0) {
       alert("No hay plagas asociadas a este cultivo.");
-      bloquearTipoPlaga();
       return;
     }
-
+    desbloquearTipoPlaga();
     window.plagas = plagas;
-
     actualizarSelectTipoPlaga(plagas);
   } catch (error) {
     console.error("Error al cargar plagas:", error);
@@ -628,10 +617,9 @@ const cargarProductosDePlaga = async (tipoCultivo, tipoPlaga) => {
 
     if (!Array.isArray(productos) || productos.length === 0) {
       alert("No hay productos fitosanitarios asociados a esta plaga.");
-      bloquearProducto();
       return;
     }
-
+    desbloquearProducto();
     window.productos = productos;
     actualizarSelectProducto(productos);
   } catch (error) {
@@ -644,7 +632,9 @@ const infoProducto = (seleccionada) => {
   // Información Genérica del Producto
   propiedadesProducto.innerHTML = `
     <div id="propiedades-producto" style="margin: 30px 0;">
-        <p><span>Fecha de Caducidad: </span>${formatearFecha(seleccionada.Fecha_caducidad)}</p>
+        <p><span>Fecha de Caducidad: </span>${formatearFecha(
+          seleccionada.Fecha_caducidad
+        )}</p>
         <p><span>Estado: </span>${seleccionada.Estado}</p>
         <p><span>Dosis Mínima: </span>${conversionUnidad(
           seleccionada.Unidad_medida_dosis,
@@ -730,16 +720,16 @@ const cargarEquipos = async (idExplotacion) => {
       `http://localhost:3000/equipos/explotacion/${idExplotacion}`
     );
     const equipos = await res.json();
-    console.log(equipos);
 
     if (!Array.isArray(equipos) || equipos.length === 0) {
       alert("No hay equipos disponibles para esta explotación.");
-      bloquearEquipo();
       return;
     }
-
+    desbloquearEquipo();
     window.equipos = equipos;
     actualizarSelectEquipos(equipos);
+    desbloquearParcela();
+    bloquearEquipo();
   } catch (err) {
     console.error("Error al cargar equipos:", err);
   }
@@ -767,10 +757,27 @@ selectAgricultor.addEventListener("change", async (e) => {
     const res = await fetch(
       `http://localhost:3000/agricultores/buscar/dni/${dniSeleccionado}`
     );
+    limpiarCamposExplotacion();
+    limpiarCamposParcela();
+    limpiarCamposCultivo();
+    limpiarCamposPlaga();
+    limpiarCamposProducto();
+    limpiarCamposCantidadProducto();
+    limpiarCamposAplicador();
+    limpiarCamposEquipo();
+
+    bloquearExplotacion();
+    bloquearParcela();
+    bloquearTipoCultivo();
+    bloquearTipoPlaga();
+    bloquearProducto();
+    bloquearCantidadProducto();
+    bloquearAplicador();
+    bloquearEquipo();
+
     const data = await res.json();
     mostrarDatosAgricultor(data);
     cargarCamposExplotacion();
-    desbloquearExplotacion();
   } catch (error) {
     alert("Error al cargar datos del agricultor.");
     console.error("Error:", error);
@@ -797,6 +804,21 @@ selectExplotacion.addEventListener("change", () => {
 
   if (seleccionada) {
     limpiarCamposParcela();
+    limpiarCamposCultivo();
+    limpiarCamposPlaga();
+    limpiarCamposProducto();
+    limpiarCamposCantidadProducto();
+    limpiarCamposAplicador();
+    limpiarCamposEquipo();
+
+    bloquearParcela();
+    bloquearTipoCultivo();
+    bloquearTipoPlaga();
+    bloquearProducto();
+    bloquearCantidadProducto();
+    bloquearAplicador();
+    bloquearEquipo();
+
     mostrarDatosExplotacion(seleccionada);
     obtenerParcelasTotales(idSeleccionado);
     // Cargar parcelas en el select
@@ -823,9 +845,24 @@ selectParcela.addEventListener("change", () => {
   );
 
   if (seleccionada) {
+    limpiarCamposCultivo();
+    limpiarCamposPlaga();
+    limpiarCamposProducto();
+    limpiarCamposCantidadProducto();
+    limpiarCamposAplicador();
+    limpiarCamposEquipo();
+
+    bloquearTipoCultivo();
+    bloquearTipoPlaga();
+    bloquearProducto();
+    bloquearCantidadProducto();
+    bloquearAplicador();
+    bloquearEquipo();
+
+    mostrarDatosParcela(seleccionada);
     obtenerRecintosTotales(idSeleccionado);
     obtenerTrataminetosTotales(idSeleccionado);
-    mostrarDatosParcela(seleccionada);
+    cargarCultivosDeParcela(idSeleccionado);
   }
 });
 
@@ -850,9 +887,20 @@ selectTipoCultivo.addEventListener("change", () => {
   );
 
   if (seleccionada) {
+    limpiarCamposPlaga();
+    limpiarCamposProducto();
+    limpiarCamposCantidadProducto();
+    limpiarCamposAplicador();
+    limpiarCamposEquipo();
+
+    bloquearTipoPlaga();
+    bloquearProducto();
+    bloquearCantidadProducto();
+    bloquearAplicador();
+    bloquearEquipo();
+
     mostrarDatosCultivo(seleccionada);
     cargarPlagasDeCultivo(valorSeleccionado);
-    desbloquearTipoPlaga();
   }
 });
 
@@ -879,8 +927,17 @@ selectTipoPlaga.addEventListener("change", () => {
   );
 
   if (seleccionada) {
+    limpiarCamposProducto();
+    limpiarCamposCantidadProducto();
+    limpiarCamposAplicador();
+    limpiarCamposEquipo();
+
+    bloquearProducto();
+    bloquearCantidadProducto();
+    bloquearAplicador();
+    bloquearEquipo();
+
     mostrarDatosPlaga(seleccionada);
-    desbloquearProducto();
     cargarProductosDePlaga(nombreCultivo.value, valorSeleccionado);
   }
 });
@@ -906,13 +963,20 @@ selectProducto.addEventListener("change", () => {
   );
 
   if (seleccionada) {
-    desbloquearCantidadProducto();
+    limpiarCamposCantidadProducto();
+    limpiarCamposAplicador();
+    limpiarCamposEquipo();
+
+    bloquearCantidadProducto();
+    bloquearAplicador();
+    bloquearEquipo();
+
     mostrarDatosProducto(seleccionada);
     infoProducto(seleccionada);
-
-    desbloquearAplicador();
     cargarAsesores();
 
+    desbloquearCantidadProducto();
+    desbloquearAplicador();
     desbloquearEquipo();
   }
 });
@@ -988,11 +1052,76 @@ selectEquipo.addEventListener("change", async () => {
 // Evento input equipo de tratamiento para filtrar
 inputBuscarEquipo.addEventListener("input", () => {
   const texto = inputBuscarEquipo.value.trim().toLowerCase();
-  if (!window.equipos || window.equipos.lenght === 0) return;
+  if (!window.equipos || window.equipos.length === 0) return;
 
   const filtradas = window.equipos.filter((equipo) =>
     `${equipo.Nombre} | ${equipo.Numero_ROMA}`.toLowerCase().includes(texto)
   );
 
   actualizarSelectEquipos(filtradas);
+});
+
+// Evento botón Realizar Tratamiento
+btnCrearTratamiento.addEventListener("click", async(e) => {
+  e.preventDefault();
+
+  const datosTratamiento = {
+    cantidadProducto: cantidadProducto.value.trim(),
+    superficie: superficiceTratada.value.trim(),
+    fecha: fechaTratamiento.value,
+    carnetAplicador: numCarnetAplicador.value.trim(),
+    equipo: camposEquipo.nombreEquipo.value.trim(),
+    ROMA: camposEquipo.numeroROMA.value.trim(),
+  };
+
+  if (Object.values(datosTratamiento).some(valor => valor === "")) {
+    alert("Todos los campos del apartado Realizar Tratamiento deben estar completados.");
+    return;
+  };
+
+  const validacionOK = comprobacionFinal(
+    superficieCultivo.value,
+    superficiceTratada.value,
+    cantidadProducto.value,
+    fechaTratamiento.value,
+    camposProducto.dosisMin.value,
+    camposProducto.dosisMax.value,
+    camposProducto.unidadDeMedida.value
+  );
+
+  if (!validacionOK) return;
+
+  // Objeto para el INSERT
+  const nuevoTratamiento = {
+    Equipo_Numero_ROMA: camposEquipo.numeroROMA.value.trim(),
+    Producto_idProducto: parseInt(selectProducto.value),
+    parcela_Numero_identificacion: camposParcela.id.value.trim(),
+    Plaga_controlar: nombrePlaga.value.trim() || null,
+    Fecha_tratamiento: fechaTratamiento.value || null,
+    Tipo_Cultivo: nombreCultivo.value.trim() || null,
+    Num_registro_producto: camposProducto.numRegistro.value.trim() || null,
+    Superficie_cultivo: parseFloat(superficieCultivo.value) || null,
+    Superficie_tratada_ha: parseFloat(superficiceTratada.value) || null,
+    Cantidad_producto_aplicada: parseFloat(cantidadProducto.value) || null,
+    Unidad_medida_dosis: camposProducto.unidadDeMedida.value.trim() || null,
+    Numero_carnet_aplicador: numCarnetAplicador.value.trim() || null,
+  };
+
+  try {
+    const res = await fetch("http://localhost:3000/tratamientos/realizar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(nuevoTratamiento),
+    });
+
+    if (!res.ok) throw new Error("No se pudo insertar el tratamiento");
+
+    alert("Tratamiento registrado correctamente");
+    location.reload();
+  } catch (err) {
+    console.error("Error al insertar tratamiento:", err);
+    alert("Error al registrar el tratamiento.");
+  }
 });
