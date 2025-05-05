@@ -1,3 +1,5 @@
+import { formatDate, formatDate2 } from "./ConversionesDosis/calculosDosis.js";
+
 // DATOS AGRICULTOR
 const inputBuscarAgricultor = document.getElementById("busqueda-agricultor");
 const selectAgricultor = document.getElementById("seleccion-agricultor");
@@ -13,7 +15,6 @@ const camposAgricultor = {
 // DATOS EXPLOTACION
 const inputBuscarExplotacion = document.getElementById("nombre-exp");
 const selectExplotacion = document.getElementById("seleccion-exp");
-let option = document.createElement("option");
 
 const camposExplotacion = {
   id: document.getElementById("id-explotacion"),
@@ -43,26 +44,37 @@ const camposParcela = {
   tratamientos: document.getElementById("tratamientos"),
 };
 
-// DATOS RECINTO
-const selectRecinto = document.getElementById("seleccion-recinto");
-const inputBuscarRecinto = document.getElementById("nombre-recinto-busqueda");
+// DATOS TRATAMIENTO
+const inputFechaInicio = document.getElementById("fecha_inicio");
+const inputFechaFinal = document.getElementById("fecha_final");
+const selectTratamiento = document.getElementById("seleccion-tratamiento");
 
-const camposRecinto = {
-  id: document.getElementById("id_recinto"),
-  recinto: document.getElementById("recinto"),
-  usoRecinto: document.getElementById("uso_recinto"),
-  descripcion: document.getElementById("descripcion"),
-  superficieRecinto: document.getElementById("superficie_recinto"),
+const camposTratamiento = {
+  id: document.getElementById("id_tratamiento"),
+  idParcela: document.getElementById("n_identificacion_parcela"),
+  cultivo: document.getElementById("tipo_cultivo_tratamiento"),
+  fecha: document.getElementById("fecha_tratamiento"),
+  plaga: document.getElementById("plaga-controlada"),
+  producto: document.getElementById("producto-aplicado"),
+  nRegistroProducto: document.getElementById("n_registro_producto"),
+  cantidadProducto: document.getElementById("cantidad_producto"),
+  unidadMedida: document.getElementById("unidad-medida"),
+  supTratada: document.getElementById("superficie_tratada"),
+  supCultivo: document.getElementById("superficie-cultivo"),
+  carnetAplicador: document.getElementById("numero_carnet_aplicador"),
 };
 
-const selectTipoCultivo = document.getElementById("seleccion");
-const inputBuscarTipoCultivo = document.getElementById("nombre-cultivo");
-const nombreCultivo = document.getElementById("nombre-cultivo-buscado");
-const selectTipoRegadio = document.getElementById("tipo_regadio");
+// DATOS EQUIPO
+const camposEquipo = {
+  ROMA: document.getElementById("numero_roma"),
+  nombre: document.getElementById("nombre_equipo"),
+  fechaAdquisicion: document.getElementById("fecha_adquisicion"),
+  fechaUltimaInspeccion: document.getElementById("fecha_ultima_inspeccion"),
+};
 
-const btnCrearCultivo = document.getElementById("crear-cultivo");
+const btnEliminarTratamiento = document.getElementById("eliminar-tratamiento");
 
-// ### FUNCIONES ### //
+// ### FUNCIONES ### \\
 // Función para mostrar los datos del agricultor
 const mostrarDatosAgricultor = (data) => {
   camposAgricultor.nombre.value = data.Nombre;
@@ -97,13 +109,36 @@ const mostrarDatosParcela = (seleccionada) => {
   camposParcela.tratamientos.value = seleccionada.Numero_tratamientos;
 };
 
-// Mostrar datos de recinto
-const mostrarDatosRecinto = (seleccionada) => {
-  camposRecinto.id.value = seleccionada.idRecinto;
-  camposRecinto.recinto.value = seleccionada.Numero;
-  camposRecinto.usoRecinto.value = seleccionada.Uso_SIGPAC;
-  camposRecinto.descripcion.value = seleccionada.Descripcion_uso;
-  camposRecinto.superficieRecinto.value = `${seleccionada.Superficie_ha} ha`;
+// Mostrar datos del tratamiento
+const mostrarDatosTratamiento = (seleccionada) => {
+  camposTratamiento.id.value = seleccionada.idTratamiento;
+  camposTratamiento.idParcela.value =
+    seleccionada.parcela_Numero_identificacion;
+  camposTratamiento.cultivo.value = seleccionada.Tipo_Cultivo;
+  camposTratamiento.fecha.value = formatDate2(seleccionada.Fecha_tratamiento);
+  camposTratamiento.plaga.value = seleccionada.Plaga_controlar;
+  camposTratamiento.producto.value = seleccionada.Nombre_producto;
+  camposTratamiento.nRegistroProducto.value =
+    seleccionada.Num_registro_producto;
+  camposTratamiento.cantidadProducto.value =
+    seleccionada.Cantidad_producto_aplicada;
+  camposTratamiento.unidadMedida.value = seleccionada.Unidad_medida_dosis;
+  camposTratamiento.supTratada.value = seleccionada.Superficie_tratada_ha;
+  camposTratamiento.supCultivo.value = seleccionada.Superficie_cultivo;
+  camposTratamiento.carnetAplicador.value =
+    seleccionada.Numero_carnet_aplicador;
+};
+
+// Mostrar datos del equipo
+const mostrarDatosEquipo = (seleccionada) => {
+  camposEquipo.ROMA.value = seleccionada.Numero_ROMA;
+  camposEquipo.nombre.value = seleccionada.Nombre;
+  camposEquipo.fechaAdquisicion.value = formatDate2(
+    seleccionada.Fecha_adquisicion
+  );
+  camposEquipo.fechaUltimaInspeccion.value = formatDate2(
+    seleccionada.Fecha_ultima_revision
+  );
 };
 
 // Limpiar campos de explotación
@@ -122,10 +157,17 @@ const limpiarCamposParcela = () => {
   }
 };
 
-// Limpiar campos de recinto
-const limpiarCamposRecinto = () => {
-  for (const key in camposRecinto) {
-    camposRecinto[key].value = "";
+// Limpiar campos de tratamiento
+const limpiarCamposTratamiento = () => {
+  for (const key in camposTratamiento) {
+    camposTratamiento[key].value = "";
+  }
+};
+
+// Limpiar campos de equipo
+const limpiarCamposEquipo = () => {
+  for (const key in camposEquipo) {
+    camposEquipo[key].value = "";
   }
 };
 
@@ -145,47 +187,37 @@ const desbloquearParcela = () => {
   inputBuscarParcela.disabled = false;
 };
 
-// Desbloquear campos de recinto
-const desbloquearRecinto = () => {
-  selectRecinto.disabled = false;
-  inputBuscarRecinto.disabled = false;
+// Desbloquear campos de tratamiento
+const desbloquearTratamiento = () => {
+  inputFechaInicio.disabled = false;
+  inputFechaFinal.disabled = false;
+  selectTratamiento.disabled = false;
 };
 
-// Desbloquear tipo de cultivo
-const desbloquearTipoCultivo = () => {
-  selectTipoCultivo.disabled = false;
-  inputBuscarTipoCultivo.disabled = false;
-  selectTipoRegadio.disabled = false;
+// Bloquear Filtro y Select de Explotación
+const bloquearExplotacion = () => {
+  selectExplotacion.selectedIndex = 0;
+  selectExplotacion.disabled = true;
+  inputBuscarExplotacion.value = "";
+  inputBuscarExplotacion.disabled = true;
 };
 
 // Bloquear Filtro y Select de Parcela
 const bloquearParcela = () => {
-  selectParcela.innerHTML =
-    "<option selected disabled>Seleccione una parcela</option>";
   selectParcela.selectedIndex = 0;
   selectParcela.disabled = true;
   inputBuscarParcela.value = "";
   inputBuscarParcela.disabled = true;
 };
 
-// Bloquear Filtro y Select de Recinto
-const bloquearRecinto = () => {
-  selectRecinto.innerHTML =
-    "<option selected disabled>Seleccione un recinto</option>";
-  selectRecinto.selectedIndex = 0;
-  selectRecinto.disabled = true;
-  inputBuscarRecinto.value = "";
-  inputBuscarRecinto.disabled = true;
-};
-
-// Bloquear y Limpiar Filtro y Select de Tipo Cultivo
-const bloquearTipoCultivo = () => {
-  selectTipoCultivo.selectedIndex = 0;
-  selectTipoCultivo.disabled = true;
-  inputBuscarTipoCultivo.value = "";
-  inputBuscarTipoCultivo.disabled = true;
-  selectTipoRegadio.selectedIndex = 0;
-  selectTipoRegadio.disabled = true;
+// Bloquear Filtro y Select de Tratamiento
+const bloquearTratamiento = () => {
+  selectTratamiento.selectedIndex = 0;
+  selectTratamiento.disabled = true;
+  inputFechaInicio.value = "";
+  inputFechaInicio.disabled = true;
+  inputFechaFinal.value = "";
+  inputFechaFinal.disabled = true;
 };
 
 // Actualizar el select de agricultores
@@ -223,27 +255,17 @@ const actualizarSelectParcelas = (lista) => {
   });
 };
 
-// Rellenar las opciones del select de recintos
-const actualizarSelectRecintos = (lista) => {
-  selectRecinto.innerHTML =
-    "<option selected disabled>Seleccione un recinto</option>";
-  lista.forEach((recinto) => {
+// Rellenar las opciones del select de tratamientos
+const actualizarSelectTratamientos = (lista) => {
+  selectTratamiento.innerHTML =
+    "<option selected disabled>Seleccione el tratamiento a eliminar</option>";
+  lista.forEach((tratamiento) => {
     const option = document.createElement("option");
-    option.value = recinto.idRecinto;
-    option.textContent = `${recinto.Numero} | ${recinto.Superficie_ha} ha`;
-    selectRecinto.appendChild(option);
-  });
-};
-
-// Rellenar las opciones del select de cultivos
-const renderizarCultivos = (lista) => {
-  selectTipoCultivo.innerHTML = `
-      <option disabled selected>Seleccione el tipo de cultivo</option>`;
-  lista.forEach(({ Cultivo }) => {
-    const option = document.createElement("option");
-    option.value = Cultivo;
-    option.textContent = Cultivo;
-    selectTipoCultivo.appendChild(option);
+    option.value = tratamiento.idTratamiento;
+    option.textContent = `${tratamiento.Tipo_Cultivo} | ${
+      tratamiento.Nombre_producto
+    } | ${formatDate(tratamiento.Fecha_tratamiento)}`;
+    selectTratamiento.appendChild(option);
   });
 };
 
@@ -254,19 +276,11 @@ const cargarCamposExplotacion = () => {
   )
     .then((response) => response.json())
     .then((explotaciones) => {
-      bloquearTipoCultivo();
-      limpiarCamposRecinto();
-      bloquearRecinto();
-      limpiarCamposParcela();
-      bloquearParcela();
-      limpiarCamposExplotacion();
-
       if (!Array.isArray(explotaciones) || explotaciones.length === 0) {
         alert("Este agricultor no tiene ninguna explotación.");
-        bloquearExplotacion();
         return;
       }
-
+      desbloquearExplotacion();
       window.explotacionesOriginales = explotaciones;
       actualizarSelectExplotaciones(explotaciones);
     })
@@ -296,21 +310,13 @@ const cargarParcelasDeExplotacion = async (idExplotacion) => {
     );
     const parcelas = await res.json();
 
-    bloquearTipoCultivo();
-    limpiarCamposRecinto();
-    bloquearRecinto();
-
     if (!Array.isArray(parcelas) || parcelas.length === 0) {
-      limpiarCamposParcela();
-      bloquearParcela();
       alert("Esta explotación no tiene parcelas.");
       return;
     }
-
+    desbloquearParcela();
     window.parcelas = parcelas;
     actualizarSelectParcelas(parcelas);
-
-    desbloquearParcela();
   } catch (error) {
     console.error("Error al cargar parcelas:", error);
   }
@@ -335,10 +341,6 @@ const obtenerTrataminetosTotales = async (idParcela) => {
     .then((res) => res.json())
     .then((data) => {
       camposParcela.tratamientos.value = data.total;
-
-      bloquearTipoCultivo();
-      desbloquearRecinto();
-      cargarRecintosDeParcela(idParcela);
     })
     .catch((err) => {
       console.error("Error al obtener tratamientos:", err);
@@ -346,78 +348,49 @@ const obtenerTrataminetosTotales = async (idParcela) => {
     });
 };
 
-// Obtener recintos de una parcela
-const cargarRecintosDeParcela = async (idParcela) => {
+// Obtener todos los tratamiento de la parcela seleccionada
+const obtenerTratamientosDeParcela = async (idParcela) => {
   try {
     const res = await fetch(
-      `http://localhost:3000/recintos/parcela/${idParcela}`
+      `http://localhost:3000/tratamientos/parcela/${idParcela}`
     );
-    const recintos = await res.json();
+    const tratamientos = await res.json();
 
-    if (!Array.isArray(recintos) || recintos.length === 0) {
-      bloquearRecinto();
-      alert("Esta parcela no tiene recintos.");
+    if (!Array.isArray(tratamientos) || tratamientos.length === 0) {
+      alert("Esta parcela no tiene tratamientos.");
       return;
     }
-
-    window.recintos = recintos;
-    actualizarSelectRecintos(recintos);
+    desbloquearTratamiento();
+    window.tratamientos = tratamientos;
+    actualizarSelectTratamientos(tratamientos);
   } catch (error) {
-    console.error("Error al cargar recintos:", error);
+    console.error("Error al cargar tratamientos:", error);
   }
 };
 
-// Cargar todos los tipos de cultivo en el select
-const cargarCultivos = () => {
-  fetch("http://localhost:3000/cultivos")
-    .then((res) => res.json())
-    .then((cultivos) => {
-      window.cultivosOriginales = cultivos; // Guardamos lista original
-      renderizarCultivos(cultivosOriginales);
-    })
-    .catch((err) => {
-      console.error("Error al cargar cultivos:", err);
-    });
-};
+const filtrarTratamientosPorFecha = () => {
+  const inicio = inputFechaInicio.value;
+  const final = inputFechaFinal.value;
 
-// Crear cultivo en el recinto seleccionado
-const realizarCultivo = async () => {
-  const idRecinto = selectRecinto.value;
-  const tipoCultivo = selectTipoCultivo.value;
-  const tipoRegadio = selectTipoRegadio.value;
+  if (!window.tratamientos) return;
 
-  if (!idRecinto || !tipoCultivo || !tipoRegadio) {
-    alert("Debes seleccionar un recinto, tipo de cultivo y tipo de regadío.");
-    return;
-  }
+  const tratamientosFiltrados = window.tratamientos.filter((t) => {
+    const fechaTrat = new Date(t.Fecha_tratamiento);
+    fechaTrat.setHours(0, 0, 0, 0);
 
-  try {
-    const res = await fetch(
-      `http://localhost:3000/recintos/cultivar/${idRecinto}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          tipoCultivo,
-          tipoRegadio,
-        }),
-      }
-    );
+    const desde = inicio ? new Date(inicio) : null;
+    if (desde) desde.setHours(0, 0, 0, 0);
 
-    if (res.ok) {
-      alert("¡Cultivo registrado correctamente!");
-      location.reload();
-    } else {
-      const data = await res.json();
-      console.error("Error al realizar cultivo:", data.error);
-      alert("Error al registrar el cultivo.");
-    }
-  } catch (error) {
-    console.error("Error al realizar cultivo:", error);
-    alert("Error inesperado al registrar el cultivo.");
-  }
+    const hasta = final ? new Date(final) : null;
+    if (hasta) hasta.setHours(0, 0, 0, 0);
+
+    if (desde && fechaTrat < desde) return false;
+    if (hasta && fechaTrat > hasta) return false;
+
+    return true;
+  });
+
+  actualizarSelectTratamientos(tratamientosFiltrados);
 };
 
 // ### EVENTOS ### //
@@ -426,13 +399,11 @@ window.addEventListener("DOMContentLoaded", async () => {
   try {
     const res = await fetch("http://localhost:3000/agricultores/todos");
     const data = await res.json();
-    listaAgricultores = data;
+    window.listaAgricultores = data;
     actualizarSelectAgricultores(data);
   } catch (error) {
     console.error("Error al cargar agricultores:", error);
   }
-
-  cargarCultivos();
 });
 
 // Mostrar datos del Agricultor al seleccionar
@@ -444,9 +415,17 @@ selectAgricultor.addEventListener("change", async (e) => {
     const res = await fetch(
       `http://localhost:3000/agricultores/buscar/dni/${dniSeleccionado}`
     );
+    limpiarCamposExplotacion();
+    limpiarCamposParcela();
+    limpiarCamposTratamiento();
+    limpiarCamposEquipo();
+
+    bloquearExplotacion();
+    bloquearParcela();
+    bloquearTratamiento();
+
     const data = await res.json();
     mostrarDatosAgricultor(data);
-    desbloquearExplotacion();
     cargarCamposExplotacion();
   } catch (error) {
     alert("Error al cargar datos del agricultor.");
@@ -474,6 +453,12 @@ selectExplotacion.addEventListener("change", () => {
 
   if (seleccionada) {
     limpiarCamposParcela();
+    limpiarCamposTratamiento();
+    limpiarCamposEquipo();
+
+    bloquearParcela();
+    bloquearTratamiento();
+
     mostrarDatosExplotacion(seleccionada);
     obtenerParcelasTotales(idSeleccionado);
     // Cargar parcelas en el select
@@ -483,7 +468,7 @@ selectExplotacion.addEventListener("change", () => {
 
 // Escuchar cambios en el inputBuscarExplotacion para filtrar
 inputBuscarExplotacion.addEventListener("input", () => {
-  const texto = inputBuscarExplotacion.value.toLowerCase();
+  const texto = inputBuscarExplotacion.value.trim().toLowerCase();
   const filtradas = window.explotacionesOriginales.filter((exp) =>
     exp.Nombre.toLowerCase().includes(texto)
   );
@@ -498,15 +483,21 @@ selectParcela.addEventListener("change", () => {
   );
 
   if (seleccionada) {
+    limpiarCamposTratamiento();
+    limpiarCamposEquipo();
+
+    bloquearTratamiento();
+
+    mostrarDatosParcela(seleccionada);
     obtenerRecintosTotales(idSeleccionado);
     obtenerTrataminetosTotales(idSeleccionado);
-    mostrarDatosParcela(seleccionada);
+    obtenerTratamientosDeParcela(idSeleccionado);
   }
 });
 
 // Evento input parcela para filtrar
 inputBuscarParcela.addEventListener("input", () => {
-  const texto = inputBuscarParcela.value.trim().toLowerCase();
+  const texto = inputBuscarParcela.value.trim().toLowerCase().toLowerCase();
 
   if (!window.parcelas || window.parcelas.length === 0) return;
 
@@ -517,73 +508,51 @@ inputBuscarParcela.addEventListener("input", () => {
   actualizarSelectParcelas(filtradas);
 });
 
-// Evento select recinto
-selectRecinto.addEventListener("change", () => {
-  const idSeleccionado = selectRecinto.value;
-  const seleccionada = window.recintos.find(
-    (recinto) => recinto.idRecinto == idSeleccionado
+// Evento Select tratamiento
+selectTratamiento.addEventListener("change", () => {
+  const idSeleccionado = selectTratamiento.value;
+  const seleccionada = window.tratamientos.find(
+    (tratamiento) => tratamiento.idTratamiento == idSeleccionado
   );
 
   if (seleccionada) {
-    mostrarDatosRecinto(seleccionada);
-    bloquearTipoCultivo();
-    desbloquearTipoCultivo();
-
-    // Asignar tipo de cultivo y regadío si existen
-    if (seleccionada.Tipo_Cultivo) {
-      selectTipoCultivo.value = seleccionada.Tipo_Cultivo;
-    } else {
-      selectTipoCultivo.selectedIndex = 0;
-    }
-
-    if (seleccionada.Tipo_regadio) {
-      selectTipoRegadio.value = seleccionada.Tipo_regadio;
-    } else {
-      selectTipoRegadio.selectedIndex = 0;
-    }
+    mostrarDatosTratamiento(seleccionada);
+    mostrarDatosEquipo(seleccionada);
   }
 });
 
-// Evento input recinto para filtrar
-inputBuscarRecinto.addEventListener("input", () => {
-  const texto = inputBuscarRecinto.value.trim().toLowerCase();
+// Eventos para filtrar por fecha el select de tratamientos
+inputFechaInicio.addEventListener("change", filtrarTratamientosPorFecha);
+inputFechaFinal.addEventListener("change", filtrarTratamientosPorFecha);
 
-  if (!window.recintos || window.recintos.length === 0) return;
-
-  const filtradas = window.recintos.filter((recinto) =>
-    recinto.Numero.toLowerCase().includes(texto)
-  );
-
-  actualizarSelectRecintos(filtradas);
-});
-
-// Evento input tipo cultivo para filtrar
-inputBuscarTipoCultivo.addEventListener("input", () => {
-  const texto = inputBuscarTipoCultivo.value.trim().toLowerCase();
-
-  if (!window.cultivosOriginales || window.cultivosOriginales.length === 0)
-    return;
-
-  const filtradas = window.cultivosOriginales.filter((cultivo) =>
-    cultivo.Cultivo.toLowerCase().includes(texto)
-  );
-
-  renderizarCultivos(filtradas);
-});
-
-// Evento botón crear cultivo
-btnCrearCultivo.addEventListener("click", (e) => {
+// Botón eliminar tratamiento
+btnEliminarTratamiento.addEventListener("click", async (e) => {
   e.preventDefault();
-  realizarCultivo();
-});
+  const idTratamiento = camposTratamiento.id.value.trim();
 
-// Evento botón mostrar parcela en el SIGPAC
-document.getElementById("SIGPAC").addEventListener("click", (e) => {
-  e.preventDefault();
-  const idRecinto = camposRecinto.recinto.value;
-  if (!idRecinto) return alert("No hay ningún recinto seleccionado.");
+  if (idTratamiento == "")
+    return alert("Asegúrese de haber seleccionado un tratamiento.");
 
-  const urlSIGPAC = `https://sigpac.mapa.es/fega/visor/?provincia=${camposParcela.codigoProvincia.value}&municipio=${camposParcela.codigoMunicipio.value}&agregado=${camposParcela.agregado.value}&zona=${camposParcela.zona.value}&poligono=${camposParcela.numPoligono.value}&parcela=${camposParcela.numParcela.value}&recinto=${idRecinto}`;
+  const confirmar = confirm(
+    `¿Seguro que deseas eliminar el tratamiento?`
+  );
+  if (!confirmar) return;
 
-  window.open(urlSIGPAC, "_blank");
+  try {
+    const res = await fetch(
+      `http://localhost:3000/tratamientos/eliminar/${idTratamiento}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || "Error desconocido");
+
+    alert("Tratamiento eliminado correctamente.");
+    location.reload();
+  } catch (error) {
+    console.error("Error al eliminar tratamiento:", error);
+    alert("No se pudo eliminar el tratamiento.");
+  }
 });

@@ -251,3 +251,21 @@ export const comprobacionFinal = (
 
 // Redondear a 3 decimales
 export const redondearDecimales = (n) => Math.round(n * 1000) / 1000;
+
+// Convertir campo DATE a dd-mm-aaaa
+export const formatDate = (fecha) => {
+  const d = new Date(fecha);
+  const dia = String(d.getDate()).padStart(2, '0');
+  const mes = String(d.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+  const año = d.getFullYear();
+  return `${dia}-${mes}-${año}`;
+};
+
+// Convertir campo DATE a yyyy-MM-dd
+export const formatDate2 = (fecha) => {
+  const d = new Date(fecha);
+  const dia = String(d.getDate()).padStart(2, '0');
+  const mes = String(d.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+  const año = d.getFullYear();
+  return `${año}-${mes}-${dia}`;
+};
