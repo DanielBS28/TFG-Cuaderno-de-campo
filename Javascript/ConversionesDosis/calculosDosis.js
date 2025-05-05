@@ -180,6 +180,25 @@ export const comprobacionFinal = (
     );
   }
 
+  sup = parseFloat(sup);
+  supCultivo = parseFloat(supCultivo);
+  dosis = parseFloat(dosis);
+  dosisMin = parseFloat(dosisMin);
+  dosisMax = parseFloat(dosisMax);
+
+  // Validar que los campos numéricos sean números válidos
+  if (
+    isNaN(sup) ||
+    isNaN(supCultivo) ||
+    isNaN(dosis) ||
+    isNaN(dosisMin) ||
+    isNaN(dosisMax)
+  ) {
+    errores.push(
+      "La superficie, dosis y valores mínimos/máximos deben ser números válidos."
+    );
+  }
+
   if (!unidadValida(u)) {
     const confirmarUnidad = confirm(
       `Para la Unidad de Medida (${u}) no podemos hacer una validación informativa de las dósis.
@@ -196,25 +215,6 @@ export const comprobacionFinal = (
         ">=" +
         sup
     );
-
-    sup = parseFloat(sup);
-    supCultivo = parseFloat(supCultivo);
-    dosis = parseFloat(dosis);
-    dosisMin = parseFloat(dosisMin);
-    dosisMax = parseFloat(dosisMax);
-
-    // Validar que los campos numéricos sean números válidos
-    if (
-      isNaN(sup) ||
-      isNaN(supCultivo) ||
-      isNaN(dosis) ||
-      isNaN(dosisMin) ||
-      isNaN(dosisMax)
-    ) {
-      errores.push(
-        "La superficie, dosis y valores mínimos/máximos deben ser números válidos."
-      );
-    }
 
     const dosisMaxima = calculoDosis(sup, dosisMax);
     const dosisMinima = calculoDosis(sup, dosisMin);
@@ -244,7 +244,9 @@ export const comprobacionFinal = (
     alert("Errores:\n" + errores.join("\n"));
     return false;
   }
-  return confirm("El tratamiento es apto para nuestras comprobaciones. ¿Estás seguro que desea realizar el tratamiento?");
+  return confirm(
+    "El tratamiento es apto para nuestras comprobaciones. ¿Estás seguro que desea realizar el tratamiento?"
+  );
 };
 
 // Redondear a 3 decimales
