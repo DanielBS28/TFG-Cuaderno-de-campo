@@ -21,26 +21,6 @@ const camposExplotacion = {
   parcelas: document.getElementById("total-parcelas"),
 };
 
-// DATOS PARCELA
-const selectParcela = document.getElementById("seleccion-parcela");
-const inputBuscarParcela = document.getElementById("nombre-parcela-busqueda");
-
-const camposParcela = {
-  id: document.getElementById("n_identificacion"),
-  catastro: document.getElementById("n_catastro"),
-  nombre: document.getElementById("nombre-parcela"),
-  codigoProvincia: document.getElementById("codigo_provincia"),
-  codigoMunicipio: document.getElementById("codigo_municipio"),
-  nombreMunicipio: document.getElementById("nombre_municipio"),
-  agregado: document.getElementById("agregado"),
-  zona: document.getElementById("zona"),
-  numPoligono: document.getElementById("poligono"),
-  numParcela: document.getElementById("parcela"),
-  superficieSIGPAC: document.getElementById("sup_sigpac"),
-  superficieDeclarada: document.getElementById("sup_declarada"),
-  recintos: document.getElementById("recintos"),
-  tratamientos: document.getElementById("tratamientos"),
-};
 
 // DATOS EQUIPAMIENTO
 const inputBuscarEquipo = document.getElementById("nombre-equipo");
@@ -116,9 +96,17 @@ const bloquearExplotacion = () => {
   inputBuscarExplotacion.disabled = true;
 };
 
+// Bloquear campos del Equipo de tratamiento
+const bloquearEquipo = () => {
+  selectEquipamiento.selectedIndex = 0;
+  selectEquipamiento.disabled = true;
+  inputBuscarEquipo.value = "";
+  inputBuscarEquipo.disabled = true;
+};
+
 // Desbloquear campos de equipo
 const desbloquearCamposEquipos = () => {
-  inputBuscarEquipo.readOnly = false;
+  inputBuscarEquipo.disabled = false;
   selectEquipamiento.disabled = false;
 };
 
@@ -205,6 +193,8 @@ selectAgricultor.addEventListener("change", async (e) => {
     const data = await res.json();
     mostrarDatosAgricultor(data);
     cargarCamposExplotacion();
+    limpiarCamposEquipos();
+    bloquearEquipo();
   } catch (error) {
     alert("Error al cargar datos del agricultor.");
     console.error("Error:", error);
@@ -244,25 +234,17 @@ inputBuscarExplotacion.addEventListener("input", () => {
   actualizarSelectExplotaciones(filtradas);
 });
 
-// Obtener parcelas de una explotación
-const cargarParcelasDeExplotacion = async (idExplotacion) => {
-  try {
-    const res = await fetch(
-      `http://localhost:3000/parcelas/explotacion/${idExplotacion}`
-    );
-    const parcelas = await res.json();
+selectEquipamiento.addEventListener("change", async () => {
+  const valorSeleccionado = selectEquipamiento.value;
+  const seleccionada = window.equipos.find(
+    (equipo) => equipo.Numero_ROMA == valorSeleccionado
+  );
 
-    if (!Array.isArray(parcelas) || parcelas.length === 0) {
-      alert("Esta explotación no tiene parcelas.");
-      return;
-    }
-
-    window.parcelas = parcelas;
-    
-  } catch (error) {
-    console.error("Error al cargar parcelas:", error);
+  if (seleccionada) {
+    mostrarDatosEquipo(seleccionada);
   }
-};
+});
+
 
 // Obtener parcelas totales de una explotación
 const obtenerParcelasTotales = async (idSeleccionado) => {
@@ -275,6 +257,11 @@ const obtenerParcelasTotales = async (idSeleccionado) => {
       console.error("Error al obtener parcelas:", err);
       camposExplotacion.parcelas.value = "—";
     });
+
+    desbloquearCamposEquipos();
+    cargarEquipos(idSeleccionado);
+    limpiarCamposEquipos(); 
+
 };
 
 // Evento select explotación
@@ -288,89 +275,58 @@ selectExplotacion.addEventListener("change", () => {
     
     mostrarDatosExplotacion(seleccionada);
     obtenerParcelasTotales(idSeleccionado);
-    cargarParcelasDeExplotacion(idSeleccionado);
-    limpiarCamposEquipos(); 
   }
 });
 
-// Mostrar datos de parcela
-const mostrarDatosParcela = (seleccionada) => {
-  camposParcela.id.value = seleccionada.idParcela;
-  camposParcela.catastro.value = seleccionada.Ref_Catastral;
-  camposParcela.nombre.value = seleccionada.Nombre;
-  camposParcela.codigoProvincia.value = seleccionada.Codigo_Provincia;
-  camposParcela.codigoMunicipio.value = seleccionada.Codigo_Municipio;
-  camposParcela.nombreMunicipio.value = seleccionada.Nombre_Municipio;
-  camposParcela.agregado.value = seleccionada.Agregado;
-  camposParcela.zona.value = seleccionada.Zona;
-  camposParcela.numPoligono.value = seleccionada.Poligono;
-  camposParcela.numParcela.value = seleccionada.Parcela;
-  camposParcela.superficieSIGPAC.value = seleccionada.Superficie_SIGPAC;
-  camposParcela.superficieDeclarada.value = seleccionada.Superficie_declarada;
-  camposParcela.recintos.value = seleccionada.Numero_recintos;
-  camposParcela.tratamientos.value = seleccionada.Numero_tratamientos;
+
+// Función para cargar el select con equipos
+const actualizarSelectEquipos = (equipos) => {
+  selectEquipamiento.innerHTML =
+    "<option disabled selected>Seleccione el equipo</option>";
+  equipos.forEach((equipo) => {
+    const option = document.createElement("option");
+    option.value = equipo.Numero_ROMA;
+    option.textContent = `${equipo.Nombre} | ${equipo.Numero_ROMA}`;
+    selectEquipamiento.appendChild(option);
+  });
 };
 
 
-// Función para cargar el select con equipos
-function cargarSelect(lista) {
-    selectEquipamiento.innerHTML = `
-        <option value="" disabled selected>Seleccione el equipo</option>
-    `;
-    lista.forEach(eq => {
-        const option = document.createElement("option");
-        option.value = eq.Numero_ROMA;
-        option.textContent = `${eq.Nombre} | ${eq.Numero_ROMA}`;
-        selectEquipamiento.appendChild(option);
-    });
-}
+//Cargar equipos de una explotación
+const cargarEquipos = async (idExplotacion) => {
+  if (!idExplotacion) return;
 
-// Filtrado por texto
-inputBuscarEquipo.addEventListener("input", () => {
-    const texto = inputBuscarEquipo.value.trim().toLowerCase();
-    if (!equipos || equipos.length === 0) return;
-
-    const filtradas = equipos.filter((equipo) =>
-        `${equipo.Nombre} | ${equipo.Numero_ROMA}`.toLowerCase().includes(texto)
+  try {
+    const res = await fetch(
+      `http://localhost:3000/equipos/explotacion/${idExplotacion}`
     );
+    const equipos = await res.json();
 
-    cargarSelect(filtradas);
-});
-
-// Mostrar datos al seleccionar equipo
-selectEquipamiento.addEventListener("change", () => {
-    const seleccionado = equipos.find(
-        (eq) => eq.Numero_ROMA == selectEquipamiento.value
-    );
-    if (seleccionado) {
-        mostrarDatosEquipo(seleccionado);
+    if (!Array.isArray(equipos) || equipos.length === 0) {
+      alert("No hay equipos disponibles para esta explotación.");
+      bloquearEquipo();
+      return;
     }
-});
+    window.equipos = equipos;
+    desbloquearCamposEquipos();
+    cargarSelectEquipos(equipos);
+  
+  } catch (err) {
+    console.error("Error al cargar equipos:", err);
+  }
+};
 
-
-// Cargar equipos al iniciar
-window.addEventListener("DOMContentLoaded", async () => {
-    try {
-        const res = await fetch("http://localhost:3000/equipos/");
-        equipos = await res.json();
-        cargarSelectEquipos(equipos); // Cargamos los equipos al inicio
-    } catch (err) {
-        console.error("Error al cargar equipos:", err);
-    }
-});
-
-// Filtrado por texto para equipos
+// Evento input equipo de tratamiento para filtrar
 inputBuscarEquipo.addEventListener("input", () => {
-    const texto = inputBuscarEquipo.value.trim().toLowerCase();
-    if (!equipos || equipos.length === 0) return;
+  const texto = inputBuscarEquipo.value.trim().toLowerCase();
+  if (!window.equipos || window.equipos.length === 0) return;
 
-    const filtrados = equipos.filter((equipo) =>
-        `${equipo.Nombre} | ${equipo.Numero_ROMA}`.toLowerCase().includes(texto)
-    );
+  const filtradas = window.equipos.filter((equipo) =>
+    `${equipo.Nombre} | ${equipo.Numero_ROMA}`.toLowerCase().includes(texto)
+  );
 
-    cargarSelectEquipos(filtrados);
+  actualizarSelectEquipos(filtradas);
 });
-
 const btnAsignarEquipo = document.getElementById("desasignar-equipamiento");
 // desasignar_equipamientos.js
 
@@ -383,7 +339,7 @@ btnDesasignarEquipo.addEventListener("click", async (e) => {
   const numeroROMA = camposEquipamiento.numeroRoma.value.trim();
 
   if (!idExplotacion || !numeroROMA) {
-    return alert("Debes seleccionar una explotación y un equipo.");
+    return alert("Debes seleccionar un equipo para poder desasignarlo de una explotación.");
   }
 
   const confirmacion = confirm(`¿Seguro que deseas desasignar el equipo ${numeroROMA} de la explotación ${idExplotacion}?`);

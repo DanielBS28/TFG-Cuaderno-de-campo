@@ -21,27 +21,6 @@ const camposExplotacion = {
   parcelas: document.getElementById("total-parcelas"),
 };
 
-// DATOS PARCELA
-const selectParcela = document.getElementById("seleccion-parcela");
-const inputBuscarParcela = document.getElementById("nombre-parcela-busqueda");
-
-const camposParcela = {
-  id: document.getElementById("n_identificacion"),
-  catastro: document.getElementById("n_catastro"),
-  nombre: document.getElementById("nombre-parcela"),
-  codigoProvincia: document.getElementById("codigo_provincia"),
-  codigoMunicipio: document.getElementById("codigo_municipio"),
-  nombreMunicipio: document.getElementById("nombre_municipio"),
-  agregado: document.getElementById("agregado"),
-  zona: document.getElementById("zona"),
-  numPoligono: document.getElementById("poligono"),
-  numParcela: document.getElementById("parcela"),
-  superficieSIGPAC: document.getElementById("sup_sigpac"),
-  superficieDeclarada: document.getElementById("sup_declarada"),
-  recintos: document.getElementById("recintos"),
-  tratamientos: document.getElementById("tratamientos"),
-};
-
 // DATOS EQUIPAMIENTO
 const inputBuscarEquipo = document.getElementById("nombre-equipo");
 const selectEquipamiento = document.getElementById("seleccion-equipamiento");
@@ -90,6 +69,14 @@ const limpiarCamposEquipos = () => {
 
 }
 
+// Bloquear campos del Equipo de tratamiento
+const bloquearEquipo = () => {
+  selectEquipamiento.selectedIndex = 0;
+  selectEquipamiento.disabled = true;
+  inputBuscarEquipo.value = "";
+  inputBuscarEquipo.disabled = true;
+};
+
 // Limpiar campos explotación
 const limpiarCamposExplotacion = () => {
   camposExplotacion.id.value = "";
@@ -118,7 +105,7 @@ const bloquearExplotacion = () => {
 
 // Desbloquear campos de equipo
 const desbloquearCamposEquipos = () => {
-  inputBuscarEquipo.readOnly = false;
+  inputBuscarEquipo.disabled = false;
   selectEquipamiento.disabled = false;
 };
 
@@ -202,6 +189,7 @@ selectAgricultor.addEventListener("change", async (e) => {
     limpiarCamposExplotacion();
     limpiarCamposEquipos();
     bloquearExplotacion();
+    bloquearEquipo();
     const data = await res.json();
     mostrarDatosAgricultor(data);
     cargarCamposExplotacion();
@@ -244,25 +232,6 @@ inputBuscarExplotacion.addEventListener("input", () => {
   actualizarSelectExplotaciones(filtradas);
 });
 
-// Obtener parcelas de una explotación
-const cargarParcelasDeExplotacion = async (idExplotacion) => {
-  try {
-    const res = await fetch(
-      `http://localhost:3000/parcelas/explotacion/${idExplotacion}`
-    );
-    const parcelas = await res.json();
-
-    if (!Array.isArray(parcelas) || parcelas.length === 0) {
-      alert("Esta explotación no tiene parcelas.");
-      return;
-    }
-
-    window.parcelas = parcelas;
-    
-  } catch (error) {
-    console.error("Error al cargar parcelas:", error);
-  }
-};
 
 // Obtener parcelas totales de una explotación
 const obtenerParcelasTotales = async (idSeleccionado) => {
@@ -288,28 +257,9 @@ selectExplotacion.addEventListener("change", () => {
     
     mostrarDatosExplotacion(seleccionada);
     obtenerParcelasTotales(idSeleccionado);
-    cargarParcelasDeExplotacion(idSeleccionado);
     limpiarCamposEquipos(); 
   }
 });
-
-// Mostrar datos de parcela
-const mostrarDatosParcela = (seleccionada) => {
-  camposParcela.id.value = seleccionada.idParcela;
-  camposParcela.catastro.value = seleccionada.Ref_Catastral;
-  camposParcela.nombre.value = seleccionada.Nombre;
-  camposParcela.codigoProvincia.value = seleccionada.Codigo_Provincia;
-  camposParcela.codigoMunicipio.value = seleccionada.Codigo_Municipio;
-  camposParcela.nombreMunicipio.value = seleccionada.Nombre_Municipio;
-  camposParcela.agregado.value = seleccionada.Agregado;
-  camposParcela.zona.value = seleccionada.Zona;
-  camposParcela.numPoligono.value = seleccionada.Poligono;
-  camposParcela.numParcela.value = seleccionada.Parcela;
-  camposParcela.superficieSIGPAC.value = seleccionada.Superficie_SIGPAC;
-  camposParcela.superficieDeclarada.value = seleccionada.Superficie_declarada;
-  camposParcela.recintos.value = seleccionada.Numero_recintos;
-  camposParcela.tratamientos.value = seleccionada.Numero_tratamientos;
-};
 
 
 // Función para cargar el select con equipos
@@ -382,7 +332,7 @@ btnAsignarEquipo.addEventListener("click", async (e) => {
   const numeroROMA = camposEquipamiento.numeroRoma.value.trim();
 
   if (!idExplotacion || !numeroROMA) {
-    return alert("Debes seleccionar una explotación y un equipo.");
+    return alert("Debes seleccionar un equipo para poder asignarlo a una explotación.");
   }
 
   try {
