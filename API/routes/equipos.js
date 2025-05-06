@@ -6,7 +6,7 @@ const db = require("../src/db");
 router.post("/alta", async (req, res) => {
   const { roma, nombre, fechaAdquisicion, fechaRevision } = req.body;
 
-  if (!roma || !nombre || !fechaAdquisicion || !fechaRevision) {
+  if (!roma.trim() || !nombre.trim() || !fechaAdquisicion || !fechaRevision) {
     return res.status(400).json({ error: "Faltan campos obligatorios" });
   }
 
@@ -118,7 +118,7 @@ router.put("/actualizar/:roma", async (req, res) => {
   const { nombre, fecha_adquisicion, fecha_ultima_revision } = req.body;
 
   // Validación de campos requeridos
-  if (!nombre || !fecha_adquisicion || !fecha_ultima_revision) {
+  if (!nombre.trim() || !fecha_adquisicion || !fecha_ultima_revision) {
     return res.status(400).json({ error: "Faltan datos requeridos" });
   }
 
