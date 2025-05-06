@@ -130,4 +130,105 @@ router.get("/dni-agricultor/:dni", async (req, res) => {
 });
 
 
+//asignar equipo
+router.post("/asignar-equipo", async (req, res) => {
+    const { explotacion_idExplotacion, equipo_Numero_ROMA } = req.body;
+  
+    if (!explotacion_idExplotacion || !equipo_Numero_ROMA) {
+      return res.status(400).json({ error: "Faltan datos de la explotación o del equipo." });
+    }
+  
+    const conn = await db.promise().getConnection();
+    await conn.beginTransaction();
+  
+    try {
+      // Verificar que existan
+      const [[explotacion]] = await conn.query(
+        "SELECT * FROM Explotacion WHERE idExplotacion = ?",
+        [explotacion_idExplotacion]
+      );
+      const [[equipo]] = await conn.query(
+        "SELECT * FROM Equipo WHERE Numero_ROMA = ?",
+        [equipo_Numero_ROMA]
+      );
+  
+      if (!explotacion) {
+        await conn.rollback();
+        return res.status(404).json({ error: "Explotación no encontrada" });
+      }
+  
+      if (!equipo) {
+        await conn.rollback();
+        return res.status(404).json({ error: "Equipo no encontrado" });
+      }
+  
+      // Insertar en la tabla intermedia
+      await conn.query(
+        `INSERT INTO explotacion_has_equipo (explotacion_idExplotacion, equipo_Numero_ROMA)
+         VALUES (?, ?)`,
+        [explotacion_idExplotacion, equipo_Numero_ROMA]
+      );
+  
+      await conn.commit();
+      res.status(200).json({ message: "Equipamiento asignado con éxito" });
+  
+    } catch (err) {
+      await conn.rollback();
+  
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ error: "Esta asignación ya existe." });
+      }
+  
+      console.error("Error al asignar equipo:", err);
+      res.status(500).json({ error: "Error al asignar equipo" });
+    } finally {
+      conn.release();
+    }
+  });
+
+  // desasignar equipo
+router.delete("/desasignar-equipo", async (req, res) => {
+    const { explotacion_idExplotacion, equipo_Numero_ROMA } = req.body;
+  
+    if (!explotacion_idExplotacion || !equipo_Numero_ROMA) {
+      return res.status(400).json({ error: "Faltan datos de la explotación o del equipo." });
+    }
+  
+    const conn = await db.promise().getConnection();
+    await conn.beginTransaction();
+  
+    try {
+      // Verificar que exista la relación
+      const [relacion] = await conn.query(
+        `SELECT * FROM explotacion_has_equipo 
+         WHERE explotacion_idExplotacion = ? AND equipo_Numero_ROMA = ?`,
+        [explotacion_idExplotacion, equipo_Numero_ROMA]
+      );
+  
+      if (relacion.length === 0) {
+        await conn.rollback();
+        return res.status(404).json({ error: "La relación no existe." });
+      }
+  
+      // Eliminar la relación
+      await conn.query(
+        `DELETE FROM explotacion_has_equipo 
+         WHERE explotacion_idExplotacion = ? AND equipo_Numero_ROMA = ?`,
+        [explotacion_idExplotacion, equipo_Numero_ROMA]
+      );
+  
+      await conn.commit();
+      res.status(200).json({ message: "Equipamiento desasignado con éxito" });
+  
+    } catch (err) {
+      await conn.rollback();
+      console.error("Error al desasignar equipo:", err);
+      res.status(500).json({ error: "Error al desasignar equipo" });
+    } finally {
+      conn.release();
+    }
+  });
+  
+
+
 module.exports = router;
