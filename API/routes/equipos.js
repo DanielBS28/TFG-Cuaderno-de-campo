@@ -22,7 +22,7 @@ router.post("/alta", async (req, res) => {
 
     if (equipoExistente.length > 0) {
       await conn.rollback();
-      return res.status(409).json({ error: "El número de ROMA ya está registrado, no se ha podido registrar el equipo." });
+      return res.status(409).json({ error: "El equipo de tratamiento ya existe" });
     }
 
     // Verifica que fechaAdquisicion sea anterior a fechaRevision
