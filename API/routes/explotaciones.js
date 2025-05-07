@@ -133,7 +133,7 @@ router.get("/dni-agricultor/:dni", async (req, res) => {
 //asignar equipo
 router.post("/asignar-equipo", async (req, res) => {
     const { explotacion_idExplotacion, equipo_Numero_ROMA } = req.body;
-  
+
     if (!explotacion_idExplotacion || !equipo_Numero_ROMA) {
       return res.status(400).json({ error: "Faltan datos de la explotación o del equipo." });
     }
