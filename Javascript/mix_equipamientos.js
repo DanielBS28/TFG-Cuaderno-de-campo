@@ -247,13 +247,14 @@ btn_crear_y_asignar_equipamiento.addEventListener("click", async (e) => {
     e.preventDefault();
 
     const datos = {
-        roma: camposEquipamiento.roma.value,
-        nombre: camposEquipamiento.nombre.value,
-        fechaAdquisicion: camposEquipamiento.fechaAdquisicion.value,
-        fechaRevision: camposEquipamiento.fechaRevision.value
+      roma: document.getElementById("numero_roma").value,
+      nombre: document.getElementById("nombre-equipo-tratamiento").value,
+      fechaAdquisicion: document.getElementById("fecha_adquisicion").value,
+      fechaRevision: document.getElementById("fecha_ultima_inspeccion").value
     };
 
     try {
+
         const respuesta = await fetch("http://localhost:3000/equipos/alta", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -263,8 +264,7 @@ btn_crear_y_asignar_equipamiento.addEventListener("click", async (e) => {
         const resultado = await respuesta.json();
 
         if (respuesta.ok) {
-            alert(`El equipo ${datos.nombre.value} se ha registrado con éxito`);
-          
+            alert(`El equipo ${datos.nombre} se ha registrado con éxito`);
         } else {
             alert("Error: " + (resultado.error || "Error inesperado"));
         }
@@ -272,8 +272,9 @@ btn_crear_y_asignar_equipamiento.addEventListener("click", async (e) => {
         alert("Error de red o del servidor.");
         console.error("Error al enviar datos:", error);
     }
+
+      await registrarEquipo();
   
-    registrarEquipo();
   });
 
   const registrarEquipo = async () =>{
@@ -281,10 +282,8 @@ btn_crear_y_asignar_equipamiento.addEventListener("click", async (e) => {
     const idExplotacion = camposExplotacion.id.value.trim();
     const numeroROMA = camposEquipamiento.roma.value.trim();
 
-    if (!idExplotacion || !numeroROMA) {
-        return alert("Debes seleccionar un equipo para poder asignarlo a una explotación.");
-      }
-    
+    if (!idExplotacion || !numeroROMA) return;
+
       try {
         const res = await fetch("http://localhost:3000/explotaciones/asignar-equipo", {
           method: "POST",
@@ -310,6 +309,5 @@ btn_crear_y_asignar_equipamiento.addEventListener("click", async (e) => {
         alert("Error al asignar equipamiento.");
       }
     
-
-  }
+  };
  

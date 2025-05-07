@@ -16,7 +16,7 @@ router.post("/alta", async (req, res) => {
   try {
     // Verifica si el Nombre del equipo existe
     const [equipoExistente] = await conn.query(
-      "SELECT Numero_ROMA FROM equipo WHERE Nombre = ?",
+      "SELECT Numero_ROMA FROM equipo WHERE Numero_ROMA = ?",
       [roma]
     );
 
