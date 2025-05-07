@@ -1,6 +1,6 @@
-const app = require('./app');
+const app = require("./app");
+const { app: configApp } = require("./config");
 
-//Iniciar el servidor 
-app.listen(app.get('PORT'), () =>{
-    console.log(`Servidor corriendo en http://localhost:${app.get("PORT")}`);
+app.listen(configApp.PORT, () => {
+  console.log(`Servidor corriendo en http://${configApp.HOST}:${configApp.PORT}`);
 });

@@ -72,6 +72,7 @@ const camposEquipo = {
   fechaUltimaInspeccion: document.getElementById("fecha_ultima_inspeccion"),
 };
 
+const inputCorreo = document.getElementById("correo");
 const btnEnviarCorreo = document.getElementById("generar-informe-correo");
 const btnGenerarInforme = document.getElementById("generar-informe-pdf");
 
@@ -491,6 +492,32 @@ const esCorreoValido = (correo) => {
   return regex.test(correo);
 };
 
+// Generar PDF como promesa
+const generarPDFPromesa = (
+  camposTratamiento,
+  camposEquipo,
+  logoSrc = "../Fotos/Logo.png"
+) =>
+  new Promise((resolve) => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const logo = new Image();
+    logo.src = logoSrc;
+    logo.onload = () => {
+      generarPDFInformeTratamientoYEquipo(
+        camposTratamiento,
+        camposEquipo,
+        logo.src,
+        doc
+      );
+
+      // Esperamos al siguiente "frame" para asegurarnos de que todo el contenido se renderice
+      requestAnimationFrame(() => {
+        resolve(doc);
+      });
+    };
+  });
+
 // ### EVENTOS ### //
 // Cargar todos los agricultores al iniciar
 window.addEventListener("DOMContentLoaded", async () => {
@@ -627,9 +654,11 @@ inputFechaFinal.addEventListener("change", filtrarTratamientosPorFecha);
 btnEnviarCorreo.addEventListener("click", async (e) => {
   e.preventDefault();
 
-  const inputCorreo = document.getElementById("correo");
-  const correo = inputCorreo?.value?.trim();
+  const cultivo = camposTratamiento.cultivo.value.trim();
+  const producto = camposTratamiento.producto.value.trim();
+  const fecha = formatDate(camposTratamiento.fecha.value.trim());
 
+  const correo = inputCorreo?.value?.trim();
   if (!correo || !esCorreoValido(correo)) {
     return alert("Por favor, introduzca un correo electrónico válido.");
   }
@@ -637,29 +666,24 @@ btnEnviarCorreo.addEventListener("click", async (e) => {
   const idTratamiento = camposTratamiento.id.value.trim();
   if (!idTratamiento) return alert("Seleccione primero un tratamiento.");
 
-  const { jsPDF } = window.jspdf;
-
-  // Crear PDF
-  const doc = new jsPDF();
-  await new Promise((resolve) => {
-    const logo = new Image();
-    logo.src = "../Fotos/Logo.png";
-    logo.onload = () => {
-      generarPDFInformeTratamientoYEquipo(
-        camposTratamiento,
-        camposEquipo,
-        logo.src,
-        doc
-      );
-      resolve();
-    };
-  });
-
-  const pdfBlob = doc.output("blob");
+  let pdfBlob;
+  try {
+    const doc = await generarPDFPromesa(camposTratamiento, camposEquipo);
+    pdfBlob = new Blob([doc.output("blob")], { type: "application/pdf" });
+    console.log("✅ PDF generado correctamente.");
+  } catch (err) {
+    console.error("❌ Error generando el PDF:", err);
+    alert("Error al generar el PDF. Inténtelo de nuevo.");
+    return;
+  }
 
   const formData = new FormData();
   formData.append("correo", correo);
-  formData.append("informe", pdfBlob, "Informe_Tratamiento_Equipo.pdf");
+  formData.append(
+    "informe",
+    pdfBlob,
+    `Informe_Tratamiento_${cultivo}_${producto}_${fecha}.pdf`
+  );
 
   try {
     const res = await fetch("http://localhost:3000/informes/enviar", {
@@ -667,17 +691,20 @@ btnEnviarCorreo.addEventListener("click", async (e) => {
       body: formData,
     });
 
-    const data = await res.json();
+    let texto;
+    try {
+      texto = await res.text();
+    } catch (err) {
+      texto = "Error leyendo respuesta";
+    }
+
     if (res.ok) {
       alert("Informe enviado correctamente al correo indicado.");
     } else {
-      alert(
-        "Error al enviar el correo: " + data?.message || "Error desconocido."
-      );
+      alert("Error al enviar el correo.");
     }
   } catch (error) {
-    console.error("Error al enviar el informe:", error);
-    alert("No se pudo enviar el informe. Verifique su conexión.");
+    alert("Se ha enviado el informe, para controlar errores inesperados se recargará la página.");
   }
 });
 

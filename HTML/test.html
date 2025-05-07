@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8" /><title>Prueba</title></head>
+<body>
+  <button id="enviar">Enviar</button>
+  <script>
+    document.getElementById("enviar").onclick = () => {
+      const formData = new FormData();
+      formData.append("correo", "prueba@ejemplo.com");
+      formData.append("informe", new Blob(["hola"], { type: "application/pdf" }), "test.pdf");
+
+      fetch("http://localhost:3000/informes/enviar", {
+        method: "POST",
+        body: formData,
+      })
+      .then(res => res.text())
+      .then(text => console.log("✔ RESPUESTA:", text))
+      .catch(err => console.error("❌ FETCH ERROR:", err));
+    };
+  </script>
+</body>
+</html>
