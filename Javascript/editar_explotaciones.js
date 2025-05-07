@@ -47,6 +47,14 @@ const actualizarOpcionesSelectAgricultores = (agricultores) => {
   });
 };
 
+const desbloquearExplotacion = () => {
+  inputBuscarExplotacion.disabled = false;
+  inputBuscarExplotacion.value = "";
+  selectExplotacion.disabled = false;
+  selectExplotacion.innerHTML =
+    "<option selected disabled>Seleccionar explotación</option>";
+};
+
 // Actualizar el select de explotaciones filtradas
 const actualizarOpcionesSelectExplotaciones = (explotaciones) => {
   selectExplotacion.innerHTML = `<option value="Prueba" disabled selected>Seleccione explotación</option>`;
@@ -86,20 +94,36 @@ selectAgricultor.addEventListener("change", async (e) => {
     limpiarCamposExplotacion();
     rellenarCamposAgricultor(dataAgricultor);
     activarCampos();
+    obtenerExplotaciones(dniSeleccionado);
   
-    const resExplotaciones = await fetch(`http://localhost:3000/explotaciones/dni-agricultor/${dniSeleccionado}`);
-    if (!resExplotaciones.ok) {
-      throw new Error("No se pudieron obtener las explotaciones.");
-    }
-    const dataExplotaciones = await resExplotaciones.json();
-    listaExplotaciones = dataExplotaciones;
-    actualizarOpcionesSelectExplotaciones(dataExplotaciones);
   } catch (error) {
     console.error("Error al cargar los datos:", error);
     alert("Error al cargar datos del agricultor o sus explotaciones.");
   }
   
 });
+
+const obtenerExplotaciones = async (dniAgricultor) => {
+  fetch(`http://localhost:3000/agricultores/explotaciones/${dniAgricultor}`)
+    .then((response) => response.json())
+    .then((explotaciones) => {
+      if (explotaciones.length === 0) {
+        inputNombreExplotacion.disabled = true;
+        selectExplotacion.disabled = true;
+        alert("Este agricultor no tiene ninguna explotación.");
+        return;
+      }
+
+      listaExplotaciones = explotaciones; // <-- Guardamos la lista original
+
+      desbloquearExplotacion();
+      actualizarOpcionesSelectExplotaciones(listaExplotaciones);
+     
+    })
+    .catch((error) => {
+      console.error("Error cargando explotaciones:", error);
+    });
+};
 
 // Filtro de explotaciones
 inputBuscarExplotacion.addEventListener("input", (e) => {
@@ -127,10 +151,9 @@ botonActualizar.addEventListener("click", async (e) => {
   const id = selectExplotacion.value;
   const nuevoNombre = inputNombreExplotacion.value.trim();
 
-  if (!id || id === "Prueba" || !nuevoNombre) {
-    alert("Debe seleccionar una explotación válida y rellenar un nombre nuevo.");
-    return;
-  }
+  if (!id || id === "Prueba") return alert("Debe de seleccionar una explotación para poder actualizar su nombre");
+
+  if(!nuevoNombre) return alert("El nombre de la explotación no puede estar vacío");
 
   try {
     const res = await fetch(`http://localhost:3000/explotaciones/editar/${id}`, {
