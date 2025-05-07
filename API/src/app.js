@@ -22,13 +22,7 @@ const tratamientosRouter = require("../routes/tratamientos");
 const informesRouter = require("../routes/informes");
 
 // Middleware
-app.use(
-  cors({
-    origin: ["http://127.0.0.1:5504", "http://localhost:5504"], 
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(bodyParser.json({ limit: "80mb" })); // Aumentar el límite de tamaño del cuerpo a 80mb
 app.use(bodyParser.urlencoded({ extended: true, limit: "80mb" }));
 

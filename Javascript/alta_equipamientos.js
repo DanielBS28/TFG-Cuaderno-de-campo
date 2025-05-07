@@ -18,7 +18,7 @@ document.querySelector("form").addEventListener("submit", async function(e) {
         const resultado = await respuesta.json();
 
         if (respuesta.ok) {
-            alert(`El equipo ${nombre} se ha registrado con éxito`);
+            alert(`El equipo ${datos.nombre} se ha registrado con éxito`);
             location.reload();
         } else {
             alert("Error: " + (resultado.error || "Error inesperado"));
