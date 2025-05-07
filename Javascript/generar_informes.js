@@ -427,10 +427,16 @@ const normalizarNombreCampo = (clave) => {
 const generarPDFInformeTratamientoYEquipo = (
   camposTratamiento,
   camposEquipo,
-  logoSrc = "../Fotos/Logo.png"
+  logoSrc = "../Fotos/Logo.png",
+  existeDoc = null
 ) => {
+  const cultivo = camposTratamiento.cultivo.value.trim();
+  const producto = camposTratamiento.producto.value.trim();
+  const fecha = formatDate(camposTratamiento.fecha.value.trim());
+
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
+  const doc = existeDoc || new jsPDF();
+  const esNuevo = !existeDoc;
 
   const logo = new Image();
   logo.src = logoSrc;
@@ -440,7 +446,7 @@ const generarPDFInformeTratamientoYEquipo = (
 
     doc.setFont("times", "normal");
     doc.setFontSize(14);
-    doc.text("Informe del Tratamiento", 105, 25, { align: "center" });
+    doc.text(`Informe del Tratamiento`, 105, 25, { align: "center" });
 
     doc.setFontSize(11);
     doc.text(
@@ -472,8 +478,17 @@ const generarPDFInformeTratamientoYEquipo = (
       headStyles: { fillColor: [220, 220, 220] },
     });
 
-    doc.save("Informe_Tratamiento_Equipo.pdf");
+    // Guardar solo si no se proporcionó un doc externo (es decir se usará para descarga)
+    if (esNuevo) {
+      doc.save(`Informe_Tratamiento_${cultivo}_${producto}_${fecha}.pdf`);
+    }
   };
+  return doc;
+};
+
+const esCorreoValido = (correo) => {
+  const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  return regex.test(correo);
 };
 
 // ### EVENTOS ### //
@@ -604,14 +619,75 @@ selectTratamiento.addEventListener("change", () => {
   }
 });
 
+// Evento input tratamiento para filtrar por fecha en el select
 inputFechaInicio.addEventListener("change", filtrarTratamientosPorFecha);
 inputFechaFinal.addEventListener("change", filtrarTratamientosPorFecha);
 
+// Evento botón enviar informe generado por correo
+btnEnviarCorreo.addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  const inputCorreo = document.getElementById("correo");
+  const correo = inputCorreo?.value?.trim();
+
+  if (!correo || !esCorreoValido(correo)) {
+    return alert("Por favor, introduzca un correo electrónico válido.");
+  }
+
+  const idTratamiento = camposTratamiento.id.value.trim();
+  if (!idTratamiento) return alert("Seleccione primero un tratamiento.");
+
+  const { jsPDF } = window.jspdf;
+
+  // Crear PDF
+  const doc = new jsPDF();
+  await new Promise((resolve) => {
+    const logo = new Image();
+    logo.src = "../Fotos/Logo.png";
+    logo.onload = () => {
+      generarPDFInformeTratamientoYEquipo(
+        camposTratamiento,
+        camposEquipo,
+        logo.src,
+        doc
+      );
+      resolve();
+    };
+  });
+
+  const pdfBlob = doc.output("blob");
+
+  const formData = new FormData();
+  formData.append("correo", correo);
+  formData.append("informe", pdfBlob, "Informe_Tratamiento_Equipo.pdf");
+
+  try {
+    const res = await fetch("http://localhost:3000/informes/enviar", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      alert("Informe enviado correctamente al correo indicado.");
+    } else {
+      alert(
+        "Error al enviar el correo: " + data?.message || "Error desconocido."
+      );
+    }
+  } catch (error) {
+    console.error("Error al enviar el informe:", error);
+    alert("No se pudo enviar el informe. Verifique su conexión.");
+  }
+});
+
+// Evento botón generar informe
 btnGenerarInforme.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const idTratamiento = camposTratamiento.id.value.trim();
-  if (!idTratamiento) return alert("Asegúrese de haber seleccionado un tratamiento.");
+  if (!idTratamiento)
+    return alert("Asegúrese de haber seleccionado un tratamiento.");
 
   generarPDFInformeTratamientoYEquipo(camposTratamiento, camposEquipo);
 });
