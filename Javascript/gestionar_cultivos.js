@@ -383,7 +383,7 @@ const cargarCultivos = () => {
 // Crear cultivo en el recinto seleccionado
 const realizarCultivo = async () => {
   const idRecinto = selectRecinto.value;
-  const tipoCultivo = selectTipoCultivo.value;
+  const tipoCultivo = nombreCultivo.value.trim();
   const tipoRegadio = selectTipoRegadio.value;
 
   if (!idRecinto || !tipoCultivo || !tipoRegadio) {
@@ -532,8 +532,10 @@ selectRecinto.addEventListener("change", () => {
     // Asignar tipo de cultivo y regadío si existen
     if (seleccionada.Tipo_Cultivo) {
       selectTipoCultivo.value = seleccionada.Tipo_Cultivo;
+      nombreCultivo.value = seleccionada.Tipo_Cultivo;
     } else {
       selectTipoCultivo.selectedIndex = 0;
+      nombreCultivo.value = "";
     }
 
     if (seleccionada.Tipo_regadio) {
@@ -555,6 +557,16 @@ inputBuscarRecinto.addEventListener("input", () => {
   );
 
   actualizarSelectRecintos(filtradas);
+});
+
+// Evento select tipo cultivo
+selectTipoCultivo.addEventListener("change", () => {
+  const cultivoSeleccionado = selectTipoCultivo.value;
+  if (cultivoSeleccionado) {
+    nombreCultivo.value = cultivoSeleccionado;
+  } else {
+    nombreCultivo.value = "";
+  }
 });
 
 // Evento input tipo cultivo para filtrar
