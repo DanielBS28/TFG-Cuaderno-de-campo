@@ -180,25 +180,6 @@ export const comprobacionFinal = (
     );
   }
 
-  sup = parseFloat(sup);
-  supCultivo = parseFloat(supCultivo);
-  dosis = parseFloat(dosis);
-  dosisMin = parseFloat(dosisMin);
-  dosisMax = parseFloat(dosisMax);
-
-  // Validar que los campos numéricos sean números válidos
-  if (
-    isNaN(sup) ||
-    isNaN(supCultivo) ||
-    isNaN(dosis) ||
-    isNaN(dosisMin) ||
-    isNaN(dosisMax)
-  ) {
-    errores.push(
-      "La superficie, dosis y valores mínimos/máximos deben ser números válidos."
-    );
-  }
-
   if (!unidadValida(u)) {
     const confirmarUnidad = confirm(
       `Para la Unidad de Medida (${u}) no podemos hacer una validación informativa de las dósis.
@@ -215,6 +196,25 @@ export const comprobacionFinal = (
         ">=" +
         sup
     );
+
+    sup = parseFloat(sup);
+    supCultivo = parseFloat(supCultivo);
+    dosis = parseFloat(dosis);
+    dosisMin = parseFloat(dosisMin);
+    dosisMax = parseFloat(dosisMax);
+
+    // Validar que los campos numéricos sean números válidos
+    if (
+      isNaN(sup) ||
+      isNaN(supCultivo) ||
+      isNaN(dosis) ||
+      isNaN(dosisMin) ||
+      isNaN(dosisMax)
+    ) {
+      errores.push(
+        "La superficie, dosis y valores mínimos/máximos deben ser números válidos."
+      );
+    }
 
     const dosisMaxima = calculoDosis(sup, dosisMax);
     const dosisMinima = calculoDosis(sup, dosisMin);
@@ -255,8 +255,8 @@ export const redondearDecimales = (n) => Math.round(n * 1000) / 1000;
 // Convertir campo DATE a dd-mm-aaaa
 export const formatDate = (fecha) => {
   const d = new Date(fecha);
-  const dia = String(d.getDate()).padStart(2, '0');
-  const mes = String(d.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+  const dia = String(d.getDate()).padStart(2, "0");
+  const mes = String(d.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11
   const año = d.getFullYear();
   return `${dia}-${mes}-${año}`;
 };
@@ -264,8 +264,8 @@ export const formatDate = (fecha) => {
 // Convertir campo DATE a yyyy-MM-dd
 export const formatDate2 = (fecha) => {
   const d = new Date(fecha);
-  const dia = String(d.getDate()).padStart(2, '0');
-  const mes = String(d.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+  const dia = String(d.getDate()).padStart(2, "0");
+  const mes = String(d.getMonth() + 1).padStart(2, "0"); // Los meses van de 0 a 11
   const año = d.getFullYear();
   return `${año}-${mes}-${dia}`;
 };
