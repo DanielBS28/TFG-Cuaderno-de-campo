@@ -62,4 +62,71 @@ router.put("/baja-cultivo/:id", async (req, res) => {
   }
 });
 
+// Eliminar varios recintos por sus idRecinto
+router.delete("/eliminar-multiples", async (req, res) => {
+  const { ids } = req.body;
+
+  if (!Array.isArray(ids) || ids.length === 0) {
+    return res.status(400).json({ error: "Debes proporcionar un array de IDs." });
+  }
+
+  try {
+    const placeholders = ids.map(() => "?").join(", ");
+    const query = `DELETE FROM Recinto WHERE idRecinto IN (${placeholders})`;
+
+    await db.promise().query(query, ids);
+
+    res.json({ message: `Se eliminaron ${ids.length} recinto(s).` });
+  } catch (error) {
+    console.error("Error al eliminar recintos:", error);
+    res.status(500).json({ error: "Error al eliminar recintos." });
+  }
+});
+
+// Insertar o actualizar múltiples recintos con ON DUPLICATE KEY
+router.post("/insertar-o-actualizar", async (req, res) => {
+  const { recintos } = req.body;
+
+  if (!Array.isArray(recintos) || recintos.length === 0) {
+    return res.status(400).json({ error: "Debes enviar un array de recintos." });
+  }
+  
+  try {
+    const values = recintos.map(r => [
+      r.idRecinto,
+      r.parcela_Numero_identificacion,
+      r.Numero,
+      r.Uso_SIGPAC,
+      r.Descripcion_uso,
+      r.Superficie_ha
+    ]);
+
+    const placeholders = values.map(() => "(?, ?, ?, ?, ?, ?)").join(", ");
+    const query = `
+      INSERT INTO Recinto (
+        idRecinto,
+        parcela_Numero_identificacion,
+        Numero,
+        Uso_SIGPAC,
+        Descripcion_uso,
+        Superficie_ha
+      ) VALUES ${placeholders}
+      ON DUPLICATE KEY UPDATE
+        Uso_SIGPAC = VALUES(Uso_SIGPAC),
+        Descripcion_uso = VALUES(Descripcion_uso),
+        Superficie_ha = VALUES(Superficie_ha)
+    `;
+
+    const flatValues = values.flat();
+    await db.promise().query(query, flatValues);
+
+    res.json({ message: `Recintos insertados o actualizados correctamente.`});
+
+  } catch (error) {
+    console.error("Error al insertar/actualizar recintos:", error);
+    res.status(500).json({ error: "Error al insertar/actualizar recintos." });
+  }
+});
+
+
 module.exports = router;

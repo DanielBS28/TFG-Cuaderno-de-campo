@@ -158,6 +158,16 @@ const desbloquearTipoCultivo = () => {
   selectTipoRegadio.disabled = false;
 };
 
+// Bloquear Filtro y Select de Explotación
+const bloquearExplotacion = () => {
+  selectExplotacion.innerHTML =
+    "<option selected disabled>Seleccionar explotación</option>";
+  selectExplotacion.selectedIndex = 0;
+  selectExplotacion.disabled = true;
+  inputBuscarExplotacion.value = "";
+  inputBuscarExplotacion.disabled = true;
+};
+
 // Bloquear Filtro y Select de Parcela
 const bloquearParcela = () => {
   selectParcela.innerHTML =

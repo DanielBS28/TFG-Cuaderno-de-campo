@@ -43,6 +43,9 @@ const camposParcela = {
   tratamientos: document.getElementById("tratamientos"),
 };
 
+const btnVisualizarSIGPAC = document.getElementById("SIGPAC");
+const btnAutomatizarParcela = document.getElementById("automatizar-parcela");
+
 // #### FUNCIONES ## //
 // Función para mostrar los datos del agricultor
 const mostrarDatosAgricultor = (data) => {
@@ -93,7 +96,7 @@ const bloquearExplotacion = () => {
   selectExplotacion.disabled = true;
   inputBuscarExplotacion.value = "";
   inputBuscarExplotacion.disabled = true;
-}
+};
 
 const bloquearParcela = () => {
   selectParcela.innerHTML =
@@ -102,7 +105,7 @@ const bloquearParcela = () => {
   selectParcela.disabled = true;
   inputBuscarParcela.value = "";
   inputBuscarParcela.disabled = true;
-}
+};
 
 // Desbloquear campos de explotación
 const desbloquearExplotacion = () => {
@@ -237,6 +240,85 @@ const obtenerTrataminetosTotales = async (idParcela) => {
     });
 };
 
+// Obtener recintos BDD de una parcela
+const cargarRecintosDeParcela = async (idParcela) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/recintos/parcela/${idParcela}`
+    );
+    const recintos = await res.json();
+
+    if (!Array.isArray(recintos) || recintos.length === 0) {
+      alert("Esta parcela no tiene recintos.");
+      return;
+    }
+
+    return recintos;
+  } catch (error) {
+    console.error("Error al cargar recintos:", error);
+  }
+};
+
+// Obtener los recintos SIGPAC de una parcela
+const obtenerRecintosDeParcela = async ({
+  codigoProvincia,
+  codigoMunicipio,
+  agregado,
+  zona,
+  numPoligono,
+  numParcela,
+  idParcela,
+}) => {
+  const url = `https://sigpac-hubcloud.es/servicioconsultassigpac/query/recinfoparc/${codigoProvincia}/${codigoMunicipio}/${agregado}/${zona}/${numPoligono}/${numParcela}.json`;
+
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      console.error("No se pudo obtener recintos de SIGPAC.");
+      return [];
+    }
+
+    const recintosData = await res.json();
+
+    // Ahora cargamos la lista de usos SIGPAC
+    const usosRes = await fetch(
+      "https://sigpac-hubcloud.es/codigossigpac/cod_uso_sigpac.json"
+    );
+    const usosData = await usosRes.json();
+
+    const mapaUsos = {};
+    (usosData.codigos || []).forEach(({ codigo, descripcion }) => {
+      mapaUsos[codigo] = descripcion;
+    });
+
+    if (!Array.isArray(usosData.codigos)) {
+      console.error("La lista de usos SIGPAC no es válida.");
+      return [];
+    }
+
+    // Procesar recintos
+    const recintosProcesados = recintosData.map((recinto) => {
+      const superficieHa =
+        Math.round((recinto.superficie / 10000) * 10000) / 10000;
+      const descripcionUso =
+        mapaUsos[recinto.uso_sigpac] || "Descripción desconocida";
+
+      return {
+        idRecinto: `${idParcela}:${recinto.recinto}`,
+        parcela_Numero_identificacion: idParcela,
+        Numero: recinto.recinto,
+        Uso_SIGPAC: recinto.uso_sigpac,
+        Descripcion_uso: descripcionUso,
+        Superficie_ha: superficieHa,
+      };
+    });
+
+    return recintosProcesados;
+  } catch (error) {
+    console.error("Error al obtener recintos de la parcela:", error);
+    return [];
+  }
+};
 
 // ### EVENTOS ### //
 // Cargar todos los agricultores al iniciar
@@ -338,15 +420,65 @@ inputBuscarParcela.addEventListener("input", () => {
 });
 
 // Evento botón eliminar parcela
-document.getElementById("automatizar-parcela").addEventListener("click", (e) => {
+btnAutomatizarParcela.addEventListener("click", async (e) => {
   e.preventDefault();
   const idParcela = camposParcela.id.value;
   if (!idParcela) return alert("No hay ninguna parcela seleccionada.");
-  alert("Datos de los recintos de la parcela actualizados correctamente")
+
+  const recintosBDD = await cargarRecintosDeParcela(idParcela);
+
+  const recintosSIGPAC = await obtenerRecintosDeParcela({
+    codigoProvincia: camposParcela.codigoProvincia.value,
+    codigoMunicipio: camposParcela.codigoMunicipio.value,
+    agregado: camposParcela.agregado.value,
+    zona: camposParcela.zona.value,
+    numPoligono: camposParcela.numPoligono.value,
+    numParcela: camposParcela.numParcela.value,
+    idParcela: idParcela,
+  });
+  console.log("Recintos BDD:", Object.values(recintosBDD));
+  console.log("Recintos:", Object.values(recintosSIGPAC));
+
+  // Crear mapas para facilitar la comparación
+  const mapSIGPAC = new Map(recintosSIGPAC.map((r) => [r.Numero, r]));
+
+  // Obtener también los idRecinto de SIGPAC
+  const idsSIGPAC = new Set(recintosSIGPAC.map((r) => r.idRecinto));
+
+  // Filtrar solo los recintos que no están en SIGPAC y cuyo idRecinto no coincide
+  const recintosAEliminar = recintosBDD.filter(
+    (r) => !mapSIGPAC.has(r.Numero) && !idsSIGPAC.has(r.idRecinto)
+  );
+
+  if (recintosAEliminar.length > 0) {
+    console.log("Recintos a eliminar:", recintosAEliminar);
+    const idsAEliminar = recintosAEliminar.map((r) => r.idRecinto);
+
+    // Eliminar los recintos de la BDD que no están en SIGPAC
+    await fetch("http://localhost:3000/recintos/eliminar-multiples", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ ids: idsAEliminar }),
+    });
+    console.log("Recintos eliminados correctamente.");
+  }
+
+  // Insertar los recintos que están en SIGPAC y no en la BDD
+  await fetch("http://localhost:3000/recintos/insertar-o-actualizar", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ recintos: recintosSIGPAC }),
+  });
+  
+  alert("Datos de los recintos de la parcela actualizados correctamente");
 });
 
 // Evento botón mostrar parcela en el SIGPAC
-document.getElementById("SIGPAC").addEventListener("click", (e) => {
+btnVisualizarSIGPAC.addEventListener("click", (e) => {
   e.preventDefault();
   const idParcela = camposParcela.id.value;
   if (!idParcela) return alert("No hay ninguna parcela seleccionada.");
