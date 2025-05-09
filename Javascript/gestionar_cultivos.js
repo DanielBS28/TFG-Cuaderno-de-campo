@@ -386,7 +386,7 @@ const realizarCultivo = async () => {
   const tipoCultivo = nombreCultivo.value.trim();
   const tipoRegadio = selectTipoRegadio.value;
 
-  if (!idRecinto || !tipoCultivo || !tipoRegadio) {
+  if (!idRecinto || !tipoCultivo || !tipoRegadio || tipoRegadio === "0") {
     alert("Debes seleccionar un recinto, tipo de cultivo y tipo de regadío.");
     return;
   }
