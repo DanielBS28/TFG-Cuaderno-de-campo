@@ -90,6 +90,7 @@
                   id="nombre"
                   autocomplete="off"
                   readonly
+                  required
                 />
               </div>
               <div class="form-group">
@@ -100,6 +101,7 @@
                   id="apellido1"
                   autocomplete="off"
                   readonly
+                  required
                 />
               </div>
               <div class="form-group">
@@ -110,11 +112,12 @@
                   id="apellido2"
                   autocomplete="off"
                   readonly
+                  required
                 />
               </div>
               <div class="form-group">
                 <label for="password">Contraseña</label>
-                <input type="password" name="password" id="password" disabled />
+                <input type="password" name="password" id="password" disabled required/>
                 <div class="campo_password">
                   <input type="checkbox" id="mostrarPassword" disabled />
                   <label for="mostrarPassword" id="checkbox_password"
@@ -124,7 +127,7 @@
               </div>
               <div class="form-group">
                 <label for="carnet">Nº Carnet agricultor</label>
-                <input type="text" name="carnet" id="carnet" readonly />
+                <input type="text" name="carnet" id="carnet" readonly required/>
               </div>
             </div>
             <button
