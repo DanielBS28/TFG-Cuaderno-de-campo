@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 router.post("/alta", async (req, res) => {
     const { nombre, apellido1, apellido2, dni, contrasena, carnet } = req.body;
 
-    if (!nombre || !apellido1 || !dni || !contrasena || !carnet) {
+    if (!nombre.trim() || !apellido1.trim() || apellido2.trim() || !dni.trim() || !contrasena.trim() || !carnet.trim()) {
         return res.status(400).json({ error: "Faltan campos obligatorios" });
     }
 
