@@ -627,8 +627,29 @@ const cargarProductosDePlaga = async (tipoCultivo, tipoPlaga) => {
   }
 };
 
+// Obtener última fecha del tratamiento del producto seleccionado
+const obtenerUltimaFechaTratamiento = async (idParcela, idProducto) => {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/tratamientos/fecha-mas-reciente/${idParcela}/${idProducto}`
+    );
+    const data = await res.json();
+    
+    if (data && data.Fecha_tratamiento) {
+      return formatearFecha(data.Fecha_tratamiento);
+    } else {
+      return "No se han realizado tratamientos previos.";
+    }
+  } catch (err) {
+    console.error("Error al obtener la última fecha de tratamiento:", err);
+    return null;
+  }
+};
+
 // Imprimir información sobre el producto seleccionado
-const infoProducto = (seleccionada) => {
+const infoProducto = async (seleccionada) => {
+  const ultimoTratamiento = await obtenerUltimaFechaTratamiento(camposParcela.id.value,seleccionada.idProducto);
+  
   // Información Genérica del Producto
   propiedadesProducto.innerHTML = `
     <div id="propiedades-producto" style="margin: 30px 0;">
@@ -662,8 +683,10 @@ const infoProducto = (seleccionada) => {
         <p><span>Volumen Mínimo: </span>${seleccionada.Volumen_min}</p>
         <p><span>Volumen Máximo: </span>${seleccionada.Volumen_max}</p>
         <p><span>Unidades Volumen: </span>${seleccionada.Unidades_volumen}</p>
+        <p><span>Último Tratamiento Realizado: </span>${ultimoTratamiento}</p>
     </div>
   `;
+  
   labelCantidadProducto.innerText = `Cantidad del Producto en: ${comprobarUnidadMedida(
     seleccionada.Unidad_medida_dosis
   )}`;

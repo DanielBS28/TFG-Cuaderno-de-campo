@@ -106,4 +106,32 @@ router.delete("/eliminar/:idTratamiento", (req, res) => {
   });
 });
 
+// Obtener la fecha del tratamiento más reciente para una parcela y producto
+router.get("/fecha-mas-reciente/:idParcela/:idProducto", async (req, res) => {
+  const { idParcela, idProducto } = req.params;
+
+  try {
+    const [rows] = await db
+      .promise()
+      .query(
+        `SELECT Fecha_tratamiento 
+         FROM tratamiento 
+         WHERE parcela_Numero_identificacion = ? 
+           AND Producto_idProducto = ? 
+         ORDER BY Fecha_tratamiento DESC 
+         LIMIT 1`,
+        [idParcela, idProducto]
+      );
+
+    if (rows.length === 0) {
+      return res.json({ Fecha_tratamiento: null });
+    }
+
+    res.json(rows[0]);
+  } catch (error) {
+    console.error("Error al obtener la fecha más reciente:", error);
+    res.status(500).json({ error: "Error al obtener la fecha más reciente" });
+  }
+});
+
 module.exports = router;
