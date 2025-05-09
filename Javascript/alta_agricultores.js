@@ -1,4 +1,4 @@
-document.querySelector("form").addEventListener("submit", async function(e) {
+document.querySelector("form").addEventListener("submit", async (e) =>{
     e.preventDefault();
 
     const datos = {

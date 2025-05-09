@@ -22,7 +22,7 @@ const activarCampos = () => {
     campos[key].removeAttribute("readonly");
   }
 
-  document.getElementById("mostrarPassword").disabled = false;
+  mostrarPasswordCheckbox.disabled = false;
 }
 
 // Comprobar campos vacíos
