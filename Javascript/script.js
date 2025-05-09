@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 console.log("Respuesta del servidor:", data);
+                alert("Productos y usos actualizados correctamente.");
             } else {
                 console.error("Detalles:", data.detalle);
             }
