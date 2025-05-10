@@ -527,49 +527,8 @@ inputBuscarParcela.addEventListener("input", () => {
   actualizarSelectParcelas(filtradas);
 });
 
-// Evento select recinto
-selectRecinto.addEventListener("change", () => {
-  const idSeleccionado = selectRecinto.value;
-  const seleccionada = window.recintos.find(
-    (recinto) => recinto.idRecinto == idSeleccionado
-  );
 
-  if (seleccionada) {
-    mostrarDatosRecinto(seleccionada);
-    bloquearTipoCultivo();
-    desbloquearTipoCultivo();
-
-    // Asignar tipo de cultivo y regadío si existen
-    if (seleccionada.Tipo_Cultivo) {
-      selectTipoCultivo.value = seleccionada.Tipo_Cultivo;
-      nombreCultivo.value = seleccionada.Tipo_Cultivo;
-    } else {
-      selectTipoCultivo.selectedIndex = 0;
-      nombreCultivo.value = "";
-    }
-
-    if (seleccionada.Tipo_regadio) {
-      selectTipoRegadio.value = seleccionada.Tipo_regadio;
-    } else {
-      selectTipoRegadio.selectedIndex = 0;
-    }
-  }
-});
-
-// Evento input recinto para filtrar
-inputBuscarRecinto.addEventListener("input", () => {
-  const texto = inputBuscarRecinto.value.trim().toLowerCase();
-
-  if (!window.recintos || window.recintos.length === 0) return;
-
-  const filtradas = window.recintos.filter((recinto) =>
-    recinto.Numero.toLowerCase().includes(texto)
-  );
-
-  actualizarSelectRecintos(filtradas);
-});
-
-// Evento select tipo cultivo
+// Evento select tipo cultivo 
 selectTipoCultivo.addEventListener("change", () => {
   const cultivoSeleccionado = selectTipoCultivo.value;
   if (cultivoSeleccionado) {
@@ -577,7 +536,7 @@ selectTipoCultivo.addEventListener("change", () => {
   } else {
     nombreCultivo.value = "";
   }
-});
+});  
 
 // Evento input tipo cultivo para filtrar
 inputBuscarTipoCultivo.addEventListener("input", () => {
@@ -592,6 +551,33 @@ inputBuscarTipoCultivo.addEventListener("input", () => {
 
   renderizarCultivos(filtradas);
 });
+
+//Evento del select multiple de recintos
+
+ function initMultiSelect() {
+    const selectHeader = document.getElementById('selectHeader');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const checkboxes = document.querySelectorAll('.option-item input');
+    const selectedCount = document.getElementById('selectedCount');
+    
+    // Toggle del dropdown
+    selectHeader.addEventListener('click', function() {
+        optionsContainer.classList.toggle('open');
+        selectHeader.classList.toggle('open');
+    });
+    
+    // Cerrar al hacer clic fuera
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.custom-multiselect')) {
+            optionsContainer.classList.remove('open');
+            selectHeader.classList.remove('open');
+        }
+    });
+    
+}
+
+// Esperar a que el DOM esté completamente cargado
+document.addEventListener('DOMContentLoaded', initMultiSelect);
 
 // Evento botón crear cultivo
 btnCrearCultivo.addEventListener("click", (e) => {

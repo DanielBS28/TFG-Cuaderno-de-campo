@@ -10,10 +10,16 @@ h1{
 section{
     display: flex;
     justify-content: center;
+    flex-direction: row;
+}
+
+#cajas{
+    display: flex;
+    flex-direction: column;
 }
 
 form{
-    margin-bottom: 70px;
+    margin: 0 40px 70px 40px;
     padding: 35px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -73,12 +79,26 @@ header nav{
     white-space: nowrap;
     }
 
-@media (min-width: 720px) {
+    #automatica{
+        position: relative;
+        top: 0;
+        background-color: #FBB02D;
+    }
+
+@media (min-width: 846px) {
 
     #BotonCerrarSesion{
         margin: 0;
     }
 
+    #automatica{
+        top: 22px;
+        }
+
+    #cajas{
+    display: flex;
+    flex-direction: row;
+    }
     #VolverInicio{
         margin-right: 15px;
     }

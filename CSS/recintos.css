@@ -1,0 +1,98 @@
+.custom-multiselect {
+            position: relative;
+            font-family: 'Arial', sans-serif;
+            width: 350px;
+            margin: 5px 0;
+        }
+
+
+        .select-multiselect:focus{
+             border-color: #5C8001;
+        }
+        
+        .select-header {
+            padding: 12px 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .select-header:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        .select-header:after {
+            content: '▼';
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+        
+        .select-header.open:after {
+            transform: rotate(180deg);
+        }
+        
+        .options-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            max-height: 200px;
+            overflow-y: auto;
+            background-color: white;
+            border: 1px solid #ced4da;
+            border-radius: 0 0 6px 6px;
+            border-top: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+        }
+        
+        .options-container.open {
+            display: block;
+        }
+        
+        .option-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        .option-item:hover {
+            background-color: #f1f3f5;
+        }
+        
+        .option-item input {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        /* Estilo para el scroll */
+        .options-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .options-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .options-container::-webkit-scrollbar-thumb {
+            background: #adb5bd;
+            border-radius: 4px;
+        }
+        
+        .options-container::-webkit-scrollbar-thumb:hover {
+            background: #868e96;
+        }
+
+        #seleccion-recintos-span{
+            color: #606060;
+        }
