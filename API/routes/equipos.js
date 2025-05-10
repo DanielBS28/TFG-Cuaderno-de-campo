@@ -106,7 +106,7 @@ router.delete("/:roma", async (req, res) => {
       res.status(200).json({ message: "Equipo eliminado correctamente" });
   } catch (error) {
       console.error("Error al eliminar el equipo:", error);
-      res.status(500).json({ error: "Error al eliminar el equipo." });
+      res.status(500).json({ error: "No se ha podido eliminar el equipo, ya que está asociado a un tratamiento." });
   } finally {
       conn.release();
   }

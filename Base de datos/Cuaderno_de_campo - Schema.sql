@@ -153,10 +153,14 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`explotacion_has_equipo` (
   INDEX `fk_explotacion_has_equipo_explotacion1_idx` (`explotacion_idExplotacion` ASC) VISIBLE,
   CONSTRAINT `fk_explotacion_has_equipo_equipo1`
     FOREIGN KEY (`equipo_Numero_ROMA`)
-    REFERENCES `cuaderno_de_campo`.`equipo` (`Numero_ROMA`),
+    REFERENCES `cuaderno_de_campo`.`equipo` (`Numero_ROMA`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
   CONSTRAINT `fk_explotacion_has_equipo_explotacion1`
     FOREIGN KEY (`explotacion_idExplotacion`)
-    REFERENCES `cuaderno_de_campo`.`explotacion` (`idExplotacion`))
+    REFERENCES `cuaderno_de_campo`.`explotacion` (`idExplotacion`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
@@ -240,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`tratamiento` (
   `Equipo_Numero_ROMA` VARCHAR(30) NOT NULL,
   `Producto_idProducto` INT NOT NULL,
   `parcela_Numero_identificacion` VARCHAR(30) NOT NULL,
-  `Plaga_controlar` VARCHAR(45) NULL DEFAULT NULL,
+  `Plaga_controlar` VARCHAR(120) NULL DEFAULT NULL,
   `Fecha_tratamiento` DATE NULL DEFAULT NULL,
   `Tipo_Cultivo` VARCHAR(100) NULL DEFAULT NULL,
   `Num_registro_producto` VARCHAR(20) NULL DEFAULT NULL,
@@ -256,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`tratamiento` (
   CONSTRAINT `fk_Tratamiento_Equipo1`
     FOREIGN KEY (`Equipo_Numero_ROMA`)
     REFERENCES `cuaderno_de_campo`.`equipo` (`Numero_ROMA`)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_tratamiento_parcela1`
     FOREIGN KEY (`parcela_Numero_identificacion`)
@@ -302,8 +306,6 @@ CREATE TABLE IF NOT EXISTS `cuaderno_de_campo`.`usos` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
-
--- TRIGGERS
 
 DELIMITER //
 
