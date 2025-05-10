@@ -6,6 +6,8 @@ import {
   comprobarDosisAplicada,
   redondearDecimales,
   comprobacionFinal,
+  formatDate,
+  formatDate2
 } from "./ConversionesDosis/calculosDosis.js";
 
 // DATOS AGRICULTOR
@@ -110,16 +112,6 @@ const camposEquipo = {
 const btnCrearTratamiento = document.getElementById("crear-tratamiento");
 
 // ### FUNCIONES ### //
-// Formatear fecha a 'yyyy-MM-dd'
-const formatearFecha = (fechaISO) => {
-  if (!fechaISO) return "";
-  const fecha = new Date(fechaISO);
-  const year = fecha.getFullYear();
-  const month = String(fecha.getMonth() + 1).padStart(2, "0");
-  const day = String(fecha.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-};
-
 // Función para mostrar los datos del agricultor
 const mostrarDatosAgricultor = (data) => {
   camposAgricultor.nombre.value = data.Nombre;
@@ -191,10 +183,10 @@ const mostrarDatosAplicador = (carnetAplicador) => {
 const mostrarDatosEquipo = (seleccionada) => {
   camposEquipo.nombreEquipo.value = seleccionada.Nombre;
   camposEquipo.numeroROMA.value = seleccionada.Numero_ROMA;
-  camposEquipo.fechaAdquisicion.value = formatearFecha(
+  camposEquipo.fechaAdquisicion.value = formatDate2(
     seleccionada.Fecha_adquisicion
   );
-  camposEquipo.fechaUltimaInspeccion.value = formatearFecha(
+  camposEquipo.fechaUltimaInspeccion.value = formatDate2(
     seleccionada.Fecha_ultima_revision
   );
 };
@@ -636,7 +628,7 @@ const obtenerUltimaFechaTratamiento = async (idParcela, idProducto) => {
     const data = await res.json();
     
     if (data && data.Fecha_tratamiento) {
-      return formatearFecha(data.Fecha_tratamiento);
+      return formatDate(data.Fecha_tratamiento);
     } else {
       return "No se han realizado tratamientos previos.";
     }
@@ -653,7 +645,7 @@ const infoProducto = async (seleccionada) => {
   // Información Genérica del Producto
   propiedadesProducto.innerHTML = `
     <div id="propiedades-producto" style="margin: 30px 0;">
-        <p><span>Fecha de Caducidad: </span>${formatearFecha(
+        <p><span>Fecha de Caducidad: </span>${formatDate(
           seleccionada.Fecha_caducidad
         )}</p>
         <p><span>Estado: </span>${seleccionada.Estado}</p>
