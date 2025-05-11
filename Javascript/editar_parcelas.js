@@ -264,13 +264,13 @@ const editarParcela = async (idParcela) => {
   const superficieInput = nuevaSupDeclarada.value.trim();
 
   if (!nuevoNombre) {
-    alert("⚠️ El nuevo nombre de la parcela no puede estar vacío.");
+    alert("El nuevo nombre de la parcela no puede estar vacío.");
     return;
   }
 
   const nuevaSuperficie = parseFloat(superficieInput.replace(",", "."));
   if (isNaN(nuevaSuperficie) || nuevaSuperficie <= 0) {
-    alert("⚠️ La superficie declarada debe ser un número válido mayor a 0.");
+    alert("La superficie declarada debe ser un número válido mayor a 0.");
     return;
   }
 
@@ -294,7 +294,7 @@ const editarParcela = async (idParcela) => {
     const data = await res.json();
 
     if (res.ok) {
-      alert("✅ Parcela editada correctamente");
+      alert("Parcela editada correctamente");
       location.reload();
     } else {
       alert(data.error || "Error al editar la parcela");

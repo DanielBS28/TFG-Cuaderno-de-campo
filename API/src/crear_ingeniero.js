@@ -25,9 +25,9 @@ async function crearIngeniero() {
             [dni]
         );
 
-        console.log("✅ Ingeniero creado correctamente.");
+        console.log("Ingeniero creado correctamente.");
     } catch (err) {
-        console.error("❌ Error al crear el ingeniero:", err);
+        console.error("Error al crear el ingeniero:", err);
     } finally {
         process.exit();
     }

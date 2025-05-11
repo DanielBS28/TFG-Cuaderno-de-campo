@@ -670,9 +670,9 @@ btnEnviarCorreo.addEventListener("click", async (e) => {
   try {
     const doc = await generarPDFPromesa(camposTratamiento, camposEquipo);
     pdfBlob = new Blob([doc.output("blob")], { type: "application/pdf" });
-    console.log("✅ PDF generado correctamente.");
+    console.log("PDF generado correctamente.");
   } catch (err) {
-    console.error("❌ Error generando el PDF:", err);
+    console.error("Error generando el PDF:", err);
     alert("Error al generar el PDF. Inténtelo de nuevo.");
     return;
   }

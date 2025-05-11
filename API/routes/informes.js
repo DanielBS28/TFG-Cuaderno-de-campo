@@ -42,15 +42,15 @@ router.post("/enviar", upload.single("informe"), async (req, res) => {
         ],
       });
   
-      console.log("✅ Correo enviado. Eliminando archivo temporal...");
+      console.log("Correo enviado. Eliminando archivo temporal...");
       fs.unlink(archivo.path, (err) => {
-        if (err) console.error("❌ No se pudo borrar archivo:", err);
-        else console.log("🗑️ Archivo temporal borrado:", archivo.path);
+        if (err) console.error("No se pudo borrar archivo:", err);
+        else console.log("Archivo temporal borrado:", archivo.path);
       });
   
       res.send("OK");
     } catch (err) {
-      console.error("❌ Error al enviar el informe:", err);
+      console.error("Error al enviar el informe:", err);
       return res.status(500).json({ error: "Error al enviar el informe por correo." });
     }
   });

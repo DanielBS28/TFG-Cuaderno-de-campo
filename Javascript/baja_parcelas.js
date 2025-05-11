@@ -254,7 +254,7 @@ const eliminarParcela = async(idParcela) => {
     const data = await res.json();
 
     if (res.ok) {
-      alert("✅ Parcela eliminada correctamente");
+      alert("Parcela eliminada correctamente");
       location.reload();
     } else {
       alert(data.error || "Error al eliminar la parcela");

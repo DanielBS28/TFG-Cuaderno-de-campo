@@ -128,13 +128,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 });
 
-                console.log("📏 Longitudes máximas de campos:");
+                console.log("Longitudes máximas de campos:");
                 console.table(longitudesMaximas);
 
-                console.log("✅ JSON parseado y listo para enviar:", jsonLimpio);
+                console.log("JSON parseado y listo para enviar:", jsonLimpio);
             } catch (error) {
                 jsonLimpio = null;
-                console.error("❌ Error al parsear el JSON:", error);
+                console.error("Error al parsear el JSON:", error);
             }
         };       
         reader.readAsText(file);
@@ -147,9 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Primero debes seleccionar y procesar un archivo JSON válido.");
             return;
         }
+        
+        if (!confirm("¿Seguro que deseas actualizar el JSON de forma manual?")) return;
 
         try {
-            const response = await fetch("http://localhost:3000/data/subir-json", {
+            const response = await fetch("http://localhost:3000/subir-json", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(jsonLimpio)

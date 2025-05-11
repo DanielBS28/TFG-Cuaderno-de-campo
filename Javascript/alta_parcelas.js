@@ -557,7 +557,7 @@ btnCrearParcela.addEventListener("click", async (e) => {
     });
 
   if (!existe) {
-    alert("⚠️ La parcela no existe en SIGPAC.");
+    alert("La parcela no existe en SIGPAC.");
     return;
   }
 
@@ -615,7 +615,7 @@ btnCrearParcela.addEventListener("click", async (e) => {
       return;
     }
   
-    alert("✅ Parcela y recintos creados correctamente");
+    alert("Parcela y recintos creados correctamente");
     location.reload();
   } catch (error) {
     console.error("Error al crear parcela con recintos:", error);

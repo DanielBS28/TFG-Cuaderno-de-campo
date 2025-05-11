@@ -10,6 +10,7 @@ app.disable("x-powered-by"); // deshabilitar el header X-Powered-By: Express
 app.set("PORT", config.app.PORT);
 
 //RUTAS
+const productos_y_usos = require("../routes/productos_y_usos");
 const subirJsonRouter = require("../routes/subir_json");
 const agricultoresRouter = require("../routes/agricultores");
 const asesoresRouter = require("../routes/asesores");
@@ -26,8 +27,11 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "80mb" })); // Aumentar el límite de tamaño del cuerpo a 80mb
 app.use(bodyParser.urlencoded({ extended: true, limit: "80mb" }));
 
+// Ruta para automatizar JSON de productos y usos
+app.use("/productos_y_usos", productos_y_usos);
+
 // Ruta para subir JSON de productos y usos
-app.use("/data", subirJsonRouter);
+app.use("/subir-json", subirJsonRouter);
 
 // Ruta para funcionalidades agricultores
 app.use("/agricultores", agricultoresRouter);
