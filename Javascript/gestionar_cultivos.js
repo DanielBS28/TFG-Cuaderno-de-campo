@@ -44,16 +44,7 @@ const camposParcela = {
 };
 
 // DATOS RECINTO
-const selectRecinto = document.getElementById("seleccion-recinto");
-const inputBuscarRecinto = document.getElementById("nombre-recinto-busqueda");
-
-const camposRecinto = {
-  id: document.getElementById("id_recinto"),
-  recinto: document.getElementById("recinto"),
-  usoRecinto: document.getElementById("uso_recinto"),
-  descripcion: document.getElementById("descripcion"),
-  superficieRecinto: document.getElementById("superficie_recinto"),
-};
+const selectRecinto = document.getElementById("optionsContainer");
 
 const selectTipoCultivo = document.getElementById("seleccion");
 const inputBuscarTipoCultivo = document.getElementById("nombre-cultivo");
@@ -97,15 +88,6 @@ const mostrarDatosParcela = (seleccionada) => {
   camposParcela.tratamientos.value = seleccionada.Numero_tratamientos;
 };
 
-// Mostrar datos de recinto
-const mostrarDatosRecinto = (seleccionada) => {
-  camposRecinto.id.value = seleccionada.idRecinto;
-  camposRecinto.recinto.value = seleccionada.Numero;
-  camposRecinto.usoRecinto.value = seleccionada.Uso_SIGPAC;
-  camposRecinto.descripcion.value = seleccionada.Descripcion_uso;
-  camposRecinto.superficieRecinto.value = `${seleccionada.Superficie_ha} ha`;
-};
-
 // Limpiar campos de explotación
 const limpiarCamposExplotacion = () => {
   camposExplotacion.id.value = "";
@@ -123,11 +105,9 @@ const limpiarCamposParcela = () => {
 };
 
 // Limpiar campos de recinto
-const limpiarCamposRecinto = () => {
-  for (const key in camposRecinto) {
-    camposRecinto[key].value = "";
-  }
-};
+const limpiarCamposCultivo = () => {
+  nombreCultivo.value = "";
+}
 
 // Desbloquear campos de explotación
 const desbloquearExplotacion = () => {
@@ -143,12 +123,6 @@ const desbloquearExplotacion = () => {
 const desbloquearParcela = () => {
   selectParcela.disabled = false;
   inputBuscarParcela.disabled = false;
-};
-
-// Desbloquear campos de recinto
-const desbloquearRecinto = () => {
-  selectRecinto.disabled = false;
-  inputBuscarRecinto.disabled = false;
 };
 
 // Desbloquear tipo de cultivo
@@ -178,14 +152,10 @@ const bloquearParcela = () => {
   inputBuscarParcela.disabled = true;
 };
 
-// Bloquear Filtro y Select de Recinto
+// Bloquear y Limpiar Filtro y Select de Recinto
 const bloquearRecinto = () => {
   selectRecinto.innerHTML =
-    "<option selected disabled>Seleccione un recinto</option>";
-  selectRecinto.selectedIndex = 0;
-  selectRecinto.disabled = true;
-  inputBuscarRecinto.value = "";
-  inputBuscarRecinto.disabled = true;
+    "<div class='options-container' id='optionsContainer'></div>";
 };
 
 // Bloquear y Limpiar Filtro y Select de Tipo Cultivo
@@ -197,6 +167,10 @@ const bloquearTipoCultivo = () => {
   selectTipoRegadio.selectedIndex = 0;
   selectTipoRegadio.disabled = true;
 };
+
+// Obtener el cultivo de un recinto
+const obtenerCultivoDeRecinto = (tipoCultivo) =>
+  !tipoCultivo ? "Sin cultivo" : tipoCultivo;
 
 // Actualizar el select de agricultores
 const actualizarSelectAgricultores = (agricultores) => {
@@ -235,14 +209,19 @@ const actualizarSelectParcelas = (lista) => {
 
 // Rellenar las opciones del select de recintos
 const actualizarSelectRecintos = (lista) => {
-  selectRecinto.innerHTML =
-    "<option selected disabled>Seleccione un recinto</option>";
-  lista.forEach((recinto) => {
-    const option = document.createElement("option");
-    option.value = recinto.idRecinto;
-    option.textContent = `${recinto.Numero} | ${recinto.Superficie_ha} ha`;
-    selectRecinto.appendChild(option);
-  });
+  let html = ``;
+
+  for (const r of lista) {
+    html += `
+      <label class="option-item">
+        <input type="checkbox" value="${r.idRecinto}">${r.Numero} | ${
+      r.Descripcion_uso
+    } | ${r.Superficie_ha} | ${obtenerCultivoDeRecinto(r.Tipo_Cultivo)}</input>
+      </label>
+    `;
+  }
+
+  selectRecinto.innerHTML = html;
 };
 
 // Rellenar las opciones del select de cultivos
@@ -264,8 +243,8 @@ const cargarCamposExplotacion = () => {
   )
     .then((response) => response.json())
     .then((explotaciones) => {
+      limpiarCamposCultivo();
       bloquearTipoCultivo();
-      limpiarCamposRecinto();
       bloquearRecinto();
       limpiarCamposParcela();
       bloquearParcela();
@@ -306,9 +285,9 @@ const cargarParcelasDeExplotacion = async (idExplotacion) => {
     );
     const parcelas = await res.json();
 
-    bloquearTipoCultivo();
-    limpiarCamposRecinto();
     bloquearRecinto();
+    bloquearTipoCultivo();
+    limpiarCamposCultivo();
 
     if (!Array.isArray(parcelas) || parcelas.length === 0) {
       limpiarCamposParcela();
@@ -347,8 +326,6 @@ const obtenerTrataminetosTotales = async (idParcela) => {
       camposParcela.tratamientos.value = data.total;
 
       bloquearTipoCultivo();
-      desbloquearRecinto();
-      cargarRecintosDeParcela(idParcela);
     })
     .catch((err) => {
       console.error("Error al obtener tratamientos:", err);
@@ -364,14 +341,18 @@ const cargarRecintosDeParcela = async (idParcela) => {
     );
     const recintos = await res.json();
 
+    limpiarCamposCultivo();
+
     if (!Array.isArray(recintos) || recintos.length === 0) {
       bloquearRecinto();
+      bloquearTipoCultivo();
       alert("Esta parcela no tiene recintos.");
       return;
     }
 
     window.recintos = recintos;
     actualizarSelectRecintos(recintos);
+    desbloquearTipoCultivo();
   } catch (error) {
     console.error("Error al cargar recintos:", error);
   }
@@ -392,41 +373,63 @@ const cargarCultivos = () => {
 
 // Crear cultivo en el recinto seleccionado
 const realizarCultivo = async () => {
-  const idRecinto = selectRecinto.value;
+  const checkboxesSeleccionados = document.querySelectorAll(
+    "#optionsContainer input[type='checkbox']:checked"
+  );
   const tipoCultivo = nombreCultivo.value.trim();
   const tipoRegadio = selectTipoRegadio.value;
 
-  if (!idRecinto || !tipoCultivo || !tipoRegadio || tipoRegadio === "0") {
-    alert("Debes seleccionar un recinto, tipo de cultivo y tipo de regadío.");
+  if (checkboxesSeleccionados.length === 0) {
+    alert("Debes seleccionar al menos un recinto.");
     return;
   }
 
-  try {
-    const res = await fetch(
-      `http://localhost:3000/recintos/cultivar/${idRecinto}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          tipoCultivo,
-          tipoRegadio,
-        }),
-      }
-    );
+  if (!tipoCultivo || !tipoRegadio || selectTipoRegadio.selectedIndex === 0) {
+    alert("Debes seleccionar tipo de cultivo y tipo de regadío.");
+    return;
+  }
 
-    if (res.ok) {
-      alert("¡Cultivo registrado correctamente!");
-      location.reload();
-    } else {
-      const data = await res.json();
-      console.error("Error al realizar cultivo:", data.error);
-      alert("Error al registrar el cultivo.");
+  const confirmacion = confirm(
+    `¿Estás seguro de que quieres asignar el cultivo "${tipoCultivo}" y el tipo de regadío "${tipoRegadio}" a ${checkboxesSeleccionados.length} recinto(s)?`
+  );
+
+  if (!confirmacion) return;
+
+  try {
+    let errores = 0;
+
+    for (const checkbox of checkboxesSeleccionados) {
+      const idRecinto = checkbox.value;
+
+      const res = await fetch(
+        `http://localhost:3000/recintos/cultivar/${idRecinto}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ tipoCultivo, tipoRegadio }),
+        }
+      );
+
+      if (!res.ok) {
+        console.error(`Error en recinto ${idRecinto}`);
+        errores++;
+      }
     }
+
+    if (errores === 0) {
+      alert("¡Todos los cultivos se asignaron correctamente!");
+    } else {
+      alert(
+        `Se asignaron algunos cultivos con errores. Revisa la consola para más detalles.`
+      );
+    }
+
+    location.reload();
   } catch (error) {
-    console.error("Error al realizar cultivo:", error);
-    alert("Error inesperado al registrar el cultivo.");
+    console.error("Error general al asignar cultivos:", error);
+    alert("Ocurrió un error inesperado al registrar los cultivos.");
   }
 };
 
@@ -511,6 +514,7 @@ selectParcela.addEventListener("change", () => {
     obtenerRecintosTotales(idSeleccionado);
     obtenerTrataminetosTotales(idSeleccionado);
     mostrarDatosParcela(seleccionada);
+    cargarRecintosDeParcela(idSeleccionado);
   }
 });
 
@@ -527,8 +531,7 @@ inputBuscarParcela.addEventListener("input", () => {
   actualizarSelectParcelas(filtradas);
 });
 
-
-// Evento select tipo cultivo 
+// Evento select tipo cultivo
 selectTipoCultivo.addEventListener("change", () => {
   const cultivoSeleccionado = selectTipoCultivo.value;
   if (cultivoSeleccionado) {
@@ -536,7 +539,7 @@ selectTipoCultivo.addEventListener("change", () => {
   } else {
     nombreCultivo.value = "";
   }
-});  
+});
 
 // Evento input tipo cultivo para filtrar
 inputBuscarTipoCultivo.addEventListener("input", () => {
@@ -554,30 +557,29 @@ inputBuscarTipoCultivo.addEventListener("input", () => {
 
 //Evento del select multiple de recintos
 
- function initMultiSelect() {
-    const selectHeader = document.getElementById('selectHeader');
-    const optionsContainer = document.getElementById('optionsContainer');
-    const checkboxes = document.querySelectorAll('.option-item input');
-    const selectedCount = document.getElementById('selectedCount');
-    
-    // Toggle del dropdown
-    selectHeader.addEventListener('click', function() {
-        optionsContainer.classList.toggle('open');
-        selectHeader.classList.toggle('open');
-    });
-    
-    // Cerrar al hacer clic fuera
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.custom-multiselect')) {
-            optionsContainer.classList.remove('open');
-            selectHeader.classList.remove('open');
-        }
-    });
-    
+function initMultiSelect() {
+  const selectHeader = document.getElementById("selectHeader");
+  const optionsContainer = document.getElementById("optionsContainer");
+  const checkboxes = document.querySelectorAll(".option-item input");
+  const selectedCount = document.getElementById("selectedCount");
+
+  // Toggle del dropdown
+  selectHeader.addEventListener("click", function () {
+    optionsContainer.classList.toggle("open");
+    selectHeader.classList.toggle("open");
+  });
+
+  // Cerrar al hacer clic fuera
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".custom-multiselect")) {
+      optionsContainer.classList.remove("open");
+      selectHeader.classList.remove("open");
+    }
+  });
 }
 
 // Esperar a que el DOM esté completamente cargado
-document.addEventListener('DOMContentLoaded', initMultiSelect);
+document.addEventListener("DOMContentLoaded", initMultiSelect);
 
 // Evento botón crear cultivo
 btnCrearCultivo.addEventListener("click", (e) => {
@@ -588,10 +590,10 @@ btnCrearCultivo.addEventListener("click", (e) => {
 // Evento botón mostrar parcela en el SIGPAC
 document.getElementById("SIGPAC").addEventListener("click", (e) => {
   e.preventDefault();
-  const idRecinto = camposRecinto.recinto.value;
-  if (!idRecinto) return alert("No hay ningún recinto seleccionado.");
+  const idParcela = camposParcela.id.value;
+  if (!idParcela) return alert("No hay ninguna parcela seleccionada.");
 
-  const urlSIGPAC = `https://sigpac.mapa.es/fega/visor/?provincia=${camposParcela.codigoProvincia.value}&municipio=${camposParcela.codigoMunicipio.value}&agregado=${camposParcela.agregado.value}&zona=${camposParcela.zona.value}&poligono=${camposParcela.numPoligono.value}&parcela=${camposParcela.numParcela.value}&recinto=${idRecinto}`;
+  const urlSIGPAC = `https://sigpac.mapa.es/fega/visor/?provincia=${camposParcela.codigoProvincia.value}&municipio=${camposParcela.codigoMunicipio.value}&agregado=${camposParcela.agregado.value}&zona=${camposParcela.zona.value}&poligono=${camposParcela.numPoligono.value}&parcela=${camposParcela.numParcela.value}`;
 
   window.open(urlSIGPAC, "_blank");
 });

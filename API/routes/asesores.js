@@ -6,7 +6,7 @@ const db = require("../src/db");
 router.post("/alta", async (req, res) => {
   const { nombre, apellido1, apellido2, dni, carnet } = req.body;
 
-  if (!nombre || !apellido1 || !dni || !carnet) {
+  if (!nombre.trim() || !apellido1.trim() || !apellido2.trim() || !dni.trim() || !carnet.trim()) {
     return res.status(400).json({ error: "Faltan campos obligatorios" });
   }
 

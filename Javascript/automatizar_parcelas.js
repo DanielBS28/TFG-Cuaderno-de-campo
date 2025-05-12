@@ -425,6 +425,8 @@ btnAutomatizarParcela.addEventListener("click", async (e) => {
   const idParcela = camposParcela.id.value;
   if (!idParcela) return alert("No hay ninguna parcela seleccionada.");
 
+  if (!confirm("¿Seguro que quieres actualizar los recintos de la parcela con los últimos datos del SIGPAC?")) return;
+
   const recintosBDD = await cargarRecintosDeParcela(idParcela);
 
   const recintosSIGPAC = await obtenerRecintosDeParcela({
@@ -436,8 +438,6 @@ btnAutomatizarParcela.addEventListener("click", async (e) => {
     numParcela: camposParcela.numParcela.value,
     idParcela: idParcela,
   });
-  console.log("Recintos BDD:", Object.values(recintosBDD));
-  console.log("Recintos:", Object.values(recintosSIGPAC));
 
   // Crear mapas para facilitar la comparación
   const mapSIGPAC = new Map(recintosSIGPAC.map((r) => [r.Numero, r]));
@@ -475,6 +475,7 @@ btnAutomatizarParcela.addEventListener("click", async (e) => {
   });
   
   alert("Datos de los recintos de la parcela actualizados correctamente");
+  location.reload();
 });
 
 // Evento botón mostrar parcela en el SIGPAC
