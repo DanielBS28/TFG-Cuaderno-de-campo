@@ -107,7 +107,7 @@ const limpiarCamposParcela = () => {
 // Limpiar campos de recinto
 const limpiarCamposCultivo = () => {
   nombreCultivo.value = "";
-}
+};
 
 // Desbloquear campos de explotación
 const desbloquearExplotacion = () => {
@@ -285,9 +285,9 @@ const cargarParcelasDeExplotacion = async (idExplotacion) => {
     );
     const parcelas = await res.json();
 
+    limpiarCamposCultivo();
     bloquearRecinto();
     bloquearTipoCultivo();
-    limpiarCamposCultivo();
 
     if (!Array.isArray(parcelas) || parcelas.length === 0) {
       limpiarCamposParcela();
@@ -324,8 +324,6 @@ const obtenerTrataminetosTotales = async (idParcela) => {
     .then((res) => res.json())
     .then((data) => {
       camposParcela.tratamientos.value = data.total;
-
-      bloquearTipoCultivo();
     })
     .catch((err) => {
       console.error("Error al obtener tratamientos:", err);
@@ -342,10 +340,9 @@ const cargarRecintosDeParcela = async (idParcela) => {
     const recintos = await res.json();
 
     limpiarCamposCultivo();
-
+    bloquearRecinto();
+    bloquearTipoCultivo();
     if (!Array.isArray(recintos) || recintos.length === 0) {
-      bloquearRecinto();
-      bloquearTipoCultivo();
       alert("Esta parcela no tiene recintos.");
       return;
     }
@@ -444,7 +441,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   } catch (error) {
     console.error("Error al cargar agricultores:", error);
   }
-
   cargarCultivos();
 });
 
