@@ -14,12 +14,12 @@ body{
 
 }
 
-input[type="submit"]:hover{
+input[type="button"]:hover{
     transform: scale(1.02);
     transition: transform 0.3s;
 }
 
-input[type="submit"]{
+input[type="button"]{
  
     transition: transform 0.3s ease;
 }
@@ -67,7 +67,7 @@ input[type="submit"]{
 
 }
 
-.contenedor .elemento input[type="submit"]{
+.contenedor .elemento input[type="button"]{
 
     border-radius: 5px;
     background-color: #FBB02D;
