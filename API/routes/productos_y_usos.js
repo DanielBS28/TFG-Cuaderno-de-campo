@@ -7,6 +7,39 @@ const db = require("../src/db");
 
 let procesoEstado = "idle"; // Estado global del proceso
 
+let browser;
+
+// ### FUNCIÓN ### //
+// Espera dinámica hasta que se detecte un archivo .json en la carpeta de descarga
+const esperarArchivo = async (
+  directorio,
+  extension,
+  timeout = 90000, // Tiempo límite
+  intervalo = 1000
+) => {
+  let contador = 0;
+  const tiempoInicio = Date.now();
+  return new Promise((resolve, reject) => {
+    const intervaloId = setInterval(() => {
+      const archivos = fs.readdirSync(directorio);
+      const archivoJson = archivos.find((f) => f.endsWith(extension));
+      console.log(contador++);
+      if (archivoJson) {
+        console.log("Archivo detectado");
+        clearInterval(intervaloId);
+        resolve(archivoJson);
+      } else if (Date.now() - tiempoInicio > timeout) {
+        clearInterval(intervaloId);
+        reject(
+          new Error(
+            "Timeout: no se descargó el archivo .json a tiempo. Revise su conexión a internet."
+          )
+        );
+      }
+    }, intervalo);
+  });
+};
+
 // Ruta para consultar el estado del proceso
 router.get("/estado_proceso", (req, res) => {
   res.json({ estado: procesoEstado });
@@ -29,10 +62,10 @@ router.get("/automatizar_json", async (req, res) => {
         fs.unlinkSync(path.join(downloadPath, archivo));
       }
 
-      const browser = await puppeteer.launch({
+      browser = await puppeteer.launch({
         headless: false,
         defaultViewport: null,
-        args: ["--start-maximized"]
+        args: ["--start-maximized"],
       });
 
       const page = await browser.newPage();
@@ -47,18 +80,20 @@ router.get("/automatizar_json", async (req, res) => {
         waitUntil: "networkidle2",
       });
 
-      await page.waitForSelector('#lnkResumenes a', { timeout: 15000 });
-      await page.click('#lnkResumenes a');
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await page.waitForSelector("#lnkResumenes a", { timeout: 15000 });
+      await page.click("#lnkResumenes a"); // CLic en el apartado "Resúmenes"
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      await page.waitForSelector("#btnProductosAutorizadosJson", { timeout: 15000 });
-      await page.click("#btnProductosAutorizadosJson");
+      await page.waitForSelector("#btnProductosAutorizadosJson", {
+        timeout: 15000,
+      });
+      await page.click("#btnProductosAutorizadosJson"); // Clic en el botón que inicia la descarga del JSON
 
-      await new Promise(resolve => setTimeout(resolve, 10000));
+      await esperarArchivo(downloadPath, ".json"); // Esperar a que se descargue el archivo JSON
       await browser.close();
 
       const files = fs.readdirSync(downloadPath);
-      const jsonFile = files.find(f => f.endsWith('.json'));
+      const jsonFile = files.find((f) => f.endsWith(".json"));
 
       if (!jsonFile) {
         procesoEstado = "fallido";
@@ -100,7 +135,7 @@ router.get("/automatizar_json", async (req, res) => {
             VolumenMax: itemUso.VolumenMax,
             UnidadesVolumen: itemUso["Unidades Volumen"],
           })),
-        }))
+        })),
       };
 
       const conn = await db.promise().getConnection();
@@ -229,6 +264,8 @@ router.get("/automatizar_json", async (req, res) => {
     } catch (err) {
       procesoEstado = "fallido";
       console.error("Error general:", err);
+    } finally {
+      if (browser) await browser.close();
     }
   })();
 });

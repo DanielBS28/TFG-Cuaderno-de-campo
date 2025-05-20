@@ -132,6 +132,16 @@ const desbloquearTipoCultivo = () => {
   selectTipoRegadio.disabled = false;
 };
 
+// Bloquear Filtro y Select de Agricultor
+const bloquearAgricultor = () => {
+  selectAgricultor.innerHTML =
+    "<option selected disabled>Seleccione un agricultor</option>";
+  selectAgricultor.selectedIndex = 0;
+  selectAgricultor.disabled = true;
+  inputBuscarAgricultor.value = "";
+  inputBuscarAgricultor.disabled = true;
+}
+
 // Bloquear Filtro y Select de Explotación
 const bloquearExplotacion = () => {
   selectExplotacion.innerHTML =
@@ -360,6 +370,11 @@ const cargarCultivos = () => {
   fetch("http://localhost:3000/cultivos")
     .then((res) => res.json())
     .then((cultivos) => {
+      if (!Array.isArray(cultivos) || cultivos.length === 0) {
+        bloquearAgricultor();
+        return alert("No hay cultivos disponibles. Asegúrese de actualizar el JSON para cargar los cultivos en la base de datos.");
+      }
+
       window.cultivosOriginales = cultivos; // Guardamos lista original
       renderizarCultivos(cultivosOriginales);
     })

@@ -19,6 +19,12 @@ async function iniciarPollingEstado() {
         botonActualizar.disabled = false;
         botonActualizar.textContent = "Actualizar JSON";
         sessionStorage.removeItem("esperandoProcesoJson");
+      } else if (estadoData.estado === "idle") {
+        clearInterval(intervalId);
+        alert("Ha ocurrido un error inesperado. Por favor, intentelo de nuevo.");
+        botonActualizar.disabled = false;
+        botonActualizar.textContent = "Actualizar JSON";
+        sessionStorage.removeItem("esperandoProcesoJson");
       }
     } catch (err) {
       clearInterval(intervalId);
