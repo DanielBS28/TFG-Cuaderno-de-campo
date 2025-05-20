@@ -85,11 +85,13 @@ header nav{
         background-color: #FBB02D;
     }
 
+
 @media (min-width: 846px) {
 
     #BotonCerrarSesion{
         margin: 0;
     }
+ 
 
     #automatica{
         top: 22px;

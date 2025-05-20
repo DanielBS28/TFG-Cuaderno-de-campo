@@ -1,8 +1,12 @@
 .custom-multiselect {
             position: relative;
             font-family: 'Arial', sans-serif;
-            width: 450px;
+            width: 380px; /*450 ordenador, 380 movil*/
             margin: 5px 0;
+        }
+
+        #seleccion{
+             width: 380px;
         }
 
 
@@ -96,3 +100,18 @@
         #seleccion-recintos-span{
             color: #606060;
         }
+
+@media (min-width: 1020px){
+
+     #seleccion{
+             width: auto;
+        }
+
+        .custom-multiselect {
+            position: relative;
+            font-family: 'Arial', sans-serif;
+            width: 450px; 
+            margin: 5px 0;
+        }
+
+}
