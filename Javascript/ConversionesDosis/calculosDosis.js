@@ -76,7 +76,7 @@ export const comprobarDosisAplicada = (
 
   const errores = [];
   console.log(
-    calculoDosis(sup, dosisMax) +
+    redondearDecimales(calculoDosis(sup, dosisMax)) +
       ">=" +
       dosis +
       " && " +
@@ -124,8 +124,8 @@ export const comprobarDosisAplicada = (
     );
   }
 
-  const dosisMaxima = calculoDosis(sup, dosisMax);
-  const dosisMinima = calculoDosis(sup, dosisMin);
+  const dosisMaxima = redondearDecimales(calculoDosis(sup, dosisMax));
+  const dosisMinima = redondearDecimales(calculoDosis(sup, dosisMin));
 
   if (dosis > dosisMaxima) {
     errores.push(
@@ -188,7 +188,7 @@ export const comprobacionFinal = (
     if (!confirmarUnidad) return false;
   } else {
     console.log(
-      calculoDosis(sup, dosisMax) +
+      redondearDecimales(calculoDosis(sup, dosisMax)) +
         ">=" +
         dosis +
         " && " +
@@ -216,8 +216,8 @@ export const comprobacionFinal = (
       );
     }
 
-    const dosisMaxima = calculoDosis(sup, dosisMax);
-    const dosisMinima = calculoDosis(sup, dosisMin);
+    const dosisMaxima = redondearDecimales(calculoDosis(sup, dosisMax));
+    const dosisMinima = redondearDecimales(calculoDosis(sup, dosisMin));
 
     if (dosis > dosisMaxima) {
       errores.push(
