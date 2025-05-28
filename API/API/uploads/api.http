@@ -1,8 +1,0 @@
-### Actualizar productos
-POST http://localhost:3000/subir-json
-Content-Type: multipart/form-data
-
-@archivo=./ejemplo.json
-
-### Raiz
-GET http://localhost:3000/
