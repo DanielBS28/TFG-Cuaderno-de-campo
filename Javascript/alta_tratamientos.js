@@ -7,7 +7,7 @@ import {
   redondearDecimales,
   comprobacionFinal,
   formatDate,
-  formatDate2
+  formatDate2,
 } from "./ConversionesDosis/calculosDosis.js";
 
 // DATOS AGRICULTOR
@@ -626,7 +626,7 @@ const obtenerUltimaFechaTratamiento = async (idParcela, idProducto) => {
       `http://localhost:3000/tratamientos/fecha-mas-reciente/${idParcela}/${idProducto}`
     );
     const data = await res.json();
-    
+
     if (data && data.Fecha_tratamiento) {
       return formatDate(data.Fecha_tratamiento);
     } else {
@@ -640,8 +640,11 @@ const obtenerUltimaFechaTratamiento = async (idParcela, idProducto) => {
 
 // Imprimir información sobre el producto seleccionado
 const infoProducto = async (seleccionada) => {
-  const ultimoTratamiento = await obtenerUltimaFechaTratamiento(camposParcela.id.value,seleccionada.idProducto);
-  
+  const ultimoTratamiento = await obtenerUltimaFechaTratamiento(
+    camposParcela.id.value,
+    seleccionada.idProducto
+  );
+
   // Información Genérica del Producto
   propiedadesProducto.innerHTML = `
     <div id="propiedades-producto" style="margin: 30px 0;">
@@ -678,7 +681,7 @@ const infoProducto = async (seleccionada) => {
         <p><span>Último Tratamiento Realizado: </span>${ultimoTratamiento}</p>
     </div>
   `;
-  
+
   labelCantidadProducto.innerText = `Cantidad del Producto en: ${comprobarUnidadMedida(
     seleccionada.Unidad_medida_dosis
   )}`;
@@ -687,9 +690,9 @@ const infoProducto = async (seleccionada) => {
   if (unidadValida(seleccionada.Unidad_medida_dosis)) {
     propiedadesEspecificas.innerHTML = `
     <div id="propiedades-especificas" style="margin: 30px 0;">
-        <p><span>La Dosis Máxima del Producto ${seleccionada.Nombre} para ${
-      superficieCultivo.value
-    } ha es: ${redondearDecimales(
+        <p><span>La Dosis Máxima del Producto ${
+          seleccionada.Nombre
+        } es: ${redondearDecimales(
       calculoDosis(
         superficieCultivo.value,
         conversionUnidad(
@@ -699,7 +702,7 @@ const infoProducto = async (seleccionada) => {
       )
     )} ${
       comprobarUnidadMedida(seleccionada.Unidad_medida_dosis).split("/")[0]
-    }</span></p>
+    } para una Superficie de ${superficieCultivo.value} ha </span></p>
     </div>
   `;
   } else {
@@ -1077,7 +1080,7 @@ inputBuscarEquipo.addEventListener("input", () => {
 });
 
 // Evento botón Realizar Tratamiento
-btnCrearTratamiento.addEventListener("click", async(e) => {
+btnCrearTratamiento.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const datosTratamiento = {
@@ -1089,10 +1092,12 @@ btnCrearTratamiento.addEventListener("click", async(e) => {
     ROMA: camposEquipo.numeroROMA.value.trim(),
   };
 
-  if (Object.values(datosTratamiento).some(valor => valor === "")) {
-    alert("Todos los campos del apartado Realizar Tratamiento deben estar completados.");
+  if (Object.values(datosTratamiento).some((valor) => valor === "")) {
+    alert(
+      "Todos los campos del apartado Realizar Tratamiento deben estar completados."
+    );
     return;
-  };
+  }
 
   const validacionOK = comprobacionFinal(
     superficieCultivo.value,
