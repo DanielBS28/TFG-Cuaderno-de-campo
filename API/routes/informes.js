@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 const fs = require("fs");
 const { email } = require("../src/config");
 
-const upload = multer({ dest: "../../Data" });
+const upload = multer({ dest: "../Data" });
 
 router.post("/enviar", upload.single("informe"), async (req, res) => {
     const { correo } = req.body;
